@@ -52,7 +52,7 @@ export function MobileLoginPage() {
           <input
             id="password"
             type={showPassword ? 'text' : 'password'}
-            placeholder="***********"
+            placeholder="••••••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -67,7 +67,7 @@ export function MobileLoginPage() {
           </button>
         </div>
 
-        {/* Forgot password at y~445 */}
+        {/* Forgot password link with 12px gap from password input */}
         <div className="mobile-forgot-exact">
           <a href="#esqueci">Esqueceu a senha?</a>
         </div>
@@ -175,7 +175,7 @@ export function MobileRegisterPage() {
           <input
             id="password"
             type={showPassword ? 'text' : 'password'}
-            placeholder="***********"
+            placeholder="Senha"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -195,7 +195,7 @@ export function MobileRegisterPage() {
           <input
             id="confirm"
             type={showConfirm ? 'text' : 'password'}
-            placeholder="***********"
+            placeholder="Confirmar senha"
             value={confirm}
             onChange={(e) => setConfirm(e.target.value)}
             required

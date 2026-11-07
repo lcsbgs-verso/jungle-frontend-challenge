@@ -93,7 +93,7 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
 
   return (
     <div className="desktop-auth-exact-overlay" onClick={onClose} role="dialog" aria-modal="true">
-      <div ref={modalRef} className="desktop-auth-exact" onClick={(e) => e.stopPropagation()}>
+      <div ref={modalRef} className="desktop-auth-exact" data-mode={mode} onClick={(e) => e.stopPropagation()}>
         <button type="button" className="auth-exact-close" onClick={onClose} aria-label="Fechar">
           <X size={18} />
         </button>
@@ -142,10 +142,10 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
               required
             />
           </div>
-          <div className="auth-exact-field auth-exact-password">
+          <div className="auth-exact-field auth-exact-password" style={mode === 'login' ? { borderColor: 'var(--primary)' } : undefined}>
             <input
               type={showPassword ? 'text' : 'password'}
-              placeholder="Senha"
+              placeholder={mode === 'login' ? '••••••••••••' : 'Senha'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -168,6 +168,14 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
                 onChange={(e) => setConfirm(e.target.value)}
                 required
               />
+              <button
+                type="button"
+                className="auth-exact-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? 'Ocultar' : 'Mostrar'}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
           )}
           {mode === 'login' && (
