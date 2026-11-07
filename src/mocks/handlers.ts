@@ -154,15 +154,25 @@ export const handlers = [
       connection.server.connect()
       return
     }
+    console.log('[MSW Socket.IO] Connection received, completing handshake')
     const { client, rawClient } = toSocketIo(connection)
     const close = () => rawClient.close(1012, 'Reconexão simulada')
     if (Date.now() < unavailableUntil) {
+      console.log('[MSW Socket.IO] Connection unavailable, closing')
       queueMicrotask(close)
       return
     }
-    clients.set(client, { token: rawClient.url.searchParams.get('session') ?? '', close })
-    rawClient.addEventListener('close', () => clients.delete(client))
-    // The binding opens the namespace. Answer Engine.IO heartbeats in long demos.
+    const token = rawClient.url.searchParams.get('session') ?? ''
+    console.log('[MSW Socket.IO] Client connected, token:', token ? 'present' : 'none')
+    clients.set(client, { token, close })
+    rawClient.addEventListener('close', () => {
+      console.log('[MSW Socket.IO] Client disconnected')
+      clients.delete(client)
+    })
+    // Complete the handshake by connecting the server side
+    connection.server.connect()
+    console.log('[MSW Socket.IO] Handshake complete, connection established')
+    // Answer Engine.IO heartbeats in long demos
     const heartbeat = window.setInterval(() => rawClient.send('2'), 20_000)
     rawClient.addEventListener('close', () => clearInterval(heartbeat))
   }),
