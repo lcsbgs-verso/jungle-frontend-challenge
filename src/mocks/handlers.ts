@@ -30,9 +30,16 @@ import type { Database, StoredOrder } from './store'
 const root = '/api'
 // Per MSW maintainer: ws.link should use origin WITHOUT path
 // Handler matches on connection.client.url.pathname
-const socketUrl = location.origin.replace(/^http/, 'ws')
-console.log('[MSW Handlers] Creating ws.link for:', socketUrl)
-const socket = ws.link(socketUrl)
+// LAZY INIT: ws.link must be called AFTER MSW patches WebSocket
+let socket: ReturnType<typeof ws.link> | null = null
+function getSocket() {
+  if (!socket) {
+    const socketUrl = location.origin.replace(/^http/, 'ws')
+    console.log('[MSW Handlers] Creating ws.link for:', socketUrl)
+    socket = ws.link(socketUrl)
+  }
+  return socket
+}
 type SocketClient = ReturnType<typeof toSocketIo>['client']
 const clients = new Map<SocketClient, { token: string; close: () => void }>()
 let unavailableUntil = 0
@@ -153,7 +160,10 @@ function route(
 const required = { private: true }
 
 export const handlers = [
-  socket.addEventListener('connection', (connection) => {
+  // Lazy socket handler - calls getSocket() to ensure ws.link after MSW patches WebSocket
+  ...(() => {
+    const sock = getSocket()
+    return [sock.addEventListener('connection', (connection) => {
     console.log('[MSW WS Handler] Connection to:', connection.client.url.href)
     console.log('[MSW WS Handler] Pathname:', connection.client.url.pathname)
     if (!connection.client.url.pathname.startsWith('/socket.io/')) {
@@ -182,7 +192,8 @@ export const handlers = [
     // Answer Engine.IO heartbeats in long demos
     const heartbeat = window.setInterval(() => rawClient.send('2'), 20_000)
     rawClient.addEventListener('close', () => clearInterval(heartbeat))
-  }),
+  })]
+  })(),
   route('get', '/session', ({ db, request }) => {
     const session = sessionFor(db, request)
     return HttpResponse.json(session ? db.accounts[session.userId].profile : null)

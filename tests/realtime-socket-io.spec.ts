@@ -28,7 +28,7 @@ test.describe('Socket.IO real-time events via MSW', () => {
 
     // Trigger price change via MSW demo action
     await page.evaluate(() => {
-      return fetch('/api/demo/action', {
+      return fetch('/api/__demo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'price' }),
@@ -88,7 +88,7 @@ test.describe('Socket.IO real-time events via MSW', () => {
 
     // Trigger disconnect
     await page.evaluate(() => {
-      return fetch('/api/demo/action', {
+      return fetch('/api/__demo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'disconnect' }),
@@ -140,7 +140,7 @@ test.describe('Socket.IO real-time events via MSW', () => {
 
     // Trigger price change
     await page.evaluate(() => {
-      return fetch('/api/demo/action', {
+      return fetch('/api/__demo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'price' }),
