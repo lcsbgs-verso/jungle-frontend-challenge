@@ -82,8 +82,6 @@ const home = createRoute({
   component: HomeRoute,
 })
 function HomeRoute() {
-<<<<<<< HEAD
-  const search = home.useSearch()
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
   return isMobile ? (
     <>
@@ -91,11 +89,8 @@ function HomeRoute() {
       <MobileBottomNav />
     </>
   ) : (
-    <CatalogPage search={search} />
+    <CatalogPage search={home.useSearch()} />
   )
-=======
-  return <CatalogPage search={home.useSearch()} />
->>>>>>> origin/main
 }
 
 const nft = createRoute({

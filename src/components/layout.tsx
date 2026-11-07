@@ -312,111 +312,6 @@ function DemoPanel() {
 }
 
 function Footer() {
-<<<<<<< HEAD
-  const [email, setEmail] = useState('')
-  
-  return <footer className="site-footer">
-    <div className="container-shell footer-container">
-      <div className="footer-features">
-        <div className="footer-feature">
-          <div className="feature-medallion">W</div>
-          <h3>Segurança da carteira</h3>
-          <p>Proteja sua carteira e colecione arte digital verificada com confiança.</p>
-        </div>
-        <div className="feature-divider" />
-        <div className="footer-feature">
-          <div className="feature-medallion">C</div>
-          <h3>Criadores em destaque</h3>
-          <p>Conheça artistas, estúdios e comunidades que moldam a cultura digital na rede.</p>
-        </div>
-        <div className="feature-divider" />
-        <div className="footer-feature">
-          <div className="feature-medallion">D</div>
-          <h3>Alertas de lançamentos</h3>
-          <p>Receba calendários de cunhagem, novidades de listas de acesso e análises do mercado.</p>
-        </div>
-        <div className="feature-divider" />
-        <div className="footer-newsletter">
-          <h3>Antecipe-se ao próximo lançamento</h3>
-          <div className="newsletter-form">
-            <input 
-              type="email" 
-              placeholder="digite seu e-mail..." 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <button type="button">Enviar</button>
-          </div>
-          <p>Receba lançamentos selecionados, histórias de criadores e novidades do mercado.</p>
-        </div>
-      </div>
-      
-      <div className="footer-brand-band">
-        <div className="brand-logo">KURIO</div>
-        <div className="brand-tagline">Feito para colecionadores,<br />criadores e cultura</div>
-        <a href="mailto:contato@email.com" className="brand-email">contato@email.com</a>
-        <div className="brand-phone">+55 11 4002 8922</div>
-      </div>
-      
-      <div className="footer-links-section">
-        <div className="footer-links-columns">
-          <div className="footer-column">
-            <h4>Meu perfil</h4>
-            <ul>
-              <li><a href="#perfil">Meu perfil</a></li>
-              <li><a href="#colecao">Minha coleção</a></li>
-              <li><a href="#atividade">Atividade</a></li>
-              <li><a href="#criador">Estúdio do criador</a></li>
-              <li><a href="#interesse">Lista de interesse</a></li>
-            </ul>
-          </div>
-          <div className="footer-column">
-            <h4>Central de ajuda</h4>
-            <ul>
-              <li><a href="#ajuda">Central de ajuda</a></li>
-              <li><a href="#comprar">Como comprar NFTs</a></li>
-              <li><a href="#carteira">Carteira e segurança</a></li>
-              <li><a href="#politica">Política do mercado</a></li>
-              <li><a href="#denunciar">Denunciar item</a></li>
-            </ul>
-          </div>
-          <div className="footer-column">
-            <h4>Coleções</h4>
-            <ul>
-              <li><a href="#arte-digital">Arte digital</a></li>
-              <li><a href="#fotografia">Fotografia</a></li>
-              <li><a href="#3d">Arte 3D</a></li>
-              <li><a href="#pixel">Pixel art</a></li>
-              <li><a href="#musica">Música</a></li>
-            </ul>
-          </div>
-          <div className="footer-column">
-            <h4>Redes sociais</h4>
-            <ul className="social-links-list">
-              <li><a href="#twitter">Twitter</a></li>
-              <li><a href="#instagram">Instagram</a></li>
-              <li><a href="#discord">Discord</a></li>
-              <li><a href="#facebook">Facebook</a></li>
-            </ul>
-          </div>
-        </div>
-        
-        <div className="footer-bottom">
-          <div className="wallet-badges">
-            <h4>Carteiras compatíveis</h4>
-            <div className="wallet-chips">
-              <button type="button" className="wallet-chip">MetaMask</button>
-              <button type="button" className="wallet-chip">Coinbase</button>
-              <button type="button" className="wallet-chip">WalletConnect</button>
-            </div>
-          </div>
-          <p className="footer-copyright">© 2026 Kurio. Propriedade digital para todos.</p>
-        </div>
-      </div>
-    </div>
-    {mocksEnabled && <div className="demo-panel-wrapper"><DemoPanel /></div>}
-  </footer>
-=======
   return (
     <footer className="site-footer">
       <div className="container-shell">
@@ -460,7 +355,6 @@ function Footer() {
       </div>
     </footer>
   )
->>>>>>> origin/main
 }
 
 export function Layout() {
