@@ -49,7 +49,7 @@ console.log('♿ Axe: Desktop Login...');
 await dLogin.addScriptTag({ content: axeSource });
 const axeLogin = await dLogin.evaluate(() => {
   return new Promise((resolve) => {
-    // @ts-ignore
+    // @ts-expect-error - Playwright page.evaluate context
     axe.run((err, results) => {
       if (err) resolve({ error: err.message });
       resolve({ violations: results.violations.length, details: results.violations.map(v => ({ id: v.id, impact: v.impact, nodes: v.nodes.length })) });
@@ -106,7 +106,7 @@ console.log('♿ Axe: Desktop Register...');
 await dReg.addScriptTag({ content: axeSource });
 const axeReg = await dReg.evaluate(() => {
   return new Promise((resolve) => {
-    // @ts-ignore
+    // @ts-expect-error - Playwright page.evaluate context
     axe.run((err, results) => {
       if (err) resolve({ error: err.message });
       resolve({ violations: results.violations.length, details: results.violations.map(v => ({ id: v.id, impact: v.impact, nodes: v.nodes.length })) });
@@ -132,7 +132,7 @@ console.log('♿ Axe: Mobile Login...');
 await m414.addScriptTag({ content: axeSource });
 const axeMLogin = await m414.evaluate(() => {
   return new Promise((resolve) => {
-    // @ts-ignore
+    // @ts-expect-error - Playwright page.evaluate context
     axe.run((err, results) => {
       if (err) resolve({ error: err.message });
       resolve({ violations: results.violations.length, details: results.violations.map(v => ({ id: v.id, impact: v.impact, nodes: v.nodes.length })) });
@@ -150,7 +150,7 @@ console.log('♿ Axe: Mobile Register...');
 await m414.addScriptTag({ content: axeSource });
 const axeMReg = await m414.evaluate(() => {
   return new Promise((resolve) => {
-    // @ts-ignore
+    // @ts-expect-error - Playwright page.evaluate context
     axe.run((err, results) => {
       if (err) resolve({ error: err.message });
       resolve({ violations: results.violations.length, details: results.violations.map(v => ({ id: v.id, impact: v.impact, nodes: v.nodes.length })) });

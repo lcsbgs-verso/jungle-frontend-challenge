@@ -28,7 +28,11 @@ import {
 import type { Database, StoredOrder } from './store'
 
 const root = '/api'
-const socket = ws.link(location.origin.replace(/^http/, 'ws') + '/socket.io/')
+// Per MSW maintainer: ws.link should use origin WITHOUT path
+// Handler matches on connection.client.url.pathname
+const socketUrl = location.origin.replace(/^http/, 'ws')
+console.log('[MSW Handlers] Creating ws.link for:', socketUrl)
+const socket = ws.link(socketUrl)
 type SocketClient = ReturnType<typeof toSocketIo>['client']
 const clients = new Map<SocketClient, { token: string; close: () => void }>()
 let unavailableUntil = 0
@@ -150,7 +154,10 @@ const required = { private: true }
 
 export const handlers = [
   socket.addEventListener('connection', (connection) => {
+    console.log('[MSW WS Handler] Connection to:', connection.client.url.href)
+    console.log('[MSW WS Handler] Pathname:', connection.client.url.pathname)
     if (!connection.client.url.pathname.startsWith('/socket.io/')) {
+      console.log('[MSW WS Handler] Not Socket.IO, passing to real server')
       connection.server.connect()
       return
     }
