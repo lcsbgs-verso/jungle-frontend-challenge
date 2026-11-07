@@ -70,8 +70,8 @@ test.describe('Autenticação e sessão', () => {
     
     const dialog = page.getByRole('dialog')
     await dialog.getByLabel(/e-mail/i).fill('alice@kurio.test')
-    await dialog.getByLabel(/senha/i).fill('SenhaErrada123')
-    await dialog.getByRole('button', { name: /entrar/i }).click()
+    await dialog.getByLabel(/senha/i).first().fill('SenhaErrada123')
+    await dialog.locator('button[type="submit"]').click()
 
     await expect(dialog.getByText(/inválid|incorret/i)).toBeVisible()
   })
