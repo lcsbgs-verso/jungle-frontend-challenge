@@ -9,7 +9,7 @@ test.describe('Autenticação e sessão', () => {
     await expect(dialog.getByRole('heading', { name: /criar|cadastro/i })).toBeVisible()
 
     // Tentar submeter sem preencher (deve mostrar erros)
-    await dialog.getByRole('button', { name: /criar|cadastrar/i }).click()
+    await dialog.locator('button[type="submit"]').click()
     
     // Preencher formulário
     const email = `test-${Date.now()}@kurio.test`
@@ -17,9 +17,9 @@ test.describe('Autenticação e sessão', () => {
     await dialog.getByLabel(/e-mail/i).fill(email)
     await dialog.getByLabel('Senha', { exact: true }).fill('Teste123!')
     await dialog.getByLabel(/confirmar|confirme/i).fill('Teste123!')
-
+    
     // Submeter
-    await dialog.getByRole('button', { name: /criar|cadastrar/i }).click()
+    await dialog.locator('button[type="submit"]').click()
 
     // Verificar que foi autenticado
     await expect(dialog).toHaveCount(0)
@@ -84,7 +84,7 @@ test.describe('Autenticação e sessão', () => {
     await dialog.getByLabel(/e-mail/i).fill('alice@kurio.test')
     await dialog.getByLabel('Senha', { exact: true }).fill('Teste123!')
     await dialog.getByLabel(/confirmar/i).fill('Teste123!')
-    await dialog.getByRole('button', { name: /criar|cadastrar/i }).click()
+    await dialog.locator('button[type="submit"]').click()
 
     await expect(dialog.getByText(/já existe|já cadastrad/i)).toBeVisible()
   })
