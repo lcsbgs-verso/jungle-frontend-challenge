@@ -18,6 +18,8 @@ import type {
   Wallet,
 } from './domain'
 
+
+
 const sessionKey = 'kurio.session'
 const guestKey = 'kurio.guest'
 let token = localStorage.getItem(sessionKey) ?? ''
