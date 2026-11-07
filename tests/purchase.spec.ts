@@ -1,0 +1,157 @@
+import { expect, test } from '@playwright/test'
+import {
+  act,
+  addEmerald,
+  checkout,
+  confirm,
+  fillLogin,
+  login,
+  review,
+  socketReady,
+} from './helpers'
+
+test('carrinho, quantidade, remoção, cupom e persistência após refresh e login', async ({
+  page,
+}) => {
+  await addEmerald(page)
+  await page.getByRole('link', { name: 'Ver carrinho', exact: true }).click()
+  const summary = page.getByRole('region', { name: 'Resumo do pedido' })
+  await expect(summary).toContainText('2,468 ETH')
+  await page.getByRole('button', { name: /Aumentar quantidade de Emerald/ }).click()
+  await expect(summary).toContainText('4,918 ETH')
+  for (const [code, message] of [
+    ['QUALQUER', 'Cupom inválido.'],
+    ['EXPIRADO', 'Este cupom expirou.'],
+  ]) {
+    await page.getByLabel('Código do cupom').fill(code)
+    await page.getByRole('button', { name: 'Aplicar cupom' }).click()
+    await expect(page.getByLabel('Código do cupom')).toHaveAccessibleDescription(message)
+  }
+  await page.getByLabel('Código do cupom').fill('KURIO10')
+  await page.getByRole('button', { name: 'Aplicar cupom' }).click()
+  await expect(summary).toContainText('4,428 ETH')
+  await page.reload()
+  await expect(summary).toContainText('4,428 ETH')
+  await login(page, '/carrinho')
+  await expect(summary).toContainText('4,428 ETH')
+  await page.getByRole('button', { name: 'Remover cupom' }).click()
+  await expect(summary).toContainText('4,918 ETH')
+  await page.getByRole('button', { name: /Diminuir quantidade de Emerald/ }).click()
+  await expect(summary).toContainText('2,468 ETH')
+  await page.getByRole('button', { name: 'Remover Emerald Ape #042' }).click()
+  await expect(page.getByRole('heading', { name: 'Seu carrinho está vazio' })).toBeVisible()
+})
+
+test('pagamento recusado preserva carrinho', async ({ page }) => {
+  await checkout(page)
+  await act(page, { type: 'scenario', scenario: 'declined' })
+  await confirm(page)
+  await expect(page.getByRole('heading', { name: 'Pagamento recusado' })).toBeVisible()
+  await expect(page.getByText('Transação simulada')).toHaveCount(0)
+  await page.getByRole('link', { name: 'Voltar ao carrinho' }).click()
+  await expect(page.getByRole('region', { name: 'Resumo do pedido' })).toContainText('2,468 ETH')
+})
+
+test('clique repetido e timeout recuperam a mesma tentativa após refresh', async ({ page }) => {
+  await checkout(page)
+  await act(page, { type: 'scenario', scenario: 'timeout' })
+  const keys: (string | undefined)[] = []
+  page.on('request', (request) => {
+    if (request.method() === 'POST' && request.url().endsWith('/api/orders'))
+      keys.push(request.headers()['idempotency-key'])
+  })
+  await review(page)
+  await page
+    .getByRole('button', { name: 'Confirmar compra' })
+    .evaluate((button: HTMLButtonElement) => {
+      button.click()
+      button.click()
+    })
+  await expect(page.getByRole('alert')).toContainText('O servidor demorou para responder')
+  expect(keys).toHaveLength(1)
+  await page.reload()
+  await page.getByRole('button', { name: 'Recuperar pedido' }).click()
+  await expect(page.getByRole('heading', { name: 'Pedido confirmado' })).toBeVisible()
+  expect(keys).toHaveLength(2)
+  expect(keys[0]).toBeTruthy()
+  expect(keys[1]).toBe(keys[0])
+})
+
+test('eventos repetidos e antigos não revertem o estoque e o pedido retoma após reconexão', async ({
+  page,
+}) => {
+  await checkout(page)
+  await socketReady(page)
+  await act(page, { type: 'price' })
+  const summary = page.getByRole('region', { name: 'Resumo do pedido' })
+  await expect(summary).toContainText('2,618 ETH')
+  await act(page, { type: 'duplicate' })
+  await act(page, { type: 'older' })
+  await expect(summary).toContainText('2,618 ETH')
+  await act(page, { type: 'scenario', scenario: 'pending' })
+  await confirm(page)
+  await expect(page.getByRole('heading', { name: 'Pedido pendente' })).toBeVisible()
+  const url = page.url()
+  await act(page, { type: 'disconnect' })
+  await expect(page.getByText(/Conexão interrompida/)).toBeVisible()
+  await act(page, { type: 'finish' })
+  await expect(page.getByRole('heading', { name: 'Pedido confirmado' })).toBeVisible()
+  await act(page, { type: 'older' })
+  await page.reload()
+  await expect(page.getByRole('heading', { name: 'Pedido confirmado' })).toBeVisible()
+  expect(page.url()).toBe(url)
+})
+
+test('carteira pode recusar, conectar e desconectar', async ({ page }) => {
+  await checkout(page)
+  await page.getByRole('button', { name: 'Desconectar' }).click()
+  await expect(page.getByRole('button', { name: 'Revisar pedido' })).toBeDisabled()
+  await page.getByRole('button', { name: 'Conectar carteira', exact: true }).click()
+  await page.getByRole('button', { name: 'Recusar', exact: true }).click()
+  await expect(page.getByText(/A conexão da carteira foi recusada/)).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Revisar pedido' })).toBeDisabled()
+})
+
+test('edição esgotada via Socket.IO bloqueia compra e preserva os itens', async ({ page }) => {
+  await checkout(page)
+  await socketReady(page)
+  await act(page, { type: 'stock' })
+  await expect(page.getByRole('alert')).toContainText('Disponibilidade alterada')
+  await expect(page.getByRole('button', { name: 'Revisar pedido' })).toBeDisabled()
+  await page.goto('/carrinho')
+  await expect(page.getByText('Edição esgotada', { exact: true })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Ir para pagamento' })).toHaveAttribute(
+    'aria-disabled',
+    'true',
+  )
+})
+
+test('pedido de outra conta fica protegido e a rede recalcula a taxa', async ({ page }) => {
+  await checkout(page)
+  await page.getByRole('combobox', { name: 'Rede', exact: true }).selectOption('Polygon')
+  await expect(page.getByRole('region', { name: 'Resumo do pedido' })).toContainText('2,453 ETH')
+  await expect(page.getByRole('button', { name: 'Revisar pedido' })).toBeDisabled()
+  await page.getByRole('button', { name: 'Conectar carteira', exact: true }).click()
+  await page.getByRole('button', { name: 'Autorizar conexão' }).click()
+  await confirm(page)
+  await expect(page.getByRole('heading', { name: 'Pedido confirmado' })).toBeVisible()
+  const orderUrl = new URL(page.url()).pathname
+  await login(page, orderUrl, 'bruno@kurio.test')
+  await expect(page.getByRole('alert')).toContainText('Não encontramos este pedido')
+  await expect(page.getByText('Alice Costa')).toHaveCount(0)
+})
+
+test('a proteção do pagamento encaminha o visitante ao login e retoma a compra', async ({
+  page,
+}) => {
+  await addEmerald(page)
+  await page.getByRole('link', { name: /Carrinho, 1/ }).click()
+  await expect(page.getByRole('region', { name: 'Resumo do pedido' })).toContainText('2,468 ETH')
+  await page.getByRole('link', { name: 'Ir para pagamento' }).click()
+  await expect(page.getByRole('dialog', { name: 'Entre na sua conta' })).toBeVisible()
+  await fillLogin(page)
+  await expect(page.getByRole('heading', { name: 'Pagamento', exact: true })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Resumo do pedido' })).toContainText(
+    'Emerald Ape #042',
+  )
+})

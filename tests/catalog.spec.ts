@@ -1,89 +1,105 @@
 import { expect, test } from '@playwright/test'
+import { act } from './helpers'
 
-test.describe('Catálogo e busca', () => {
-  test('busca, filtros, ordenação e paginação com estado na URL', async ({ page }) => {
-    await page.goto('/')
-    await expect(page.getByRole('heading', { name: /nfts em destaque/i })).toBeVisible()
+test('busca, filtros combinados, ordenação, paginação e histórico', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByText('27 obras encontradas')).toBeVisible()
+  await page.getByRole('button', { name: 'Página 2', exact: true }).click()
+  await expect(page).toHaveURL(/page=2/)
+  await expect(page.getByRole('button', { name: 'Página 2', exact: true })).toHaveAttribute(
+    'aria-current',
+    'page',
+  )
+  await page.goBack()
+  await expect(page.getByRole('button', { name: 'Página 1', exact: true })).toHaveAttribute(
+    'aria-current',
+    'page',
+  )
 
-    // Busca
-    await page.getByPlaceholder(/explorar/i).fill('emerald')
-    await page.getByPlaceholder(/explorar/i).press('Enter')
-    await page.waitForURL(/q=emerald/)
-    expect(page.url()).toContain('q=emerald')
+  const filters = page.getByRole('button', { name: 'Filtros', exact: true })
+  if (await filters.isVisible()) await filters.click()
+  await page.getByRole('checkbox', { name: /Arte digital/ }).check()
+  await page.getByRole('checkbox', { name: /Fotografia/ }).check()
+  const results = page.getByRole('button', { name: 'Ver resultados' })
+  if (await results.isVisible()) await results.click()
+  await expect(page.getByText('6 obras encontradas')).toBeVisible()
+  await expect(page).toHaveURL(/category=Arte\+digital&category=Fotografia/)
+  await page.getByRole('combobox', { name: 'Ordenar por' }).selectOption('price-asc')
+  await expect(page).toHaveURL(/sort=price-asc/)
+  const input = page.getByRole('textbox', { name: 'Buscar no catálogo' })
+  await input.fill('Emerald')
+  await input.press('Enter')
+  await expect(page.getByText('2 obras encontradas')).toBeVisible()
+  await page.reload()
+  await expect(input).toHaveValue('Emerald')
+  await expect(page.getByText('2 obras encontradas')).toBeVisible()
+  await page.goBack()
+  await expect(input).toHaveValue('')
+  await expect(page.getByText('6 obras encontradas')).toBeVisible()
+})
 
-    // Filtro por categoria
-    await page.getByRole('checkbox', { name: /arte digital/i }).check()
-    await page.waitForURL(/category=/)
-    expect(page.url()).toContain('category=Arte')
+test('detalhe direto, galeria e rota inexistente', async ({ page }) => {
+  await page.goto('/nft/emerald-ape')
+  await expect(page.getByRole('heading', { name: 'Emerald Ape #042', exact: true })).toBeVisible()
+  await page.getByRole('button', { name: 'Mostrar imagem 2' }).click()
+  await expect(page.getByRole('img', { name: /imagem 2 de 3/ })).toBeVisible()
+  await page.getByLabel('Quantidade', { exact: true }).fill('999')
+  await expect(page.getByRole('button', { name: 'Adicionar ao carrinho' })).toBeDisabled()
+  await page.goto('/nft/inexistente')
+  await expect(page.getByRole('heading', { name: 'NFT não encontrado' })).toBeVisible()
+  await page.goto('/rota-inexistente')
+  await expect(page.getByRole('heading', { name: 'Página não encontrada' })).toBeVisible()
+})
 
-    // Adicionar segunda categoria
-    await page.getByRole('checkbox', { name: /fotografia/i }).check()
-    expect(page.url()).toMatch(/category=.*category=/)
+test('ignora busca obsoleta e representa resultados vazios', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByText('27 obras encontradas')).toBeVisible()
+  await act(page, { type: 'scenario', scenario: 'race' })
+  const input = page.getByRole('textbox', { name: 'Buscar no catálogo' })
+  await input.fill('E')
+  await input.press('Enter')
+  await expect(page).toHaveURL(/q=E$/)
+  await input.fill('Sage')
+  await input.press('Enter')
+  await expect(page.getByText('3 obras encontradas')).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Sage Nomad #009', exact: true })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Emerald Ape #042', exact: true })).toHaveCount(0)
+  await input.fill('colecao que nao existe')
+  await input.press('Enter')
+  await expect(page.getByRole('heading', { name: 'Nenhum NFT encontrado' })).toBeVisible()
+})
 
-    // Ordenação
-    await page.getByLabel(/ordenar/i).selectOption('price-asc')
-    await page.waitForURL(/sort=price-asc/)
-    expect(page.url()).toContain('sort=price-asc')
+test('skeleton, falha de rede, resposta HTTP e recuperação', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByText('27 obras encontradas')).toBeVisible()
+  await act(page, { type: 'scenario', scenario: 'slow' })
+  await page.reload()
+  await expect(page.getByRole('status', { name: 'Carregando catálogo' })).toBeVisible()
+  await expect(page.getByText('27 obras encontradas')).toBeVisible()
+  for (const scenario of ['offline', 'httpError'] as const) {
+    await act(page, { type: 'scenario', scenario })
+    await page.reload()
+    await expect(page.getByRole('button', { name: 'Tentar novamente' })).toBeVisible()
+    await act(page, { type: 'scenario', scenario: 'default' })
+    await page.getByRole('button', { name: 'Tentar novamente' }).click()
+    await expect(page.getByText('27 obras encontradas')).toBeVisible()
+  }
+})
 
-    // Paginação (se houver mais de 12 itens)
-    const nextButton = page.getByRole('button', { name: /próxima|próximo/i })
-    if (await nextButton.isVisible()) {
-      await nextButton.click()
-      await page.waitForURL(/page=2/)
-      expect(page.url()).toContain('page=2')
-
-      // Navegar para trás no histórico
-      await page.goBack()
-      await page.waitForURL(/page=1|^[^?]*$/)
-      await expect(page.getByPlaceholder(/explorar/i)).toHaveValue('emerald')
-      await expect(page.getByRole('checkbox', { name: /arte digital/i })).toBeChecked()
-    }
-
-    // Limpar busca e verificar que filtros permanecem
-    await page.getByPlaceholder(/explorar/i).clear()
-    await page.getByPlaceholder(/explorar/i).press('Enter')
-    await page.waitForURL((url) => !url.search.includes('q='))
-    expect(page.url()).not.toContain('q=')
-    await expect(page.getByRole('checkbox', { name: /arte digital/i })).toBeChecked()
-  })
-
-  test('acesso direto a NFT e tratamento de recurso inexistente', async ({ page }) => {
-    // Acesso direto válido
-    await page.goto('/nft/emerald-ape')
-    await expect(page.getByRole('heading', { name: /emerald ape/i })).toBeVisible()
-    await expect(page.getByText(/kurio studio/i)).toBeVisible()
-
-    // NFT inexistente
-    await page.goto('/nft/nao-existe-este-nft')
-    await expect(page.getByText(/não encontrad/i)).toBeVisible()
-    
-    // Link para voltar ao catálogo
-    const backLink = page.getByRole('link', { name: /voltar|explorar|início/i }).first()
-    await backLink.click()
-    await expect(page).toHaveURL('/')
-  })
-
-  test('filtro de preço com valores mínimo e máximo', async ({ page }) => {
-    await page.goto('/')
-
-    // Preencher preço mínimo e máximo
-    const minInput = page.getByLabel(/preço mínimo|mínimo/i)
-    const maxInput = page.getByLabel(/preço máximo|máximo/i)
-
-    if (await minInput.isVisible()) {
-      await minInput.fill('1.0')
-      await maxInput.fill('2.5')
-      await maxInput.press('Enter')
-
-      await page.waitForURL(/min=1|max=2/)
-      expect(page.url()).toContain('min=')
-      expect(page.url()).toContain('max=')
-
-      // Verificar que itens exibidos estão no range (primeira vez, pode não ter ainda carregado)
-      await page.waitForTimeout(500)
-      const prices = await page.locator('[data-testid="nft-price"], .nft-price').allTextContents()
-      // Verificação básica que há preços sendo exibidos
-      expect(prices.length).toBeGreaterThan(0)
-    }
-  })
+test('teclado, foco do diálogo e mensagem associada ao campo', async ({ page }) => {
+  await page.goto('/')
+  const trigger = page.getByRole('button', { name: 'Buscar NFTs' })
+  await trigger.focus()
+  await page.keyboard.press('Enter')
+  const dialog = page.getByRole('dialog')
+  await expect(dialog.getByRole('textbox')).toBeFocused()
+  await page.keyboard.press('Escape')
+  await expect(dialog).toHaveCount(0)
+  await expect(trigger).toBeFocused()
+  await page.goto('/entrar')
+  await page.getByRole('dialog').getByRole('button', { name: 'Entrar' }).click()
+  const email = page.getByLabel('E-mail')
+  await expect(email).toBeFocused()
+  await expect(email).toHaveAttribute('aria-invalid', 'true')
+  await expect(email).toHaveAccessibleDescription('Digite um e-mail válido.')
 })

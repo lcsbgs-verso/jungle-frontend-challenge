@@ -1,11 +1,21 @@
-export const categories = ['Arte digital', 'Fotografia', 'Música', 'Arte 3D', 'Colecionáveis', 'Generativa', 'Jogos', 'Assinaturas', 'Utilidade'] as const
+export const categories = [
+  'Arte digital',
+  'Fotografia',
+  'Música',
+  'Arte 3D',
+  'Colecionáveis',
+  'Generativa',
+  'Jogos',
+  'Assinaturas',
+  'Utilidade',
+] as const
 export const networks = ['Ethereum', 'Polygon', 'Arbitrum'] as const
 export const sorts = ['recent', 'price-asc', 'price-desc', 'popular'] as const
 export const feeds = ['all', 'new', 'trending'] as const
 
-export type Network = typeof networks[number]
-export type Sort = typeof sorts[number]
-export type Feed = typeof feeds[number]
+export type Network = (typeof networks)[number]
+export type Sort = (typeof sorts)[number]
+export type Feed = (typeof feeds)[number]
 export type Eth = string
 export type NftEdition = { id: string; name: string; price: Eth; stock: number }
 export type Nft = {
@@ -95,6 +105,7 @@ export const scenarios = {
   offline: 'Falha de conexão',
   httpError: 'Falha HTTP 503',
   expired: 'Sessão expirada',
+  forbidden: 'Acesso sem permissão',
   favoriteFailure: 'Falha ao favoritar',
   timeout: 'Timeout após criar pedido',
   declined: 'Pagamento recusado',
@@ -129,4 +140,12 @@ export function cartKey(item: CartItem) {
   return `${item.nftId}:${item.editionId}`
 }
 
-export const defaultSearch: CatalogSearch = { q: '', categories: [], min: '', max: '', sort: 'recent', feed: 'all', page: 1 }
+export const defaultSearch: CatalogSearch = {
+  q: '',
+  categories: [],
+  min: '',
+  max: '',
+  sort: 'recent',
+  feed: 'all',
+  page: 1,
+}

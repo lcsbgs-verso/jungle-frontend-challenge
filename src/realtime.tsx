@@ -1,21 +1,28 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
 import { getToken } from './api'
-import type { OrderEvent, VersionedEvent } from './domain'
+import type { Catalog, Nft, Order, OrderEvent, VersionedEvent } from './domain'
 import { privateKey, queryClient, reconcile, sessionChanged } from './state'
 
 type LiveStatus = { connected: boolean; change: VersionedEvent | null }
 const LiveContext = createContext<LiveStatus>({ connected: false, change: null })
 export const useLive = () => useContext(LiveContext)
 
-export function LiveProvider({ userId, scope, children }: { userId?: string; scope: string; children: React.ReactNode }) {
+export function LiveProvider({
+  userId,
+  scope,
+  children,
+}: {
+  userId?: string
+  scope: string
+  children: React.ReactNode
+}) {
   const [live, setLive] = useState<LiveStatus>({ connected: false, change: null })
   useEffect(() => {
     console.log('[LiveProvider] useEffect starting, scope:', scope, 'userId:', userId)
     const versions = new Map<string, number>()
     const seen = new Set<string>()
     let stopped = false
-    let retry: number | undefined
     const session = getToken()
     const current = () => !stopped && session === getToken()
     const socketUrl = import.meta.env.VITE_SOCKET_URL || location.origin
@@ -30,7 +37,25 @@ export function LiveProvider({ userId, scope, children }: { userId?: string; sco
     console.log('[LiveProvider] Socket created, calling connect()')
     const accept = (topic: string, event: VersionedEvent) => {
       const resource = topic + ':' + event.resourceId
-      if (!current() || seen.has(event.id) || (versions.get(resource) ?? 0) >= event.version) return false
+      if (!current() || seen.has(event.id) || (versions.get(resource) ?? 0) >= event.version)
+        return false
+      const cachedVersion =
+        topic === 'order'
+          ? (queryClient.getQueryData<Order>(privateKey(scope, 'order', event.resourceId))
+              ?.version ?? 0)
+          : Math.max(
+              queryClient.getQueryData<Nft>(['nft', event.resourceId])?.version ?? 0,
+              ...queryClient
+                .getQueriesData<Catalog>({ queryKey: ['catalog'] })
+                .flatMap(([, catalog]) =>
+                  catalog
+                    ? [...catalog.items, ...catalog.featured]
+                        .filter((nft) => nft.id === event.resourceId)
+                        .map((nft) => nft.version)
+                    : [],
+                ),
+            )
+      if (event.version < cachedVersion) return false
       versions.set(resource, event.version)
       seen.add(event.id)
       if (seen.size > 500) seen.delete(seen.values().next().value!)
@@ -63,11 +88,6 @@ export function LiveProvider({ userId, scope, children }: { userId?: string; sco
       void queryClient.invalidateQueries({ queryKey: privateKey(scope, 'cart') })
       void queryClient.invalidateQueries({ queryKey: privateKey(scope, 'quote') })
     })
-    socket.on('demo.disconnect', () => {
-      socket.disconnect()
-      clearTimeout(retry)
-      retry = window.setTimeout(() => socket.connect(), 1250)
-    })
     socket.on('demo.reset', () => {
       if (current()) sessionChanged(null)
     })
@@ -76,7 +96,6 @@ export function LiveProvider({ userId, scope, children }: { userId?: string; sco
     return () => {
       console.log('[LiveProvider] Cleanup: disconnecting socket')
       stopped = true
-      clearTimeout(retry)
       socket.removeAllListeners()
       socket.disconnect()
     }

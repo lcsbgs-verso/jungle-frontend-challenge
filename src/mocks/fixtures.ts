@@ -13,10 +13,21 @@ const portraits = [
   ['silver-origin', 'Silver Origin #099', 'Studio Órbita', '1.25'],
 ]
 
-export const demoPassword = 'Kurio2026!'
 export const demoUsers: Collector[] = [
-  { id: 'alice', name: 'Alice Costa', email: 'alice@kurio.test', avatar: '', phone: '(11) 99999-1111' },
-  { id: 'bruno', name: 'Bruno Lima', email: 'bruno@kurio.test', avatar: '', phone: '(21) 99999-2222' },
+  {
+    id: 'alice',
+    name: 'Alice Costa',
+    email: 'alice@kurio.test',
+    avatar: '',
+    phone: '(11) 99999-1111',
+  },
+  {
+    id: 'bruno',
+    name: 'Bruno Lima',
+    email: 'bruno@kurio.test',
+    avatar: '',
+    phone: '(21) 99999-2222',
+  },
 ]
 
 export function demoNfts(): Nft[] {
@@ -31,10 +42,19 @@ export function demoNfts(): Nft[] {
       category: categories[(portrait + series) % categories.length],
       description: `${title.split(' #')[0]} é um retrato da coleção Kurio Originals. A obra explora identidade, expressão e cultura digital por meio de texturas, luz e cores de estúdio.`,
       image: `/art/${portrait}.webp`,
-      gallery: [`/art/${portrait}.webp`, `/art/${(portrait + 3) % 9}.webp`, `/art/${(portrait + 6) % 9}.webp`],
+      gallery: [
+        `/art/${portrait}.webp`,
+        `/art/${(portrait + 3) % 9}.webp`,
+        `/art/${(portrait + 6) % 9}.webp`,
+      ],
       editions: [
-        { id: 'standard', name: 'Edição original', price, stock: 6 + index % 4 },
-        { id: 'collector', name: 'Edição de colecionador', price: String(index + 3), stock: index % 4 === 3 ? 0 : 2 },
+        { id: 'standard', name: 'Edição original', price, stock: 6 + (index % 4) },
+        {
+          id: 'collector',
+          name: 'Edição de colecionador',
+          price: String(index + 3),
+          stock: index % 4 === 3 ? 0 : 2,
+        },
       ],
       popularity: 100 - ((index * 7) % 97),
       listedAt: 1000 - index,
@@ -46,7 +66,28 @@ export function demoNfts(): Nft[] {
 export function demoWallets(userId: string): Wallet[] {
   const digit = userId === 'alice' ? 'a' : 'b'
   return [
-    { id: `${userId}-primary`, label: 'Minha carteira', address: `0x${digit.repeat(40)}`, kind: 'primary' },
-    { id: `${userId}-secondary`, label: 'Carteira reserva', address: `0x${digit.repeat(39)}0`, kind: 'secondary' },
+    {
+      id: `${userId}-primary`,
+      label: 'Minha carteira',
+      address: `0x${digit.repeat(40)}`,
+      kind: 'primary',
+    },
+    {
+      id: `${userId}-secondary`,
+      label: 'Carteira reserva',
+      address: `0x${digit.repeat(39)}0`,
+      kind: 'secondary',
+    },
   ]
+}
+
+export const demoCredentials: Record<string, { salt: string; passwordHash: string }> = {
+  alice: {
+    salt: 'kurio-demo-alice-v1',
+    passwordHash: 'c5f15cdc1e7c31984660a4383d7d840135dd1b249e1c9f0438034d2a25ed6b3c',
+  },
+  bruno: {
+    salt: 'kurio-demo-bruno-v1',
+    passwordHash: '9ec753430d9b9b0a3a3c3cf9227e5675c4b0ad469da89ca63481dec356601ea4',
+  },
 }
