@@ -47,24 +47,7 @@ function Hero({ featured, pending }: { featured: Nft[]; pending: boolean }) {
   </section>
 }
 
-function HeroStats() {
-  return <section className="hero-stats">
-    <div className="stat-item">
-      <div className="stat-value">4M+</div>
-      <div className="stat-label">obras na galeria</div>
-    </div>
-    <div className="stat-divider" />
-    <div className="stat-item">
-      <div className="stat-value">120k+</div>
-      <div className="stat-label">criadores ativos</div>
-    </div>
-    <div className="stat-divider" />
-    <div className="stat-item">
-      <div className="stat-value">$2.5B+</div>
-      <div className="stat-label">em transações</div>
-    </div>
-  </section>
-}
+// HeroStats removed - not in Figma reference (invented content)
 
 const networks = [
   { name: 'Ethereum', count: 119 },
@@ -185,7 +168,6 @@ export function CatalogPage({ search }: { search: CatalogSearch }) {
 
   return <div className="container-shell home-page">
     <Hero featured={query.data?.featured ?? []} pending={query.isPending} />
-    <HeroStats />
     <section id="catalogo" className="catalog-section" aria-labelledby="catalog-heading">
       <h2 id="catalog-heading" className="sr-only">Catálogo de NFTs</h2>
       <aside className="filters-panel" aria-label="Filtros do catálogo">
@@ -232,18 +214,24 @@ export function CatalogPage({ search }: { search: CatalogSearch }) {
     </section>
     <section className="promo-section">
       <div className="promo-cards">
-        <div className="promo-card promo-genesis">
-          <div className="promo-content">
-            <h3>GENESIS DROPS</h3>
-            <p>Cunhagem ao vivo de coleções lançadas pelos criadores mais aguardados.</p>
-            <button type="button" className="promo-cta">Ver lançamentos →</button>
+        <div className="promo-card-horizontal">
+          <div className="promo-nft-image">
+            {query.data?.featured[2] && <img src={query.data.featured[2].image} alt="NFT em destaque" />}
+          </div>
+          <div className="promo-text">
+            <h3>Lançamentos gênesis<br />de edição limitada</h3>
+            <p>Colecione edições escassas diretamente dos criadores antes da revelação pública.</p>
+            <button type="button" className="promo-btn">Explorar</button>
           </div>
         </div>
-        <div className="promo-card promo-curated">
-          <div className="promo-content">
-            <h3>CURADORIA SEMANAL</h3>
-            <p>Obras selecionadas por especialistas da comunidade e críticos de arte.</p>
-            <button type="button" className="promo-cta">Explorar seleção →</button>
+        <div className="promo-card-horizontal">
+          <div className="promo-nft-image">
+            {query.data?.featured[3] && <img src={query.data.featured[3].image} alt="NFT selecionado" />}
+          </div>
+          <div className="promo-text">
+            <h3>Arte digital selecionada<br />e muito mais</h3>
+            <p>Explore novos artistas, coleções verificadas e obras digitais que definem a cultura.</p>
+            <button type="button" className="promo-btn">Explorar</button>
           </div>
         </div>
       </div>
