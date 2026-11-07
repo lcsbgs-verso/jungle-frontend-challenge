@@ -107,7 +107,7 @@ export function MobileLoginPage() {
 
       {/* Signup text at y~767 */}
       <p className="mobile-signup-exact">
-        Novo na Kurio? <Link to="/cadastro" search={{ next: '/' }}>Crie uma conta</Link>
+        Novo na Kurio? <Link to="/cadastro" search={{ next: '/' }} style={{ color: '#d28a4c', fontWeight: 400 }}>Crie uma conta</Link>
       </p>
     </div>
   )

@@ -12,6 +12,7 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
   const [mode, setMode] = useState<Mode>(initialMode)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirm, setConfirm] = useState('')
   const [name, setName] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
@@ -39,6 +40,10 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
     if (mode === 'login') {
       login.mutate({ email, password })
     } else {
+      if (password !== confirm) {
+        alert('As senhas não coincidem')
+        return
+      }
       register.mutate({ name, email, phone: '', password })
     }
   }
@@ -71,7 +76,9 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
         </div>
 
         <p className="auth-exact-subtitle">
-          {mode === 'login' ? 'Acesse sua coleção de NFTs' : 'Comece sua jornada no mundo dos NFTs'}
+          {mode === 'login' 
+            ? 'Entre para gerenciar sua carteira, coleção e perfil de criador.' 
+            : 'Crie seu perfil de colecionador e conecte uma carteira quando quiser.'}
         </p>
 
         <form onSubmit={handleSubmit} className="auth-exact-form">
@@ -79,7 +86,7 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
             <div className="auth-exact-field">
               <input
                 type="text"
-                placeholder="Nome completo"
+                placeholder="Nome de usuário"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
@@ -89,7 +96,7 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
           <div className="auth-exact-field">
             <input
               type="email"
-              placeholder="E-mail"
+              placeholder={mode === 'login' ? 'contato@email.com' : 'Digite seu e-mail'}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -112,6 +119,17 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           </div>
+          {mode === 'register' && (
+            <div className="auth-exact-field auth-exact-password">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Confirmar senha"
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+                required
+              />
+            </div>
+          )}
           {mode === 'login' && (
             <div className="auth-exact-forgot">
               <a href="/recuperar-senha">Esqueceu a senha?</a>
