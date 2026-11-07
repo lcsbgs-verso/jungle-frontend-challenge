@@ -110,10 +110,11 @@ test.describe('Socket.IO real-time events via MSW', () => {
   test('isolates events per user session', async ({ page, context }) => {
     // User A logs in
     await page.goto('/entrar')
-    await page.fill('input[type="email"]', 'alice@example.com')
-    await page.fill('input[type="password"]', 'senhaAlice123')
-    await page.click('button[type="submit"]')
-    await page.waitForURL('/')
+    const dialog = page.getByRole('dialog')
+    await dialog.getByLabel('E-mail').fill('alice@kurio.test')
+    await dialog.getByLabel('Senha', { exact: true }).first().fill('Kurio2026!')
+    await dialog.locator('button[type="submit"]').click()
+    await page.waitForTimeout(1000)
 
     // Add item to cart as User A
     await page.locator('.nft-card').first().click()
