@@ -28,14 +28,13 @@ export async function login(
 }
 
 export async function fillLogin(page: Page, email = 'alice@kurio.test', password = 'Kurio2026!') {
-  // Works for both desktop (dialog) and mobile (main form)
-  const container = page.getByRole('dialog').or(page.locator('form'))
-  await container.getByLabel('E-mail').fill(email)
-  // Mobile has single password, desktop may have multiple
-  await container.getByLabel(/senha|password/i).first().fill(password)
-  await container.locator('button[type="submit"]').click()
-  // Desktop: dialog closes, Mobile: navigates away
-  await page.waitForTimeout(500)
+  const dialog = page.getByRole('dialog')
+  await dialog.getByLabel('E-mail').fill(email)
+  // Use first password field (login mode)
+  await dialog.getByLabel('Senha', { exact: true }).first().fill(password)
+  // Use submit button specifically to avoid tab button conflict
+  await dialog.locator('button[type="submit"]').click()
+  await expect(dialog).toHaveCount(0)
 }
 
 export async function addEmerald(page: Page) {
