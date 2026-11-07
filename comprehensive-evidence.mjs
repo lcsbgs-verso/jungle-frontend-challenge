@@ -2,8 +2,7 @@
 import { chromium } from '@playwright/test';
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { writeFile, mkdir, copyFile } from 'fs/promises';
-import { existsSync } from 'fs';
+import { writeFile, mkdir } from 'fs/promises';
 
 const execAsync = promisify(exec);
 const SHA = (await execAsync('git rev-parse HEAD')).stdout.trim().slice(0,7);
