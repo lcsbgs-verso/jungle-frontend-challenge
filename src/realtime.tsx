@@ -1,0 +1,74 @@
+import { createContext, useContext, useEffect, useState } from 'react'
+import { io } from 'socket.io-client'
+import { getToken } from './api'
+import type { OrderEvent, VersionedEvent } from './domain'
+import { privateKey, queryClient, reconcile, sessionChanged } from './state'
+
+type LiveStatus = { connected: boolean; change: VersionedEvent | null }
+const LiveContext = createContext<LiveStatus>({ connected: false, change: null })
+export const useLive = () => useContext(LiveContext)
+
+export function LiveProvider({ userId, scope, children }: { userId?: string; scope: string; children: React.ReactNode }) {
+  const [live, setLive] = useState<LiveStatus>({ connected: false, change: null })
+  useEffect(() => {
+    const versions = new Map<string, number>()
+    const seen = new Set<string>()
+    let stopped = false
+    let retry: number | undefined
+    const session = getToken()
+    const current = () => !stopped && session === getToken()
+    const socket = io(import.meta.env.VITE_SOCKET_URL || location.origin, {
+      transports: ['websocket'],
+      query: session ? { session } : {},
+      reconnectionDelay: 600,
+      reconnectionDelayMax: 3500,
+      autoConnect: false,
+    })
+    const accept = (topic: string, event: VersionedEvent) => {
+      const resource = topic + ':' + event.resourceId
+      if (!current() || seen.has(event.id) || (versions.get(resource) ?? 0) >= event.version) return false
+      versions.set(resource, event.version)
+      seen.add(event.id)
+      if (seen.size > 500) seen.delete(seen.values().next().value!)
+      return true
+    }
+    socket.on('connect', () => {
+      if (!current()) return
+      setLive((status) => ({ ...status, connected: true }))
+      reconcile(scope)
+    })
+    socket.on('disconnect', () => {
+      if (current()) setLive((status) => ({ ...status, connected: false }))
+    })
+    socket.on('nft.updated', (event: VersionedEvent) => {
+      if (!accept('nft', event)) return
+      setLive({ connected: true, change: event })
+      void queryClient.invalidateQueries({ queryKey: ['catalog'] })
+      void queryClient.invalidateQueries({ queryKey: ['nft', event.resourceId] })
+      void queryClient.invalidateQueries({ queryKey: privateKey(scope, 'cart') })
+      void queryClient.invalidateQueries({ queryKey: privateKey(scope, 'quote') })
+    })
+    socket.on('order.updated', (event: OrderEvent) => {
+      if (event.userId !== userId || !accept('order', event)) return
+      void queryClient.invalidateQueries({ queryKey: privateKey(scope, 'order', event.resourceId) })
+      void queryClient.invalidateQueries({ queryKey: privateKey(scope, 'cart') })
+      void queryClient.invalidateQueries({ queryKey: privateKey(scope, 'quote') })
+    })
+    socket.on('demo.disconnect', () => {
+      socket.disconnect()
+      clearTimeout(retry)
+      retry = window.setTimeout(() => socket.connect(), 1250)
+    })
+    socket.on('demo.reset', () => {
+      if (current()) sessionChanged(null)
+    })
+    socket.connect()
+    return () => {
+      stopped = true
+      clearTimeout(retry)
+      socket.removeAllListeners()
+      socket.disconnect()
+    }
+  }, [scope, userId])
+  return <LiveContext.Provider value={live}>{children}</LiveContext.Provider>
+}
