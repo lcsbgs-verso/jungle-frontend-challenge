@@ -125,6 +125,15 @@ export function MobileBottomNav() {
         </svg>
         <span>Atividade</span>
       </button>
+      
+      <div className="mobile-nav-center-circle">
+        <button type="button" className="mobile-nav-center-btn">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+          </svg>
+        </button>
+      </div>
+      
       <button type="button" className="mobile-nav-item">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
           <circle cx="10" cy="7" r="4" stroke="currentColor" strokeWidth="1.5"/>

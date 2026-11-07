@@ -301,6 +301,9 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 .mobile-nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none; color: var(--text-secondary); font-size: 10px; font-weight: 500; cursor: pointer; padding: 8px 12px; }
 .mobile-nav-item.active { color: var(--text-accent); }
 .mobile-nav-item svg { stroke-width: 1.5; }
+.mobile-nav-center-circle { position: relative; margin: 0 -8px; }
+.mobile-nav-center-btn { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, rgba(210, 138, 76, 0.9) 0%, var(--primary) 100%); border: 3px solid var(--surface-card); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(210, 138, 76, 0.3); margin-top: -20px; color: var(--foreground); }
+.mobile-nav-center-btn:hover { transform: scale(1.05); }
 
 /* Desktop Auth Modals */
 .desktop-auth-modal-overlay { position: fixed; inset: 0; background: rgba(20, 13, 10, 0.85); display: flex; align-items: center; justify-content: center; z-index: 1000; }
@@ -350,8 +353,12 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 .mobile-auth-divider::before { left: 0; }
 .mobile-auth-divider::after { right: 0; }
 .mobile-auth-divider span { font-size: 12px; color: var(--text-secondary); background: var(--ink); padding: 0 12px; position: relative; z-index: 1; }
-.mobile-auth-social { display: flex; gap: 12px; }
-.mobile-social-btn { flex: 1; height: 40px; background: transparent; border: 1px solid var(--border); border-radius: 6px; color: var(--text-secondary); font-size: 13px; font-weight: 500; cursor: pointer; }
+.mobile-forgot-password { text-align: right; margin-top: -8px; margin-bottom: 8px; }
+.mobile-forgot-link { font-size: 13px; color: var(--text-accent); text-decoration: none; font-weight: 500; }
+.mobile-forgot-link:hover { text-decoration: underline; }
+.mobile-auth-social-stacked { display: flex; flex-direction: column; gap: 12px; }
+.mobile-social-btn-full { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; height: 48px; background: transparent; border: 1px solid var(--border); border-radius: 6px; color: var(--text-secondary); font-size: 14px; font-weight: 500; cursor: pointer; }
+.mobile-social-btn-full:hover { border-color: var(--primary); background: var(--surface-raised); }
 .mobile-auth-footer { text-align: center; padding-top: 16px; }
 .mobile-auth-footer p { font-size: 14px; color: var(--text-secondary); margin: 0; }
 .mobile-auth-link { color: var(--text-accent); font-weight: 700; text-decoration: none; }

@@ -16,14 +16,13 @@ await desktopPage.screenshot({
 });
 console.log('✓ Desktop Home captured');
 
-// 2. Mobile Home 414×896
-console.log('Capturing Mobile Home (414×896)...');
+// 2. Mobile Home 414×896 (EXACT viewport, not fullPage)
+console.log('Capturing Mobile Home (414×896 viewport)...');
 const mobilePage = await browser.newPage({ viewport: { width: 414, height: 896 } });
 await mobilePage.goto('http://localhost:5173', { waitUntil: 'networkidle' });
 await mobilePage.waitForTimeout(2000);
 await mobilePage.screenshot({ 
-  path: '/opt/cursor/artifacts/screenshots/mobile-home-414.png',
-  fullPage: true 
+  path: '/opt/cursor/artifacts/screenshots/mobile-home-414.png'
 });
 console.log('✓ Mobile Home captured');
 
@@ -45,23 +44,21 @@ await desktopPage.screenshot({
 });
 console.log('✓ Desktop Register Modal captured');
 
-// 5. Mobile Login Page 414×896
-console.log('Capturing Mobile Login (414×896)...');
+// 5. Mobile Login Page 414×896 (EXACT viewport)
+console.log('Capturing Mobile Login (414×896 viewport)...');
 await mobilePage.goto('http://localhost:5173/entrar?next=%2F', { waitUntil: 'networkidle' });
 await mobilePage.waitForTimeout(1000);
 await mobilePage.screenshot({ 
-  path: '/opt/cursor/artifacts/screenshots/mobile-login-414.png',
-  fullPage: true 
+  path: '/opt/cursor/artifacts/screenshots/mobile-login-414.png'
 });
 console.log('✓ Mobile Login captured');
 
-// 6. Mobile Register Page 414×896
-console.log('Capturing Mobile Register (414×896)...');
+// 6. Mobile Register Page 414×896 (EXACT viewport)
+console.log('Capturing Mobile Register (414×896 viewport)...');
 await mobilePage.goto('http://localhost:5173/cadastro?next=%2F', { waitUntil: 'networkidle' });
 await mobilePage.waitForTimeout(1000);
 await mobilePage.screenshot({ 
-  path: '/opt/cursor/artifacts/screenshots/mobile-register-414.png',
-  fullPage: true 
+  path: '/opt/cursor/artifacts/screenshots/mobile-register-414.png'
 });
 console.log('✓ Mobile Register captured');
 
