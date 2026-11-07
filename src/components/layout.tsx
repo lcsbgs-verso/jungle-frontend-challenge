@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation, useNavigate } from '@tanstack/react-router'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { ArrowUpRight, Boxes, CircleHelp, FlaskConical, LogIn, LogOut, Menu, Search, ShoppingCart, ShieldCheck, UserRound, Wallet, Zap } from 'lucide-react'
+import { FlaskConical, LogIn, LogOut, Menu, Search, ShoppingCart, UserRound, Wallet } from 'lucide-react'
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { api, mocksEnabled, problem } from '../api'
@@ -138,23 +138,110 @@ function DemoPanel() {
 }
 
 function Footer() {
+  const [email, setEmail] = useState('')
+  
   return <footer className="site-footer">
-    <div className="container-shell">
-      <div className="footer-promises">
-        <div><Boxes /><h3>Arte selecionada</h3><p>Uma curadoria de obras digitais e coleções únicas.</p></div>
-        <div><ShieldCheck /><h3>Compra segura</h3><p>Revise sua compra e acompanhe cada etapa.</p></div>
-        <div><Zap /><h3>Atualizações em tempo real</h3><p>Veja preços e disponibilidade enquanto explora.</p></div>
-        <div><CircleHelp /><h3>Feito para colecionar</h3><p>Encontre sua próxima obra no marketplace.</p></div>
-      </div>
-      <div className="footer-meta">
-        <div><Link to="/" className="wordmark">KURIO<span aria-hidden="true">.</span></Link><p>Marketplace de arte digital.</p></div>
-        <div className="footer-actions">
-          {mocksEnabled && <DemoPanel />}
-          <a href="https://ethereum.org/pt-br/nft/" target="_blank" rel="noreferrer">Sobre NFTs <ArrowUpRight size={13} /></a>
+    <div className="container-shell footer-container">
+      <div className="footer-features">
+        <div className="footer-feature">
+          <div className="feature-medallion">W</div>
+          <h3>Segurança da carteira</h3>
+          <p>Proteja sua carteira e colecione arte digital verificada com confiança.</p>
         </div>
-        <small>© Kurio. Demonstração do desafio frontend.</small>
+        <div className="feature-divider" />
+        <div className="footer-feature">
+          <div className="feature-medallion">C</div>
+          <h3>Criadores em destaque</h3>
+          <p>Conheça artistas, estúdios e comunidades que moldam a cultura digital na rede.</p>
+        </div>
+        <div className="feature-divider" />
+        <div className="footer-feature">
+          <div className="feature-medallion">D</div>
+          <h3>Alertas de lançamentos</h3>
+          <p>Receba calendários de cunhagem, novidades de listas de acesso e análises do mercado.</p>
+        </div>
+        <div className="feature-divider" />
+        <div className="footer-newsletter">
+          <h3>Antecipe-se ao próximo lançamento</h3>
+          <div className="newsletter-form">
+            <input 
+              type="email" 
+              placeholder="digite seu e-mail..." 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <button type="button">Enviar</button>
+          </div>
+          <p>Receba lançamentos selecionados, histórias de criadores e novidades do mercado.</p>
+        </div>
+      </div>
+      
+      <div className="footer-brand-band">
+        <div className="brand-logo">KURIO</div>
+        <div className="brand-tagline">Feito para colecionadores,<br />criadores e cultura</div>
+        <a href="mailto:contato@email.com" className="brand-email">contato@email.com</a>
+        <div className="brand-phone">+55 11 4002 8922</div>
+      </div>
+      
+      <div className="footer-links-section">
+        <div className="footer-links-columns">
+          <div className="footer-column">
+            <h4>Meu perfil</h4>
+            <ul>
+              <li><a href="#perfil">Meu perfil</a></li>
+              <li><a href="#colecao">Minha coleção</a></li>
+              <li><a href="#atividade">Atividade</a></li>
+              <li><a href="#criador">Estúdio do criador</a></li>
+              <li><a href="#interesse">Lista de interesse</a></li>
+            </ul>
+          </div>
+          <div className="footer-column">
+            <h4>Central de ajuda</h4>
+            <ul>
+              <li><a href="#ajuda">Central de ajuda</a></li>
+              <li><a href="#comprar">Como comprar NFTs</a></li>
+              <li><a href="#carteira">Carteira e segurança</a></li>
+              <li><a href="#politica">Política do mercado</a></li>
+              <li><a href="#denunciar">Denunciar item</a></li>
+            </ul>
+          </div>
+          <div className="footer-column">
+            <h4>Recursos</h4>
+            <ul>
+              <li><a href="#recursos">Recursos</a></li>
+              <li><a href="#biblioteca">Biblioteca de conteúdo</a></li>
+              <li><a href="#tecnologia">Tecnologia e segurança</a></li>
+              <li><a href="#taxas">Taxas e comissões</a></li>
+              <li><a href="#criadores">Para criadores</a></li>
+            </ul>
+          </div>
+          <div className="footer-column">
+            <h4>Corporativo</h4>
+            <ul>
+              <li><a href="#empresa">Sobre a empresa</a></li>
+              <li><a href="#privacidade">Privacidade</a></li>
+              <li><a href="#termos">Termos de uso</a></li>
+              <li><a href="#imprensa">Kit de imprensa</a></li>
+              <li><a href="#carreiras">Carreiras</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div className="footer-bottom">
+          <div className="social-chips">
+            <a href="#twitter" className="social-chip">Twitter</a>
+            <a href="#discord" className="social-chip">Discord</a>
+            <a href="#instagram" className="social-chip">Instagram</a>
+          </div>
+          <div className="wallet-chips">
+            <button type="button" className="wallet-chip">MetaMask</button>
+            <button type="button" className="wallet-chip">Coinbase</button>
+            <button type="button" className="wallet-chip">WalletConnect</button>
+          </div>
+        </div>
       </div>
     </div>
+    {mocksEnabled && <div className="demo-panel-wrapper"><DemoPanel /></div>}
   </footer>
 }
 

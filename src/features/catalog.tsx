@@ -1,12 +1,12 @@
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { ArrowDown, ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, SlidersHorizontal } from 'lucide-react'
+import { ChevronLeft, ChevronRight, SlidersHorizontal } from 'lucide-react'
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { categories, defaultSearch, formatEth, parseEth } from '../domain'
 import type { Catalog, CatalogSearch, Feed, Nft, Sort } from '../domain'
 import { catalogOptions } from '../state'
-import { Empty, ErrorState, Field, Skeleton } from '../components/shared'
+import { Empty, ErrorState, Skeleton } from '../components/shared'
 import { Button } from '../components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '../components/ui/dialog'
 
@@ -32,13 +32,13 @@ function Hero({ featured, pending }: { featured: Nft[]; pending: boolean }) {
   return <section className="hero" aria-labelledby="hero-title">
     <div className="hero-copy">
       <p className="eyebrow">Bem-vindo à Kurio</p>
-      <h1 id="hero-title">Seja dono do futuro<br className="hero-break" /> da arte digital</h1>
+      <h1 id="hero-title">SEJA DONO DO FUTURO DA ARTE DIGITAL</h1>
       <p>Descubra NFTs selecionados de criadores emergentes e consagrados. Colecione arte digital rara, apoie artistas e tenha uma parte da cultura da internet.</p>
-      <Button asChild><a href="#catalogo">Explorar NFTs <ArrowDown size={15} /></a></Button>
+      <Button asChild><a href="#catalogo">EXPLORAR</a></Button>
     </div>
     <div className="hero-media">
       {item ? <Link to="/nft/$nftId" params={{ nftId: item.id }} aria-label={`Conhecer ${item.title}`}>
-        <img src={item.image} alt={`Retrato digital de ${item.title}`} width="416" height="416" fetchPriority="high" />
+        <img src={item.image} alt={`Retrato digital de ${item.title}`} width="450" height="450" fetchPriority="high" />
       </Link> : pending ? <Skeleton className="hero-placeholder" label="Carregando destaque" /> : <div className="hero-placeholder hero-empty" aria-hidden="true">K.</div>}
       {featured.length > 1 && <div className="hero-dots" aria-label="Destaques">
         {featured.map((nft, index) => <button key={nft.id} type="button" className={index === slide ? 'selected' : ''} aria-label={`Destaque ${index + 1}`} aria-pressed={index === slide} onClick={() => setSlide(index)} />)}
@@ -47,10 +47,37 @@ function Hero({ featured, pending }: { featured: Nft[]; pending: boolean }) {
   </section>
 }
 
+function HeroStats() {
+  return <section className="hero-stats">
+    <div className="stat-item">
+      <div className="stat-value">4M+</div>
+      <div className="stat-label">obras na galeria</div>
+    </div>
+    <div className="stat-divider" />
+    <div className="stat-item">
+      <div className="stat-value">120k+</div>
+      <div className="stat-label">criadores ativos</div>
+    </div>
+    <div className="stat-divider" />
+    <div className="stat-item">
+      <div className="stat-value">$2.5B+</div>
+      <div className="stat-label">em transações</div>
+    </div>
+  </section>
+}
+
+const networks = [
+  { name: 'Ethereum', count: 119 },
+  { name: 'Polygon', count: 78 },
+  { name: 'Solana', count: 86 },
+] as const
+
 function Filters({ search, facets, change }: { search: CatalogSearch; facets?: Catalog['facets']; change: (patch: Partial<CatalogSearch>) => void }) {
-  const [min, setMin] = useState(search.min)
-  const [max, setMax] = useState(search.max)
+  const [min, setMin] = useState(search.min || '0.02')
+  const [max, setMax] = useState(search.max || '12.30')
   const [error, setError] = useState('')
+  const [selectedNetwork, setSelectedNetwork] = useState<string | null>(null)
+  
   function apply(event: FormEvent) {
     event.preventDefault()
     try {
@@ -64,6 +91,7 @@ function Filters({ search, facets, change }: { search: CatalogSearch; facets?: C
       setError('Informe uma faixa válida de preços em ETH.')
     }
   }
+  
   return <div className="filters-inner">
     <fieldset>
       <legend>Coleções</legend>
@@ -75,17 +103,69 @@ function Filters({ search, facets, change }: { search: CatalogSearch; facets?: C
         <span>{category}</span><small>({facets?.[category] ?? 0})</small>
       </label>)}
     </fieldset>
+    
     <form className="price-filter" onSubmit={apply}>
       <h3>Faixa de preço</h3>
-      <div className="price-fields">
-        <Field label="Mín. ETH" inputMode="decimal" placeholder="0,00" value={min} onChange={(event) => setMin(event.target.value)} />
-        <Field label="Máx. ETH" inputMode="decimal" placeholder="10,00" value={max} onChange={(event) => setMax(event.target.value)} />
+      <div className="price-slider-container">
+        <div className="price-display">Preço: {min} - {max} ETH</div>
+        <div className="price-range-inputs">
+          <input 
+            type="range" 
+            min="0" 
+            max="15" 
+            step="0.01" 
+            value={parseFloat(min)} 
+            onChange={(e) => setMin(e.target.value)}
+            className="price-range-slider"
+          />
+          <input 
+            type="range" 
+            min="0" 
+            max="15" 
+            step="0.01" 
+            value={parseFloat(max)} 
+            onChange={(e) => setMax(e.target.value)}
+            className="price-range-slider"
+          />
+        </div>
       </div>
       {error && <span role="alert" className="field-error">{error}</span>}
       <Button size="sm" type="submit">Aplicar</Button>
     </form>
-    {(search.categories.length > 0 || search.min || search.max || search.q || search.feed !== 'all') && <Button variant="ghost" size="sm" onClick={() => { setMin(''); setMax(''); change(defaultSearch) }}>Limpar filtros</Button>}
+    
+    <div className="network-filter">
+      <h3>Rede</h3>
+      <div className="network-options">
+        {networks.map((network) => (
+          <button
+            key={network.name}
+            type="button"
+            className={`network-chip ${selectedNetwork === network.name ? 'active' : ''}`}
+            onClick={() => setSelectedNetwork(selectedNetwork === network.name ? null : network.name)}
+          >
+            {network.name} <span className="network-count">{network.count}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+    
+    {(search.categories.length > 0 || search.min || search.max || search.q || search.feed !== 'all') && <Button variant="ghost" size="sm" onClick={() => { setMin('0.02'); setMax('12.30'); change(defaultSearch) }}>Limpar filtros</Button>}
   </div>
+}
+
+function FeaturedNftBanner({ featured }: { featured: Nft[] }) {
+  const item = featured[0]
+  if (!item) return null
+  
+  return <aside className="featured-nft-banner">
+    <div className="featured-header">
+      <h3>NFT EM DESTAQUE</h3>
+      <div className="limited-offer-badge">OFERTA LIMITADA</div>
+    </div>
+    <Link to="/nft/$nftId" params={{ nftId: item.id }} className="featured-nft-image">
+      <img src={item.image} alt={item.title} width="310" height="368" />
+    </Link>
+  </aside>
 }
 
 export function CatalogPage({ search }: { search: CatalogSearch }) {
@@ -103,11 +183,15 @@ export function CatalogPage({ search }: { search: CatalogSearch }) {
     void navigate({ to: '/', search: { ...search, page: 1, ...patch }, hash: scroll ? 'catalogo' : undefined, resetScroll: false })
   }
 
-  return <div className="container-shell">
+  return <div className="container-shell home-page">
     <Hero featured={query.data?.featured ?? []} pending={query.isPending} />
+    <HeroStats />
     <section id="catalogo" className="catalog-section" aria-labelledby="catalog-heading">
       <h2 id="catalog-heading" className="sr-only">Catálogo de NFTs</h2>
-      <aside className="filters-panel" aria-label="Filtros do catálogo"><Filters key={search.min + ':' + search.max} search={search} facets={query.data?.facets} change={change} /></aside>
+      <aside className="filters-panel" aria-label="Filtros do catálogo">
+        <Filters key={search.min + ':' + search.max} search={search} facets={query.data?.facets} change={change} />
+        <FeaturedNftBanner featured={query.data?.featured ?? []} />
+      </aside>
       <div className="catalog-results" aria-busy={query.isFetching}>
         <div className="catalog-toolbar">
           <div className="catalog-tabs" aria-label="Vitrines">
@@ -146,9 +230,76 @@ export function CatalogPage({ search }: { search: CatalogSearch }) {
         </nav>}
       </div>
     </section>
-    {query.data?.featured.length ? <section className="discover">
-      <div><p className="eyebrow">Kurio Originals</p><h2>Explore outras obras</h2></div>
-      <div className="discover-links"><a href="#catalogo" aria-label="Voltar ao catálogo"><ArrowLeft size={18} /></a><Button asChild variant="outline"><a href="#catalogo">Ver marketplace <ArrowRight size={16} /></a></Button></div>
-    </section> : null}
+    <section className="promo-section">
+      <div className="promo-cards">
+        <div className="promo-card promo-genesis">
+          <div className="promo-content">
+            <h3>GENESIS DROPS</h3>
+            <p>Cunhagem ao vivo de coleções lançadas pelos criadores mais aguardados.</p>
+            <button type="button" className="promo-cta">Ver lançamentos →</button>
+          </div>
+        </div>
+        <div className="promo-card promo-curated">
+          <div className="promo-content">
+            <h3>CURADORIA SEMANAL</h3>
+            <p>Obras selecionadas por especialistas da comunidade e críticos de arte.</p>
+            <button type="button" className="promo-cta">Explorar seleção →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section className="blog-section">
+      <div className="blog-header">
+        <h2>Diário da Cunhagem</h2>
+        <p>Histórias, guias e insights para colecionadores sobre o universo da propriedade digital.</p>
+      </div>
+      <div className="blog-cards">
+        <article className="blog-card">
+          <div className="blog-image">
+            <img src="/nft-artwork-05.jpg" alt="NFT Artwork" loading="lazy" />
+          </div>
+          <div className="blog-content">
+            <p className="blog-meta">12 de setembro | Leitura de 6 min</p>
+            <h3>Como funciona a propriedade de NFTs</h3>
+            <p>Aprenda a colecionar, negociar e verificar ativos digitais.</p>
+            <a href="#artigo" className="blog-cta">Ler mais →</a>
+          </div>
+        </article>
+        <article className="blog-card">
+          <div className="blog-image">
+            <img src="/nft-artwork-06.jpg" alt="NFT Artwork" loading="lazy" />
+          </div>
+          <div className="blog-content">
+            <p className="blog-meta">13 de setembro | Leitura de 2 min</p>
+            <h3>10 artistas digitais para acompanhar</h3>
+            <p>Conheça criadores que moldam a cultura digital.</p>
+            <a href="#artigo" className="blog-cta">Ler mais →</a>
+          </div>
+        </article>
+        <article className="blog-card">
+          <div className="blog-image">
+            <img src="/nft-artwork-18.jpg" alt="NFT Artwork" loading="lazy" />
+          </div>
+          <div className="blog-content">
+            <p className="blog-meta">15 de setembro | Leitura de 3 min</p>
+            <h3>Raridade, atributos e procedência</h3>
+            <p>Descubra critérios para avaliar coleções digitais.</p>
+            <a href="#artigo" className="blog-cta">Ler mais →</a>
+          </div>
+        </article>
+        <article className="blog-card">
+          <div className="blog-image">
+            <img src="/nft-artwork-07.jpg" alt="NFT Artwork" loading="lazy" />
+          </div>
+          <div className="blog-content">
+            <p className="blog-meta">17 de setembro | Leitura de 4 min</p>
+            <h3>Guia de segurança para carteiras</h3>
+            <p>Proteja seus ativos com práticas recomendadas.</p>
+            <a href="#artigo" className="blog-cta">Ler mais →</a>
+          </div>
+        </article>
+      </div>
+    </section>
   </div>
 }
