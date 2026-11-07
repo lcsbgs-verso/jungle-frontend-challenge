@@ -25,30 +25,8 @@ export function safeNext(value: unknown) {
 
 export function AuthPage({ mode, next }: { mode: 'login' | 'register'; next: string }) {
   const navigate = useNavigate()
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
   const registering = mode === 'register'
   const closeTo = next.startsWith('/pagamento') ? '/carrinho' : /^\/(perfil|carteiras|pedido)(\/|\?|$)/.test(next) ? '/' : next
-  
-  // Use new mobile/desktop components
-  if (isMobile) {
-    return mode === 'login' ? <MobileLoginPage /> : <MobileRegisterPage />
-  }
-  
-  const handleClose = () => void navigate({ to: closeTo, replace: true })
-  if (mode === 'login') {
-    return <>
-      <CatalogPage search={defaultSearch} />
-      <DesktopLoginModal onClose={handleClose} />
-    </>
-  }
-  if (mode === 'register') {
-    return <>
-      <CatalogPage search={defaultSearch} />
-      <DesktopRegisterModal onClose={handleClose} />
-    </>
-  }
-  
-  // Fallback to old code below
   const [fields, setFields] = useState<Record<string, string>>({})
   const auth = useMutation({
     mutationFn: (data: { name: string; email: string; password: string; phone: string }) => registering ? api.register(data) : api.login(data),
@@ -79,6 +57,28 @@ export function AuthPage({ mode, next }: { mode: 'login' | 'register'; next: str
     auth.mutate({ name, email, password, phone })
   }
   const server = auth.isError ? problem(auth.error) : undefined
+  
+  // Use new mobile/desktop components for better UX
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+  if (isMobile) {
+    return mode === 'login' ? <MobileLoginPage /> : <MobileRegisterPage />
+  }
+  
+  const handleClose = () => void navigate({ to: closeTo, replace: true })
+  if (mode === 'login') {
+    return <>
+      <CatalogPage search={defaultSearch} />
+      <DesktopLoginModal onClose={handleClose} />
+    </>
+  }
+  if (mode === 'register') {
+    return <>
+      <CatalogPage search={defaultSearch} />
+      <DesktopRegisterModal onClose={handleClose} />
+    </>
+  }
+  
+  // Fallback to old dialog
   return <>
     <CatalogPage search={defaultSearch} />
     <Dialog open onOpenChange={(open) => { if (!open) void navigate({ href: closeTo, replace: true }) }}>
