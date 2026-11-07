@@ -28,7 +28,6 @@ test.describe('Socket.IO real-time events via MSW', () => {
 
     // Trigger price change via MSW demo action
     await page.evaluate(() => {
-      // @ts-expect-error - accessing MSW internals for test
       return fetch('/api/demo/action', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -89,7 +88,6 @@ test.describe('Socket.IO real-time events via MSW', () => {
 
     // Trigger disconnect
     await page.evaluate(() => {
-      // @ts-expect-error - accessing MSW internals for test
       return fetch('/api/demo/action', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -142,7 +140,6 @@ test.describe('Socket.IO real-time events via MSW', () => {
 
     // Trigger price change
     await page.evaluate(() => {
-      // @ts-expect-error
       return fetch('/api/demo/action', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
