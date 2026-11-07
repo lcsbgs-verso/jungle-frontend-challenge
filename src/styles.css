@@ -333,6 +333,29 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 .auth-footer p { font-size: 14px; color: var(--text-secondary); margin: 0; }
 .auth-switch { background: none; border: none; color: var(--text-accent); font-weight: 700; cursor: pointer; text-decoration: underline; }
 .auth-switch:hover { color: var(--primary); }
+
+/* Mobile Auth Full-Screen Pages */
+.mobile-auth-page { min-height: 100vh; background: var(--ink); display: flex; flex-direction: column; }
+.mobile-auth-header { display: flex; align-items: center; justify-content: center; padding: 20px 24px; position: relative; border-bottom: 1px solid var(--border); }
+.mobile-auth-back { position: absolute; left: 24px; color: var(--foreground); }
+.mobile-auth-logo { font-size: 14px; font-weight: 700; letter-spacing: 1.4px; color: var(--foreground); margin: 0; }
+.mobile-auth-content { flex: 1; padding: 32px 24px; display: flex; flex-direction: column; gap: 24px; max-width: 400px; margin: 0 auto; width: 100%; }
+.mobile-auth-title { text-align: center; }
+.mobile-auth-title h2 { font-size: 24px; font-weight: 700; color: var(--foreground); margin: 0 0 8px; }
+.mobile-auth-title p { font-size: 14px; color: var(--text-secondary); margin: 0; }
+.mobile-auth-form { display: flex; flex-direction: column; gap: 16px; }
+.mobile-auth-submit { width: 100%; }
+.mobile-auth-divider { position: relative; text-align: center; margin: 8px 0; }
+.mobile-auth-divider::before, .mobile-auth-divider::after { content: ''; position: absolute; top: 50%; width: calc(50% - 30px); height: 1px; background: var(--border); }
+.mobile-auth-divider::before { left: 0; }
+.mobile-auth-divider::after { right: 0; }
+.mobile-auth-divider span { font-size: 12px; color: var(--text-secondary); background: var(--ink); padding: 0 12px; position: relative; z-index: 1; }
+.mobile-auth-social { display: flex; gap: 12px; }
+.mobile-social-btn { flex: 1; height: 40px; background: transparent; border: 1px solid var(--border); border-radius: 6px; color: var(--text-secondary); font-size: 13px; font-weight: 500; cursor: pointer; }
+.mobile-auth-footer { text-align: center; padding-top: 16px; }
+.mobile-auth-footer p { font-size: 14px; color: var(--text-secondary); margin: 0; }
+.mobile-auth-link { color: var(--text-accent); font-weight: 700; text-decoration: none; }
+.mobile-auth-link:hover { color: var(--primary); text-decoration: underline; }
 .demo-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .live-status { display: flex; align-items: center; gap: 8px; font-size: .85rem; }
 .live-dot { border-radius: 50%; width: 9px; height: 9px; background: var(--danger); }
