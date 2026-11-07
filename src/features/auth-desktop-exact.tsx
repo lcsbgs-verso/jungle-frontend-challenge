@@ -130,6 +130,7 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
+                aria-label="Nome"
               />
             </div>
           )}
@@ -140,6 +141,7 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              aria-label="E-mail"
             />
           </div>
           <div className="auth-exact-field auth-exact-password" style={mode === 'login' ? { borderColor: 'var(--primary)' } : undefined}>
@@ -149,12 +151,13 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              aria-label="Senha"
             />
             <button
               type="button"
               className="auth-exact-toggle"
               onClick={() => setShowPassword(!showPassword)}
-              aria-label={showPassword ? 'Ocultar' : 'Mostrar'}
+              aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
@@ -167,12 +170,13 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}
                 required
+                aria-label="Confirmar senha"
               />
               <button
                 type="button"
                 className="auth-exact-toggle"
                 onClick={() => setShowPassword(!showPassword)}
-                aria-label={showPassword ? 'Ocultar' : 'Mostrar'}
+                aria-label={showPassword ? 'Ocultar confirmação' : 'Mostrar confirmação'}
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
