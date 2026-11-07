@@ -28,13 +28,22 @@ export async function login(
 }
 
 export async function fillLogin(page: Page, email = 'alice@kurio.test', password = 'Kurio2026!') {
-  const dialog = page.getByRole('dialog')
-  await dialog.getByLabel('E-mail').fill(email)
-  // Use first password field (login mode)
-  await dialog.getByLabel('Senha', { exact: true }).first().fill(password)
-  // Use submit button specifically to avoid tab button conflict
-  await dialog.locator('button[type="submit"]').click()
-  await expect(dialog).toHaveCount(0)
+  // Desktop: dialog with role="dialog"
+  // Mobile: div with class="mobile-auth-exact"
+  const isDialog = await page.getByRole('dialog').count() > 0
+  const container = isDialog 
+    ? page.getByRole('dialog')
+    : page.locator('.mobile-auth-exact')
+  
+  await container.getByLabel('E-mail').fill(email)
+  await container.getByLabel(/senha|password/i).first().fill(password)
+  await container.locator('button[type="submit"]').click()
+  
+  if (isDialog) {
+    await expect(page.getByRole('dialog')).toHaveCount(0)
+  } else {
+    await expect(page).not.toHaveURL('/entrar')
+  }
 }
 
 export async function addEmerald(page: Page) {

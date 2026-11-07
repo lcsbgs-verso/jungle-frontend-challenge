@@ -5,9 +5,13 @@ test.describe('Autenticação e sessão', () => {
   test('cadastro de novo usuário com validação', async ({ page }) => {
     await page.goto('/cadastro')
     
-    const dialog = page.getByRole('dialog')
-    // Modal uses tabs not headings
-    await expect(dialog).toBeVisible()
+    // Desktop: dialog, Mobile: .mobile-auth-exact
+    const isDialog = await page.getByRole('dialog').count() > 0
+    const container = isDialog 
+      ? page.getByRole('dialog')
+      : page.locator('.mobile-auth-exact')
+    
+    await expect(container).toBeVisible()
 
     // Tentar submeter sem preencher (deve mostrar erros)
     await dialog.locator('button[type="submit"]').click()
