@@ -8,7 +8,7 @@ import { problem } from '../api'
 
 type Mode = 'login' | 'register'
 
-export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; onClose: () => void }) {
+export function DesktopAuthModal({ initialMode, onClose, next = '/perfil' }: { initialMode: Mode; onClose: () => void; next?: string }) {
   const [mode, setMode] = useState<Mode>(initialMode)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -62,7 +62,7 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
     onSuccess: (session) => {
       sessionChanged(session)
       onClose()
-      void navigate({ to: '/perfil' })
+      void navigate({ href: next, replace: true })
     },
   })
 
@@ -71,7 +71,7 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
     onSuccess: (session) => {
       sessionChanged(session)
       onClose()
-      void navigate({ to: '/perfil' })
+      void navigate({ href: next, replace: true })
     },
   })
 

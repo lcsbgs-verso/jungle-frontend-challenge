@@ -68,7 +68,7 @@ export function AuthPage({ mode, next }: { mode: 'login' | 'register'; next: str
   if (mode === 'login' || mode === 'register') {
     return <>
       <CatalogPage search={defaultSearch} />
-      <DesktopAuthModal initialMode={mode} onClose={handleClose} />
+      <DesktopAuthModal initialMode={mode} onClose={handleClose} next={next} />
     </>
   }
   
