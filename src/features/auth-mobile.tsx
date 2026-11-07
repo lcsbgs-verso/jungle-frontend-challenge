@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { useNavigate, Link } from '@tanstack/router'
+import { useNavigate, Link } from '@tanstack/react-router'
 import { Eye, EyeOff } from 'lucide-react'
 import { api, problem } from '../api'
 import { sessionChanged } from '../state'

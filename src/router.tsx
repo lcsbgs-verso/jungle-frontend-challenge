@@ -41,7 +41,7 @@ const home = createRoute({
 function HomeRoute() {
   const search = home.useSearch()
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
-  return isMobile ? <MobileHome search={search} /> : <CatalogPage search={search} />
+  return isMobile ? <MobileHome /> : <CatalogPage search={search} />
 }
 
 const nft = createRoute({ getParentRoute: () => rootRoute, path: '/nft/$nftId', component: NftRoute })

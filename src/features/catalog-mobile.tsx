@@ -1,6 +1,5 @@
 import { Search, SlidersHorizontal } from 'lucide-react'
 import { useState } from 'react'
-import type { CatalogSearch } from '../domain'
 
 // Exact NFTs from Figma mobile home 14:5226
 const mobileExactNfts = [
