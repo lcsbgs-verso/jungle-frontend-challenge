@@ -207,7 +207,7 @@ export function CatalogPage({ search }: { search: CatalogSearch }) {
           </> : <Empty title="Nenhum NFT encontrado">Experimente ajustar sua busca ou remover algum filtro.</Empty>}
         {query.data && query.data.pages > 1 && <nav className="pagination" aria-label="Paginação">
           <Button variant="outline" size="icon" aria-label="Página anterior" disabled={search.page <= 1} onClick={() => change({ page: search.page - 1 }, true)}><ChevronLeft size={18} /></Button>
-          {Array.from({ length: query.data.pages }, (_, index) => index + 1).map((page) => <Button key={page} variant={page === search.page ? 'default' : 'outline'} size="icon" aria-label={`Página ${page}`} aria-current={page === search.page ? 'page' : undefined} onClick={() => change({ page }, true)}>{page}</Button>)}
+          {Array.from({ length: Math.min(query.data.pages, 4) }, (_, index) => index + 1).map((page) => <Button key={page} variant={page === search.page ? 'default' : 'outline'} size="icon" aria-label={`Página ${page}`} aria-current={page === search.page ? 'page' : undefined} onClick={() => change({ page }, true)}>{page}</Button>)}
           <Button variant="outline" size="icon" aria-label="Próxima página" disabled={search.page >= query.data.pages} onClick={() => change({ page: search.page + 1 }, true)}><ChevronRight size={18} /></Button>
         </nav>}
       </div>
@@ -245,7 +245,7 @@ export function CatalogPage({ search }: { search: CatalogSearch }) {
       <div className="blog-cards">
         <article className="blog-card">
           <div className="blog-image">
-            <img src="/nft-artwork-05.jpg" alt="NFT Artwork" loading="lazy" />
+            <img src="/nfts/blog-857d1393.png" alt="NFT Artwork" loading="lazy" />
           </div>
           <div className="blog-content">
             <p className="blog-meta">12 de setembro | Leitura de 6 min</p>
@@ -256,7 +256,7 @@ export function CatalogPage({ search }: { search: CatalogSearch }) {
         </article>
         <article className="blog-card">
           <div className="blog-image">
-            <img src="/nft-artwork-06.jpg" alt="NFT Artwork" loading="lazy" />
+            <img src="/nfts/blog-ea42d2b0.png" alt="NFT Artwork" loading="lazy" />
           </div>
           <div className="blog-content">
             <p className="blog-meta">13 de setembro | Leitura de 2 min</p>
@@ -267,7 +267,7 @@ export function CatalogPage({ search }: { search: CatalogSearch }) {
         </article>
         <article className="blog-card">
           <div className="blog-image">
-            <img src="/nft-artwork-18.jpg" alt="NFT Artwork" loading="lazy" />
+            <img src="/nfts/blog-945eba15.png" alt="NFT Artwork" loading="lazy" />
           </div>
           <div className="blog-content">
             <p className="blog-meta">15 de setembro | Leitura de 3 min</p>
@@ -278,7 +278,7 @@ export function CatalogPage({ search }: { search: CatalogSearch }) {
         </article>
         <article className="blog-card">
           <div className="blog-image">
-            <img src="/nft-artwork-07.jpg" alt="NFT Artwork" loading="lazy" />
+            <img src="/nfts/blog-ce6c88ca.png" alt="NFT Artwork" loading="lazy" />
           </div>
           <div className="blog-content">
             <p className="blog-meta">17 de setembro | Leitura de 4 min</p>

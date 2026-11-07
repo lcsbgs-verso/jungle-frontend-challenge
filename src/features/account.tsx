@@ -11,7 +11,7 @@ import { Breadcrumb, ErrorState, Field, Notice, PageHeading, Skeleton } from '..
 import { Button } from '../components/ui/button'
 import { Dialog, DialogContent } from '../components/ui/dialog'
 import { CatalogPage } from './catalog'
-import { DesktopLoginModal, DesktopRegisterModal } from './auth-modals'
+import { DesktopAuthModal } from './auth-desktop-exact'
 import { MobileLoginPage, MobileRegisterPage } from './auth-mobile'
 
 export function safeNext(value: unknown) {
@@ -65,16 +65,10 @@ export function AuthPage({ mode, next }: { mode: 'login' | 'register'; next: str
   }
   
   const handleClose = () => void navigate({ to: closeTo, replace: true })
-  if (mode === 'login') {
+  if (mode === 'login' || mode === 'register') {
     return <>
       <CatalogPage search={defaultSearch} />
-      <DesktopLoginModal onClose={handleClose} />
-    </>
-  }
-  if (mode === 'register') {
-    return <>
-      <CatalogPage search={defaultSearch} />
-      <DesktopRegisterModal onClose={handleClose} />
+      <DesktopAuthModal initialMode={mode} onClose={handleClose} />
     </>
   }
   
