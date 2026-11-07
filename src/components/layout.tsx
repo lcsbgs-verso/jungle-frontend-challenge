@@ -206,38 +206,36 @@ function Footer() {
             </ul>
           </div>
           <div className="footer-column">
-            <h4>Recursos</h4>
+            <h4>Coleções</h4>
             <ul>
-              <li><a href="#recursos">Recursos</a></li>
-              <li><a href="#biblioteca">Biblioteca de conteúdo</a></li>
-              <li><a href="#tecnologia">Tecnologia e segurança</a></li>
-              <li><a href="#taxas">Taxas e comissões</a></li>
-              <li><a href="#criadores">Para criadores</a></li>
+              <li><a href="#arte-digital">Arte digital</a></li>
+              <li><a href="#fotografia">Fotografia</a></li>
+              <li><a href="#3d">Arte 3D</a></li>
+              <li><a href="#pixel">Pixel art</a></li>
+              <li><a href="#musica">Música</a></li>
             </ul>
           </div>
           <div className="footer-column">
-            <h4>Corporativo</h4>
-            <ul>
-              <li><a href="#empresa">Sobre a empresa</a></li>
-              <li><a href="#privacidade">Privacidade</a></li>
-              <li><a href="#termos">Termos de uso</a></li>
-              <li><a href="#imprensa">Kit de imprensa</a></li>
-              <li><a href="#carreiras">Carreiras</a></li>
+            <h4>Redes sociais</h4>
+            <ul className="social-links-list">
+              <li><a href="#twitter">Twitter</a></li>
+              <li><a href="#instagram">Instagram</a></li>
+              <li><a href="#discord">Discord</a></li>
+              <li><a href="#facebook">Facebook</a></li>
             </ul>
           </div>
         </div>
         
         <div className="footer-bottom">
-          <div className="social-chips">
-            <a href="#twitter" className="social-chip">Twitter</a>
-            <a href="#discord" className="social-chip">Discord</a>
-            <a href="#instagram" className="social-chip">Instagram</a>
+          <div className="wallet-badges">
+            <h4>Carteiras compatíveis</h4>
+            <div className="wallet-chips">
+              <button type="button" className="wallet-chip">MetaMask</button>
+              <button type="button" className="wallet-chip">Coinbase</button>
+              <button type="button" className="wallet-chip">WalletConnect</button>
+            </div>
           </div>
-          <div className="wallet-chips">
-            <button type="button" className="wallet-chip">MetaMask</button>
-            <button type="button" className="wallet-chip">Coinbase</button>
-            <button type="button" className="wallet-chip">WalletConnect</button>
-          </div>
+          <p className="footer-copyright">© 2026 Kurio. Propriedade digital para todos.</p>
         </div>
       </div>
     </div>
