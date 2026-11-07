@@ -11,6 +11,8 @@ import { Breadcrumb, ErrorState, Field, Notice, PageHeading, Skeleton } from '..
 import { Button } from '../components/ui/button'
 import { Dialog, DialogContent } from '../components/ui/dialog'
 import { CatalogPage } from './catalog'
+import { DesktopLoginModal, DesktopRegisterModal } from './auth-modals'
+import { MobileLoginPage, MobileRegisterPage } from './auth-mobile'
 
 export function safeNext(value: unknown) {
   if (typeof value !== 'string' || !value.startsWith('/') || value.startsWith('//') || value.includes('\\')) return '/'
@@ -23,8 +25,30 @@ export function safeNext(value: unknown) {
 
 export function AuthPage({ mode, next }: { mode: 'login' | 'register'; next: string }) {
   const navigate = useNavigate()
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
   const registering = mode === 'register'
   const closeTo = next.startsWith('/pagamento') ? '/carrinho' : /^\/(perfil|carteiras|pedido)(\/|\?|$)/.test(next) ? '/' : next
+  
+  // Use new mobile/desktop components
+  if (isMobile) {
+    return mode === 'login' ? <MobileLoginPage /> : <MobileRegisterPage />
+  }
+  
+  const handleClose = () => void navigate({ to: closeTo, replace: true })
+  if (mode === 'login') {
+    return <>
+      <CatalogPage search={defaultSearch} />
+      <DesktopLoginModal onClose={handleClose} />
+    </>
+  }
+  if (mode === 'register') {
+    return <>
+      <CatalogPage search={defaultSearch} />
+      <DesktopRegisterModal onClose={handleClose} />
+    </>
+  }
+  
+  // Fallback to old code below
   const [fields, setFields] = useState<Record<string, string>>({})
   const auth = useMutation({
     mutationFn: (data: { name: string; email: string; password: string; phone: string }) => registering ? api.register(data) : api.login(data),
