@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { Eye, EyeOff, X } from 'lucide-react'
@@ -15,7 +15,47 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
   const [confirm, setConfirm] = useState('')
   const [name, setName] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const modalRef = useRef<HTMLDivElement>(null)
+  const previousFocusRef = useRef<HTMLElement | null>(null)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    previousFocusRef.current = document.activeElement as HTMLElement
+    const firstInput = modalRef.current?.querySelector<HTMLInputElement>('input')
+    firstInput?.focus()
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose()
+      }
+    }
+
+    const handleFocusTrap = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab' || !modalRef.current) return
+      const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
+        'button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+      const firstElement = focusableElements[0]
+      const lastElement = focusableElements[focusableElements.length - 1]
+
+      if (e.shiftKey && document.activeElement === firstElement) {
+        e.preventDefault()
+        lastElement?.focus()
+      } else if (!e.shiftKey && document.activeElement === lastElement) {
+        e.preventDefault()
+        firstElement?.focus()
+      }
+    }
+
+    document.addEventListener('keydown', handleEscape)
+    document.addEventListener('keydown', handleFocusTrap)
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+      document.removeEventListener('keydown', handleFocusTrap)
+      previousFocusRef.current?.focus()
+    }
+  }, [onClose])
 
   const login = useMutation({
     mutationFn: api.login,
@@ -52,8 +92,8 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
   const isPending = login.isPending || register.isPending
 
   return (
-    <div className="desktop-auth-exact-overlay" onClick={onClose}>
-      <div className="desktop-auth-exact" onClick={(e) => e.stopPropagation()}>
+    <div className="desktop-auth-exact-overlay" onClick={onClose} role="dialog" aria-modal="true">
+      <div ref={modalRef} className="desktop-auth-exact" onClick={(e) => e.stopPropagation()}>
         <button type="button" className="auth-exact-close" onClick={onClose} aria-label="Fechar">
           <X size={18} />
         </button>
