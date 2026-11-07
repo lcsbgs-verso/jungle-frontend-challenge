@@ -2,7 +2,7 @@
 import { spawn } from 'node:child_process'
 import { writeFile } from 'node:fs/promises'
 import lighthouse from 'lighthouse'
-import chromeLauncher from 'chrome-launcher'
+import * as chromeLauncher from 'chrome-launcher'
 
 const PORT = 4173
 const BASE_URL = `http://127.0.0.1:${PORT}`
