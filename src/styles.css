@@ -253,6 +253,86 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 .blog-content > p { font-size: 12px; color: var(--text-secondary); line-height: 16px; margin-bottom: 8px; font-weight: 500; }
 .blog-cta { font-size: 12px; color: var(--text-accent); font-weight: 700; line-height: 14px; }
 .blog-cta:hover { color: var(--primary); }
+
+/* Mobile Home Layout */
+.mobile-home { display: flex; flex-direction: column; gap: 16px; padding: 40px 24px 80px; background: var(--ink); min-height: 100vh; }
+.mobile-search-bar { display: flex; gap: 8px; align-items: center; height: 45px; }
+.mobile-search-input { flex: 1; display: flex; align-items: center; gap: 8px; background: var(--surface-card); padding: 12px; border-radius: 10px; height: 45px; }
+.mobile-search-input svg { color: var(--text-secondary); }
+.search-placeholder { font-size: 14px; font-weight: 700; color: var(--secondary); }
+.mobile-filter-trigger { width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; background: linear-gradient(137deg, rgba(210, 138, 76, 0.45) 25%, rgb(210, 138, 76) 100%); border-radius: 14px; border: none; color: var(--foreground); cursor: pointer; }
+
+.mobile-hero { position: relative; height: 190px; background: var(--surface-card); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
+.mobile-hero-content { display: flex; gap: 8px; align-items: center; width: 100%; z-index: 1; }
+.mobile-hero-text { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.mobile-hero-text .eyebrow { font-size: 12px; font-weight: 500; color: var(--foreground); line-height: 16px; }
+.mobile-hero-text h1 { font-size: 18px; font-weight: 700; color: var(--foreground); line-height: 29px; text-transform: uppercase; margin: 0; }
+.mobile-hero-text p { font-size: 12px; color: var(--text-secondary); line-height: 18px; margin: 6px 0; }
+.mobile-hero-cta { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: var(--text-accent); cursor: pointer; margin-top: 8px; }
+.mobile-hero-cta svg { transform: rotate(-90deg); }
+
+.mobile-hero-images { position: relative; width: 138px; height: 146px; flex-shrink: 0; }
+.mobile-hero-main { width: 138px; height: 138px; border-radius: 16px; object-fit: cover; position: absolute; top: 0; left: 0; }
+.mobile-hero-small { width: 58px; height: 58px; border-radius: 16px; object-fit: cover; position: absolute; bottom: 0; left: 14px; }
+.mobile-hero-dots { display: flex; gap: 4px; margin-top: 10px; z-index: 1; }
+.mobile-hero-dots button { width: 8px; height: 8px; border-radius: 50%; background: #947252; border: none; cursor: pointer; padding: 0; }
+.mobile-hero-dots button.active { background: var(--primary); }
+
+.mobile-tabs { display: flex; gap: 4px; align-items: center; }
+.mobile-tab { font-size: 14px; color: var(--foreground); padding: 4px 0; white-space: nowrap; }
+.mobile-tab.active { color: var(--text-accent); font-weight: 700; position: relative; }
+.mobile-tab-underline { height: 2px; background: var(--text-accent); width: 100%; margin-top: 2px; }
+
+.mobile-nft-grid-staggered { display: flex; gap: 12px; }
+.mobile-grid-col-left, .mobile-grid-col-right { flex: 1; display: flex; flex-direction: column; gap: 24px; }
+.mobile-grid-col-right { margin-top: 32px; }
+
+.mobile-nft-card { display: flex; flex-direction: column; gap: 8px; background: linear-gradient(139deg, var(--surface-card) 12%, var(--surface-raised) 107%); border-radius: 20px; overflow: hidden; text-decoration: none; color: inherit; }
+.mobile-nft-image-wrapper { position: relative; width: 100%; aspect-ratio: 1; border-radius: 16px; overflow: hidden; margin: 12px 8px 0; }
+.mobile-nft-image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+.mobile-nft-heart { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; background: rgba(36, 22, 18, 0.8); border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--foreground); cursor: pointer; }
+.mobile-nft-info { padding: 0 12px 12px; }
+.mobile-nft-title { font-size: 14px; font-weight: 700; color: var(--foreground); margin: 0 0 4px; }
+.mobile-nft-meta { display: flex; justify-content: space-between; font-size: 12px; }
+.mobile-nft-creator { color: var(--text-secondary); }
+.mobile-nft-price { color: var(--text-accent); font-weight: 700; }
+
+.mobile-bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 63px; background: var(--surface-card); border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
+.mobile-nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none; color: var(--text-secondary); font-size: 10px; font-weight: 500; cursor: pointer; padding: 8px 12px; }
+.mobile-nav-item.active { color: var(--text-accent); }
+.mobile-nav-item svg { stroke-width: 1.5; }
+
+/* Desktop Auth Modals */
+.desktop-auth-modal-overlay { position: fixed; inset: 0; background: rgba(20, 13, 10, 0.85); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.desktop-auth-modal { position: relative; width: 420px; max-width: 90vw; max-height: 90vh; background: var(--surface-card); border: 1px solid var(--border); border-radius: 12px; padding: 32px; overflow-y: auto; }
+.modal-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: transparent; border: none; color: var(--text-secondary); cursor: pointer; border-radius: 6px; }
+.modal-close:hover { background: var(--surface-raised); color: var(--foreground); }
+
+.auth-modal-content { display: flex; flex-direction: column; gap: 24px; }
+.auth-modal-header { text-align: center; }
+.auth-modal-header h2 { font-size: 24px; font-weight: 700; color: var(--foreground); margin: 0 0 8px; }
+.auth-modal-header p { font-size: 14px; color: var(--text-secondary); margin: 0; }
+
+.auth-social-buttons { display: flex; flex-direction: column; gap: 12px; }
+.social-button { display: flex; align-items: center; justify-content: center; gap: 12px; height: 40px; background: transparent; border: 1px solid var(--border); border-radius: 5px; color: var(--text-secondary); font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.social-button:hover { border-color: var(--primary); background: var(--surface-raised); }
+
+.auth-divider { position: relative; text-align: center; margin: 8px 0; }
+.auth-divider::before, .auth-divider::after { content: ''; position: absolute; top: 50%; width: calc(50% - 30px); height: 1px; background: var(--border); }
+.auth-divider::before { left: 0; }
+.auth-divider::after { right: 0; }
+.auth-divider span { font-size: 12px; color: var(--text-secondary); background: var(--surface-card); padding: 0 12px; position: relative; z-index: 1; }
+
+.auth-form { display: flex; flex-direction: column; gap: 16px; }
+.password-field { position: relative; }
+.password-toggle { position: absolute; right: 12px; top: 38px; background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 4px; }
+.password-toggle:hover { color: var(--foreground); }
+.auth-submit { width: 100%; }
+
+.auth-footer { text-align: center; padding-top: 8px; border-top: 1px solid var(--border); }
+.auth-footer p { font-size: 14px; color: var(--text-secondary); margin: 0; }
+.auth-switch { background: none; border: none; color: var(--text-accent); font-weight: 700; cursor: pointer; text-decoration: underline; }
+.auth-switch:hover { color: var(--primary); }
 .demo-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .live-status { display: flex; align-items: center; gap: 8px; font-size: .85rem; }
 .live-dot { border-radius: 50%; width: 9px; height: 9px; background: var(--danger); }

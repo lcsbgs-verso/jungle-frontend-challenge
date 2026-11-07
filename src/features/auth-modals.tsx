@@ -125,7 +125,7 @@ export function DesktopRegisterModal({ onClose }: { onClose: () => void }) {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    register.mutate({ name, email, password, phone: '', address: '', city: '', state: '', zip: '' })
+    register.mutate({ name, email, phone: '', password })
   }
 
   return (
