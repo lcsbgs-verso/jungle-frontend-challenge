@@ -1,17 +1,19 @@
-import { Link } from '@tanstack/react-router'
-import { useQuery } from '@tanstack/react-query'
 import { Search, SlidersHorizontal } from 'lucide-react'
 import { useState } from 'react'
-import type { Nft } from '../domain'
-import { catalogOptions } from '../state'
 import type { CatalogSearch } from '../domain'
-import { Skeleton } from '../components/shared'
 
-export function MobileHome({ search }: { search: CatalogSearch }) {
-  const query = useQuery(catalogOptions(search))
+// Exact NFTs from Figma mobile home 14:5226
+const mobileExactNfts = [
+  { id: 'emerald-042', title: 'Emerald Ape #042', creator: 'ApeGenesis', price: '1.19', image: '/nfts/emerald-ape-042.png' },
+  { id: 'sage-009', title: 'Sage Nomad #009', creator: 'Nomad Collective', price: '1.69', image: '/nfts/sage-nomad-009.png', badge: 'VERIFICADO' },
+  { id: 'neon-052', title: 'Neon Rebel #052', creator: 'Urban Apes', price: '2.45', image: '/nfts/neon-rebel-052.png', badge: 'RARO' },
+  { id: 'golden-013', title: 'Golden Beats #013', creator: 'Music Monkeys', price: '3.20', image: '/nfts/golden-beats-013.png' },
+]
+
+export function MobileHome() {
   const [slide, setSlide] = useState(0)
-  const featured = query.data?.featured ?? []
-  const item = featured[slide] ?? featured[0]
+  const heroNfts = mobileExactNfts.slice(0, 2)
+  const item = heroNfts[slide]
 
   return (
     <div className="mobile-home">
@@ -33,33 +35,27 @@ export function MobileHome({ search }: { search: CatalogSearch }) {
             <p>Descubra NFTs selecionados de criadores do mundo todo.</p>
             <div className="mobile-hero-cta">
               <span>EXPLORAR</span>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" transform="rotate(270)">
                 <path d="M8 12L4 8L8 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
           </div>
           <div className="mobile-hero-images">
-            {item ? (
-              <>
-                <img src={item.image} alt={item.title} className="mobile-hero-main" />
-                {featured[1] && <img src={featured[1].image} alt="" className="mobile-hero-small" />}
-              </>
-            ) : <Skeleton className="mobile-hero-main" />}
+            <img src={item.image} alt={item.title} className="mobile-hero-main" />
+            <img src={heroNfts[1].image} alt="" className="mobile-hero-small" />
           </div>
         </div>
-        {featured.length > 1 && (
-          <div className="mobile-hero-dots">
-            {featured.map((_, index) => (
-              <button
-                key={index}
-                type="button"
-                className={index === slide ? 'active' : ''}
-                onClick={() => setSlide(index)}
-                aria-label={`Slide ${index + 1}`}
-              />
-            ))}
-          </div>
-        )}
+        <div className="mobile-hero-dots">
+          {heroNfts.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              className={index === slide ? 'active' : ''}
+              onClick={() => setSlide(index)}
+              aria-label={`Slide ${index + 1}`}
+            />
+          ))}
+        </div>
       </section>
 
       <div className="mobile-tabs">
@@ -73,25 +69,24 @@ export function MobileHome({ search }: { search: CatalogSearch }) {
 
       <div className="mobile-nft-grid-staggered">
         <div className="mobile-grid-col-left">
-          {query.data?.items.filter((_, i) => i % 2 === 0).slice(0, 4).map((nft) => (
-            <MobileNftCard key={nft.id} nft={nft} />
-          ))}
+          <MobileNftCard nft={mobileExactNfts[0]} />
+          <MobileNftCard nft={mobileExactNfts[2]} />
         </div>
         <div className="mobile-grid-col-right">
-          {query.data?.items.filter((_, i) => i % 2 === 1).slice(0, 4).map((nft) => (
-            <MobileNftCard key={nft.id} nft={nft} />
-          ))}
+          <MobileNftCard nft={mobileExactNfts[1]} />
+          <MobileNftCard nft={mobileExactNfts[3]} />
         </div>
       </div>
     </div>
   )
 }
 
-function MobileNftCard({ nft }: { nft: Nft }) {
+function MobileNftCard({ nft }: { nft: typeof mobileExactNfts[0] }) {
   return (
-    <Link to="/nft/$nftId" params={{ nftId: nft.id }} className="mobile-nft-card">
+    <div className="mobile-nft-card">
       <div className="mobile-nft-image-wrapper">
         <img src={nft.image} alt={nft.title} />
+        {nft.badge && <div className="mobile-nft-badge">{nft.badge}</div>}
         <button type="button" className="mobile-nft-heart" aria-label="Favoritar">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path d="M8 13L2.5 7.5C1.5 6.5 1.5 4.5 2.5 3.5C3.5 2.5 5.5 2.5 6.5 3.5L8 5L9.5 3.5C10.5 2.5 12.5 2.5 13.5 3.5C14.5 4.5 14.5 6.5 13.5 7.5L8 13Z" stroke="currentColor" strokeWidth="1.5"/>
@@ -102,10 +97,10 @@ function MobileNftCard({ nft }: { nft: Nft }) {
         <p className="mobile-nft-title">{nft.title}</p>
         <div className="mobile-nft-meta">
           <span className="mobile-nft-creator">{nft.creator}</span>
-          <span className="mobile-nft-price">{nft.editions[0].price} ETH</span>
+          <span className="mobile-nft-price">{nft.price} ETH</span>
         </div>
       </div>
-    </Link>
+    </div>
   )
 }
 
