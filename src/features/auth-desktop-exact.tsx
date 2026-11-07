@@ -92,7 +92,7 @@ export function DesktopAuthModal({ initialMode, onClose, next = '/perfil' }: { i
   const isPending = login.isPending || register.isPending
 
   return (
-    <div className="desktop-auth-exact-overlay" onClick={onClose} role="dialog" aria-modal="true">
+    <div className="desktop-auth-exact-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label={mode === 'login' ? 'Entre na sua conta' : 'Crie sua conta'}>
       <div ref={modalRef} className="desktop-auth-exact" data-mode={mode} onClick={(e) => e.stopPropagation()}>
         <button type="button" className="auth-exact-close" onClick={onClose} aria-label="Fechar">
           <X size={18} />

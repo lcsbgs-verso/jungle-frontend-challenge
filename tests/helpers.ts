@@ -30,7 +30,8 @@ export async function login(
 export async function fillLogin(page: Page, email = 'alice@kurio.test', password = 'Kurio2026!') {
   const dialog = page.getByRole('dialog')
   await dialog.getByLabel('E-mail').fill(email)
-  await dialog.getByLabel('Senha', { exact: true }).fill(password)
+  // Use first password field (login mode)
+  await dialog.getByLabel('Senha', { exact: true }).first().fill(password)
   // Use submit button specifically to avoid tab button conflict
   await dialog.locator('button[type="submit"]').click()
   await expect(dialog).toHaveCount(0)

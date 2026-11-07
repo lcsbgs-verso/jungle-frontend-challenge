@@ -15,8 +15,8 @@ test.describe('Autenticação e sessão', () => {
     const email = `test-${Date.now()}@kurio.test`
     await dialog.getByLabel(/nome|usuário/i).fill('Teste Silva')
     await dialog.getByLabel(/e-mail/i).fill(email)
-    await dialog.getByLabel('Senha', { exact: true }).fill('Teste123!')
-    await dialog.getByLabel(/confirmar|confirme/i).fill('Teste123!')
+    await dialog.getByLabel('Senha', { exact: true }).first().fill('Teste123!')
+    await dialog.getByLabel(/confirmar|confirme/i).first().fill('Teste123!')
     
     // Submeter
     await dialog.locator('button[type="submit"]').click()
@@ -82,8 +82,8 @@ test.describe('Autenticação e sessão', () => {
     const dialog = page.getByRole('dialog')
     await dialog.getByLabel(/nome|usuário/i).fill('Teste')
     await dialog.getByLabel(/e-mail/i).fill('alice@kurio.test')
-    await dialog.getByLabel('Senha', { exact: true }).fill('Teste123!')
-    await dialog.getByLabel(/confirmar/i).fill('Teste123!')
+    await dialog.getByLabel('Senha', { exact: true }).first().fill('Teste123!')
+    await dialog.getByLabel(/confirmar/i).first().fill('Teste123!')
     await dialog.locator('button[type="submit"]').click()
 
     await expect(dialog.getByText(/já existe|já cadastrad/i)).toBeVisible()
