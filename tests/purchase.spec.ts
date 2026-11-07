@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { act, addEmerald, checkout, confirm, login, review, socketReady } from './helpers'
+import { act, addEmerald, checkout, confirm, fillLogin, login, review, socketReady } from './helpers'
 
 test('carrinho, quantidade, remoção, cupom e persistência após refresh e login', async ({ page }) => {
   await addEmerald(page)
@@ -117,4 +117,15 @@ test('pedido de outra conta fica protegido e a rede recalcula a taxa', async ({ 
   await login(page, orderUrl, 'bruno@kurio.test')
   await expect(page.getByRole('alert')).toContainText('Não encontramos este pedido')
   await expect(page.getByText('Alice Costa')).toHaveCount(0)
+})
+
+test('a proteção do pagamento encaminha o visitante ao login e retoma a compra', async ({ page }) => {
+  await addEmerald(page)
+  await page.getByRole('link', { name: /Carrinho, 1/ }).click()
+  await expect(page.getByRole('region', { name: 'Resumo do pedido' })).toContainText('2,468 ETH')
+  await page.getByRole('link', { name: 'Ir para pagamento' }).click()
+  await expect(page.getByRole('dialog', { name: 'Entre na sua conta' })).toBeVisible()
+  await fillLogin(page)
+  await expect(page.getByRole('heading', { name: 'Pagamento', exact: true })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Resumo do pedido' })).toContainText('Emerald Ape #042')
 })

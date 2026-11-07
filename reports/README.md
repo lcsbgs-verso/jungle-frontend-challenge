@@ -21,4 +21,6 @@ Ferramentas usadas nesta execução foram Lighthouse 13.6.0, v26.0.0, Mozilla/5.
 
 Os testes exercitam REST pelo MSW e eventos pelo cliente Socket.IO. Cada teste usa um contexto isolado. As referências visuais versionadas cobrem início, detalhe, carrinho e pagamento em desktop e mobile.
 
-Execute `npm test` para gerar o relatório HTML e manter traces das falhas. O resultado final da validação será registrado nesta pasta.
+Execute `npm test` para gerar o relatório HTML e manter traces das falhas. A validação final completou 48 testes com sucesso, em 42,8 segundos. A comparação visual foi executada contra as baselines existentes, com nenhum teste ignorado. O arquivo [playwright-html.zip](playwright-html.zip) contém o relatório HTML completo.
+
+A suíte foi executada com Playwright 1.65.0 e Chromium 158.0.8127.18, canal Chromium completo em modo headless. A configuração usa esse canal para preservar o comportamento entre instalação local e CI.

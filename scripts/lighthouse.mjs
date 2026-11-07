@@ -3,7 +3,8 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import { arch, platform, release } from 'node:os'
 import { setTimeout as sleep } from 'node:timers/promises'
 import { fileURLToPath } from 'node:url'
-import { launch } from 'chrome-launcher'
+import { Launcher, launch } from 'chrome-launcher'
+import { chromium } from '@playwright/test'
 import lighthouse from 'lighthouse'
 import desktopConfig from 'lighthouse/core/config/desktop-config.js'
 
@@ -38,7 +39,7 @@ const preview = process.env.LIGHTHOUSE_URL ? undefined
 let chrome
 try {
   await waitForPreview()
-  chrome = await launch({ chromePath: process.env.CHROME_PATH || undefined, chromeFlags: ['--headless=new', '--disable-dev-shm-usage'] })
+  chrome = await launch({ chromePath: process.env.CHROME_PATH || Launcher.getInstallations()[0] || chromium.executablePath(), chromeFlags: ['--headless=new', '--disable-dev-shm-usage'] })
   for (const [page, path] of Object.entries({ inicio: '/', detalhe: '/nft/emerald-ape' })) {
     for (const profile of ['desktop', 'mobile']) {
       const measurements = []

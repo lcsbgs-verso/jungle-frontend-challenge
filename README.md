@@ -61,4 +61,6 @@ O Playwright inicia um build otimizado e testa desktop de 1440 px e mobile de 39
 
 A auditoria Lighthouse usa o build de produção gerado por `npm run build`. Ela inicia um preview local e registra três execuções por página e perfil. Os relatórios ficam em `audits`. `CHROME_PATH` pode apontar para um Chromium instalado e `LIGHTHOUSE_URL` pode apontar para uma demo publicada.
 
-Os contratos e as decisões de projeto estão em [ARCHITECTURE.md](ARCHITECTURE.md).
+Os contratos e as decisões de projeto estão em [ARCHITECTURE.md](ARCHITECTURE.md). Os resultados da validação e os relatórios estão em [reports/README.md](reports/README.md).
+
+A validação local concluiu 48 testes com sucesso, incluindo comparação visual, nos três tamanhos de tela previstos. As artes do catálogo são recriações geradas e estão documentadas nas decisões de projeto.
