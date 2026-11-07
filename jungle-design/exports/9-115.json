@@ -1,0 +1,131 @@
+{
+  "export": {
+    "nodeId": "9:115",
+    "url": "https://www.figma.com/api/mcp/asset/2062f82e-66aa-46a7-ba7e-4b9830a60716.png",
+    "format": "png",
+    "sizeBytes": 1373327
+  },
+  "rawImages": [
+    {
+      "url": "https://www.figma.com/api/mcp/asset/9a29e426-c2eb-4536-8d40-81fec79aab56",
+      "format": "png"
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/d7fc8932-7ad8-4500-b9ee-0ac0cbf67c8e",
+      "format": "png"
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/378818db-a876-4012-a266-c626e13de955",
+      "format": "png"
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/afa54bf2-d8d1-40eb-9bb5-f582a95602df",
+      "format": "png"
+    }
+  ],
+  "rawImagesTruncated": false,
+  "svgAssets": [
+    {
+      "url": "https://www.figma.com/api/mcp/asset/f79280c6-6fda-421f-9fc9-9b6e04050b44.svg",
+      "format": "svg",
+      "sizeBytes": 1073
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/9b027ace-9659-4125-b9c6-359d7d581065.svg",
+      "format": "svg",
+      "sizeBytes": 809
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/a3fcf925-c668-4e4a-8c10-c5b72aa9e134.svg",
+      "format": "svg",
+      "sizeBytes": 1449
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/5e23f20f-0d83-4efe-87b4-600f82849368.svg",
+      "format": "svg",
+      "sizeBytes": 265
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/2f6cb459-6394-457a-b777-b371ce94c2f9.svg",
+      "format": "svg",
+      "sizeBytes": 261
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/117b8d8b-29b0-4094-a466-60d0eb6c2879.svg",
+      "format": "svg",
+      "sizeBytes": 277
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/87ccda8b-a1f0-4f77-912e-703f72e25c27.svg",
+      "format": "svg",
+      "sizeBytes": 786
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/7ca19e00-585a-4436-acd6-944066381303.svg",
+      "format": "svg",
+      "sizeBytes": 435
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/e3c4918b-be22-4c41-a8de-dac2fa2baf19.svg",
+      "format": "svg",
+      "sizeBytes": 265
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/dfb0e54c-f0c9-4c01-be23-1c992e306dbc.svg",
+      "format": "svg",
+      "sizeBytes": 375
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/3580bcd9-0453-4158-bc72-13feae364cb8.svg",
+      "format": "svg",
+      "sizeBytes": 250
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/79279f15-df52-49d0-9f3c-6f8a4c5ecfd7.svg",
+      "format": "svg",
+      "sizeBytes": 237
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/043d6763-dde2-41f1-9a3b-8bf645997820.svg",
+      "format": "svg",
+      "sizeBytes": 1628
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/2aef8aec-75f8-4c6f-98b8-ebf2aa5da687.svg",
+      "format": "svg",
+      "sizeBytes": 495
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/4f351b89-f573-454e-9ce6-dfa268198e76.svg",
+      "format": "svg",
+      "sizeBytes": 786
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/888b7be5-c69b-4944-a967-c33018a329ec.svg",
+      "format": "svg",
+      "sizeBytes": 273
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/efc654af-33eb-4f1d-b6ad-17c7ea730bc9.svg",
+      "format": "svg",
+      "sizeBytes": 371
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/38f553d5-9a9e-4313-bc04-543185ea659c.svg",
+      "format": "svg",
+      "sizeBytes": 234
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/15065085-2a4a-46f1-9bb3-0befd81e60e3.svg",
+      "format": "svg",
+      "sizeBytes": 752
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/c5fb9b00-8891-4626-b058-35bdfb7e9da5.svg",
+      "format": "svg",
+      "sizeBytes": 371
+    }
+  ],
+  "svgAssetsTruncated": true,
+  "message": "This node's subtree has more than 20 SVG assets (only the first 20 are returned). Ask the user to select a smaller or more specific node, then call download_assets again."
+}

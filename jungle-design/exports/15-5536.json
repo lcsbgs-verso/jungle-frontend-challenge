@@ -1,0 +1,83 @@
+{
+  "export": {
+    "nodeId": "15:5536",
+    "url": "https://www.figma.com/api/mcp/asset/02e8a8f6-c036-448a-a26e-0e60a56e9239.png",
+    "format": "png",
+    "sizeBytes": 268581
+  },
+  "rawImages": [
+    {
+      "url": "https://www.figma.com/api/mcp/asset/1f70b8cf-3cff-485e-868e-15dd99ce6431",
+      "format": "png"
+    }
+  ],
+  "rawImagesTruncated": false,
+  "svgAssets": [
+    {
+      "url": "https://www.figma.com/api/mcp/asset/f2f9dc22-9087-46fd-a316-2ca6e5d3baeb.svg",
+      "format": "svg",
+      "sizeBytes": 400
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/bde5d009-67fe-4f8d-848c-b6ec1d756f8a.svg",
+      "format": "svg",
+      "sizeBytes": 1289
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/95fab4ca-9c94-4d8c-84a6-632b0fea35cd.svg",
+      "format": "svg",
+      "sizeBytes": 539
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/1745bc99-b8be-4e60-8fa0-31a36ba72698.svg",
+      "format": "svg",
+      "sizeBytes": 344
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/fe8e8024-c9af-4001-9de9-24fe50ef8712.svg",
+      "format": "svg",
+      "sizeBytes": 1146
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/a5248e36-a8f5-46de-b9f2-e98f78d70121.svg",
+      "format": "svg",
+      "sizeBytes": 545
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/4a43a4b8-2a72-4d9e-be7d-eb3d2fa72084.svg",
+      "format": "svg",
+      "sizeBytes": 1758
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/897886a4-a4f8-4701-8738-6e0f02c5cd4a.svg",
+      "format": "svg",
+      "sizeBytes": 737
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/7326da37-7d7e-449f-8997-1905cdb4b1fa.svg",
+      "format": "svg",
+      "sizeBytes": 280
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/b223e2ba-8650-4905-b1a5-9ca712296eb9.svg",
+      "format": "svg",
+      "sizeBytes": 450
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/0dfb54c4-d81c-47bc-9b75-369231ed5fea.svg",
+      "format": "svg",
+      "sizeBytes": 1146
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/e70a88c8-903a-4897-9dba-2acb0439811b.svg",
+      "format": "svg",
+      "sizeBytes": 450
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/a9af9c1a-91cf-4b53-8085-aad7d170221c.svg",
+      "format": "svg",
+      "sizeBytes": 1179
+    }
+  ],
+  "svgAssetsTruncated": false
+}

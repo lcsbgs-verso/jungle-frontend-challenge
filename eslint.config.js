@@ -11,6 +11,8 @@ export default tseslint.config(
       'playwright-report/',
       'test-results/',
       'audits/',
+      '*capture*.mjs',
+      '*verify*.mjs',
     ],
   },
   js.configs.recommended,

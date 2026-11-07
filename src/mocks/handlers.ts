@@ -28,7 +28,7 @@ import {
 import type { Database, StoredOrder } from './store'
 
 const root = '/api'
-const socket = ws.link(location.origin.replace(/^http/, 'ws') + '/')
+const socket = ws.link(location.origin.replace(/^http/, 'ws') + '/socket.io/')
 type SocketClient = ReturnType<typeof toSocketIo>['client']
 const clients = new Map<SocketClient, { token: string; close: () => void }>()
 let unavailableUntil = 0

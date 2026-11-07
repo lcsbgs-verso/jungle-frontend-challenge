@@ -1,0 +1,8 @@
+node_modules
+dist
+.turbo
+*.config.js
+*.config.ts
+capture-all-frames.mjs
+verify-coords.mjs
+playwright.config.ts

@@ -1,0 +1,422 @@
+<cursor_untrusted_data_1337 source="CallDynamicTool">
+
+const imgArrowDown = "https://www.figma.com/api/mcp/asset/75e7387c-41d5-4b99-9357-33dd3d961748.svg";
+const imgActiveUnderline = "https://www.figma.com/api/mcp/asset/c5acdea9-5c2f-4c96-97af-6f4aa9cedcc9.svg";
+const imgSearchIcon = "https://www.figma.com/api/mcp/asset/891df8ac-3795-4124-b9a1-eefe6500fbe4.svg";
+const imgCartIcon = "https://www.figma.com/api/mcp/asset/1a159094-d87e-4bdc-a3a7-28a712ab4215.svg";
+const imgBadge = "https://www.figma.com/api/mcp/asset/e04cdf03-b500-4c55-a434-e3e5b66922ce.svg";
+const imgLogout = "https://www.figma.com/api/mcp/asset/2f85f398-1703-4a15-ba64-5276b410c1fa.svg";
+const imgLine1 = "https://www.figma.com/api/mcp/asset/f2501951-08c5-40cf-81d8-74af7bd88b8f.svg";
+const imgUser = "https://www.figma.com/api/mcp/asset/e2ef2729-2b5c-4271-b17a-4a3293017a69.svg";
+const imgLocation = "https://www.figma.com/api/mcp/asset/fbab7ae9-a216-435a-90ec-5463d5cf71f5.svg";
+const imgShopping1 = "https://www.figma.com/api/mcp/asset/4bd09faf-7355-484e-969d-adbe4e399c39.svg";
+const imgHeart1 = "https://www.figma.com/api/mcp/asset/94117509-26b7-4c78-8c3d-efa5faf00c90.svg";
+const imgActivity = "https://www.figma.com/api/mcp/asset/db546af8-ee87-4a1b-a39d-ac7f92ac1f63.svg";
+const imgDownload = "https://www.figma.com/api/mcp/asset/a819a5a3-80f9-44d3-b2b3-a281a1c4bc76.svg";
+const imgDangerTriangle = "https://www.figma.com/api/mcp/asset/d600265a-4deb-47f4-a0a7-13f728b84b5a.svg";
+const imgLine2 = "https://www.figma.com/api/mcp/asset/899b3bc6-e2d8-460c-b5bc-493fc37720d0.svg";
+const imgLogout1 = "https://www.figma.com/api/mcp/asset/e73c6bf5-7cbc-4bb8-8ea6-f71bd2a33a0c.svg";
+const imgArrowDown1 = "https://www.figma.com/api/mcp/asset/81dd34ab-4913-4541-afe0-86f93c9c4184.svg";
+const imgEllipse22 = "https://www.figma.com/api/mcp/asset/b4233540-2e0c-4b4a-a4e7-2ed6ec8ef64b.svg";
+
+function ArrowDown({ className }: { className?: string }) {
+  return (
+    <div className={className || "relative size-[20px]"} data-node-id="9:1589" data-name="Arrow-Down">
+      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgArrowDown} />
+    </div>
+  );
+}
+
+export default function DesktopCarteiras() {
+  return (
+    <div className="bg-[var(--color\/ink,#140d0a)] content-stretch flex flex-col items-start px-[120px] py-[24px] relative size-full" data-node-id="9:1670" data-name="Desktop / Carteiras">
+      <div className="content-stretch flex flex-col gap-[32px] items-start overflow-clip relative shrink-0 w-full" data-node-id="70390:267" data-name="Top">
+        <div className="content-stretch flex flex-col items-start relative shrink-0 w-[1200.001px]" data-node-id="70522:3294" data-name="Header With Divider">
+          <div className="content-stretch flex items-start justify-between relative shrink-0 w-full" data-node-id="I70522:3294;70504:3015" data-name="Header Row">
+            <div className="h-[34.3px] overflow-clip relative shrink-0 w-[160px]" data-node-id="I70522:3294;70504:3015;70486:509" data-name="Logo">
+              <p className="[word-break:break-word] absolute font-[family-name:var(--font\/family,'Roboto_Mono:Bold')] font-bold leading-[normal] left-0 text-[14px] text-[color:var(--color\/foreground,#f5f1eb)] top-[8.15px] tracking-[1.4px] whitespace-nowrap" data-node-id="I70522:3294;70504:3015;70486:510">
+                KURIO
+              </p>
+            </div>
+            <div className="content-stretch flex gap-[40px] items-start overflow-clip relative shrink-0" data-node-id="I70522:3294;70504:3015;70486:511" data-name="Nav">
+              <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-[58px]" data-node-id="I70522:3294;70504:3015;70486:512" data-name="Nav Item">
+                <p className="[word-break:break-word] font-[family-name:var(--font\/family,'Roboto_Mono:Bold')] font-bold leading-[normal] relative shrink-0 text-[16px] text-[color:var(--color\/text-accent,#e89b55)] w-full" data-node-id="I70522:3294;70504:3015;70486:513">
+                  Início
+                </p>
+                <div className="h-0 relative shrink-0 w-full" data-node-id="I70522:3294;70504:3015;70486:514" data-name="Active Underline">
+                  <div className="absolute inset-[-3px_0_0_0]">
+                    <img alt="" className="block max-w-none size-full" src={imgActiveUnderline} />
+                  </div>
+                </div>
+              </div>
+              <p className="[word-break:break-word] font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal leading-[normal] relative shrink-0 text-[16px] text-[color:var(--color\/foreground,#f5f1eb)] whitespace-nowrap" data-node-id="I70522:3294;70504:3015;70486:515">
+                Mercado
+              </p>
+              <p className="[word-break:break-word] font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal leading-[normal] relative shrink-0 text-[16px] text-[color:var(--color\/foreground,#f5f1eb)] whitespace-nowrap" data-node-id="I70522:3294;70504:3015;70486:516">
+                Criadores
+              </p>
+              <p className="[word-break:break-word] font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal leading-[normal] relative shrink-0 text-[16px] text-[color:var(--color\/foreground,#f5f1eb)] whitespace-nowrap" data-node-id="I70522:3294;70504:3015;70486:517">
+                Aprenda
+              </p>
+            </div>
+            <div className="content-stretch flex gap-[28px] items-center relative shrink-0" data-node-id="I70522:3294;70504:3015;70486:518" data-name="Header Actions">
+              <div className="h-[20px] relative shrink-0 w-[20.001px]" data-node-id="I70522:3294;70504:3015;70486:519" data-name="Search Icon">
+                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgSearchIcon} />
+              </div>
+              <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0" data-node-id="I70522:3294;70504:3015;70486:520" data-name="Cart">
+                <div className="col-1 h-[24px] ml-0 mt-0 relative row-1 w-[24.004px]" data-node-id="I70522:3294;70504:3015;70486:521" data-name="Cart Icon">
+                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgCartIcon} />
+                </div>
+                <div className="col-1 ml-[15px] mt-0 relative row-1 size-[16px]" data-node-id="I70522:3294;70504:3015;70486:522" data-name="Badge">
+                  <div className="absolute inset-[-12.5%]">
+                    <img alt="" className="block max-w-none size-full" src={imgBadge} />
+                  </div>
+                </div>
+                <p className="[word-break:break-word] col-1 font-[family-name:var(--font\/family,'Roboto_Mono:Medium')] font-medium leading-[normal] ml-[20px] mt-[1.5px] relative row-1 text-[10px] text-[color:var(--color\/ink,#140d0a)] whitespace-nowrap" data-node-id="I70522:3294;70504:3015;70486:523">
+                  6
+                </p>
+              </div>
+              <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0" data-node-id="I70522:3294;70504:3015;70486:524" data-name="Login">
+                <div className="bg-[var(--color\/primary,#d28a4c)] col-1 content-stretch flex flex-col h-[35px] items-center justify-center ml-0 mt-0 relative rounded-[6px] row-1 w-[100px]" data-node-id="I70522:3294;70504:3015;70486:525" data-name="Login Button">
+                  <div className="content-stretch flex gap-[4px] items-start relative shrink-0" data-node-id="I70522:3294;70504:3015;70486:526" data-name="Login Button Content">
+                    <div className="relative shrink-0 size-[20px]" data-node-id="I70522:3294;70504:3015;70486:527" data-name="Iconly/Curved/Logout">
+                      <div className="absolute inset-[13.75%_-8.96%_-6.25%_11.29%]" data-node-id="I70522:3294;70504:3015;70486:527;29221:4777" data-name="Logout">
+                        <div className="absolute inset-[-4.87%_-4.61%_-4.86%_-4.61%]">
+                          <img alt="" className="block max-w-none size-full" src={imgLogout} />
+                        </div>
+                      </div>
+                    </div>
+                    <p className="[word-break:break-word] font-[family-name:var(--font\/family,'Roboto_Mono:Medium')] font-medium leading-[normal] relative shrink-0 text-[16px] text-[color:var(--color\/ink,#140d0a)] whitespace-nowrap" data-node-id="I70522:3294;70504:3015;70486:528">
+                      Entrar
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="h-0 relative shrink-0 w-full" data-node-id="I70522:3294;70504:3016">
+            <div className="absolute inset-[-0.3px_0_0_0]">
+              <img alt="" className="block max-w-none size-full" src={imgLine1} />
+            </div>
+          </div>
+        </div>
+        <div className="content-stretch flex gap-[28px] items-start overflow-clip relative shrink-0 w-full" data-node-id="70390:266" data-name="Body">
+          <div className="bg-[var(--color\/surface-card,#241612)] content-stretch flex flex-col items-start py-[8px] relative shrink-0 w-[310px]" data-node-id="70420:4594" data-name="Account Sidebar">
+            <div className="content-stretch flex items-center justify-center p-[10px] relative shrink-0" data-node-id="70420:4595">
+              <p className="[word-break:break-word] font-[family-name:var(--font\/family,'Roboto_Mono:Bold')] font-bold leading-[16px] relative shrink-0 text-[18px] text-[color:var(--color\/foreground,#f5f1eb)] whitespace-nowrap" data-node-id="70420:4596">
+                Meu perfil
+              </p>
+            </div>
+            <div className="content-stretch flex flex-col items-start justify-center px-[16px] relative shrink-0 w-full" data-node-id="70420:4597">
+              <div className="content-stretch flex gap-[16px] items-center relative shrink-0 w-full" data-node-id="70420:4598">
+                <div className="relative shrink-0 size-[18px]" data-node-id="70420:4599" data-name="User">
+                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgUser} />
+                </div>
+                <p className="[word-break:break-word] font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal leading-[45px] relative shrink-0 text-[15px] text-[color:var(--color\/text-accent,#e89b55)] whitespace-nowrap" data-node-id="70420:4600">
+                  Dados do perfil
+                </p>
+              </div>
+            </div>
+            <div className="border-[var(--color\/primary,#d28a4c)] border-l-6 border-solid content-stretch flex gap-[12px] items-center px-[16px] relative shrink-0 w-full" data-node-id="70420:4601">
+              <div className="relative shrink-0 size-[20px]" data-node-id="70420:4602" data-name="Iconly/Light-Outline/Location">
+                <div className="absolute inset-[8.33%_14.58%_10.42%_16.67%]" data-node-id="I70420:4602;33437:4982" data-name="Location">
+                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgLocation} />
+                </div>
+              </div>
+              <p className="[word-break:break-word] font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal leading-[45px] relative shrink-0 text-[15px] text-[color:var(--color\/text-accent,#e89b55)] whitespace-nowrap" data-node-id="70420:4603">
+                Carteiras
+              </p>
+            </div>
+            <div className="content-stretch flex gap-[12px] items-center px-[16px] relative shrink-0 w-full" data-node-id="70420:4604">
+              <div className="relative shrink-0 size-[18px]" data-node-id="70420:4605" data-name="shopping 1">
+                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgShopping1} />
+              </div>
+              <p className="[word-break:break-word] font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal leading-[45px] relative shrink-0 text-[15px] text-[color:var(--color\/text-accent,#e89b55)] whitespace-nowrap" data-node-id="70420:4607">
+                Atividade
+              </p>
+            </div>
+            <div className="content-stretch flex gap-[12px] items-center px-[16px] relative shrink-0 w-full" data-node-id="70420:4608">
+              <div className="relative shrink-0 size-[16px]" data-node-id="70420:4609" data-name="heart 1">
+                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgHeart1} />
+              </div>
+              <p className="[word-break:break-word] font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal leading-[45px] relative shrink-0 text-[15px] text-[color:var(--color\/text-accent,#e89b55)] whitespace-nowrap" data-node-id="70420:4611">
+                Lista de interesse
+              </p>
+            </div>
+            <div className="content-stretch flex gap-[12px] items-center px-[16px] relative shrink-0 w-full" data-node-id="70420:4612">
+              <div className="relative shrink-0 size-[18px]" data-node-id="70420:4613" data-name="Iconly/Curved/Activity">
+                <div className="absolute inset-[9.79%_10.05%_10.19%_10.21%]" data-node-id="I70420:4613;29221:4825" data-name="Activity">
+                  <div className="absolute inset-[-5.21%_-5.22%_-5.21%_-5.23%]">
+                    <img alt="" className="block max-w-none size-full" src={imgActivity} />
+                  </div>
+                </div>
+              </div>
+              <p className="[word-break:break-word] font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal leading-[45px] relative shrink-0 text-[15px] text-[color:var(--color\/text-accent,#e89b55)] whitespace-nowrap" data-node-id="70420:4614">
+                Ofertas
+              </p>
+            </div>
+            <div className="content-stretch flex gap-[12px] items-center px-[16px] relative shrink-0 w-full" data-node-id="70420:4615">
+              <div className="relative shrink-0 size-[18px]" data-node-id="70420:4616" data-name="Iconly/Curved/Download">
+                <div className="absolute inset-[11.46%_11.46%_11.01%_11.46%]" data-node-id="I70420:4616;29221:4751" data-name="Download">
+                  <div className="absolute inset-[-5.37%_-5.4%_-5.38%_-5.41%]">
+                    <img alt="" className="block max-w-none size-full" src={imgDownload} />
+                  </div>
+                </div>
+              </div>
+              <p className="[word-break:break-word] font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal leading-[45px] relative shrink-0 text-[15px] text-[color:var(--color\/text-accent,#e89b55)] whitespace-nowrap" data-node-id="70420:4617">
+                Arquivos baixados
+              </p>
+            </div>
+            <div className="content-stretch flex gap-[12px] items-center px-[16px] relative shrink-0 w-full" data-node-id="70420:4618">
+              <div className="relative shrink-0 size-[18px]" data-node-id="70420:4619" data-name="Iconly/Curved/Danger Triangle">
+                <div className="absolute inset-[12.5%_10.42%]" data-node-id="I70420:4619;29221:4772" data-name="Danger Triangle">
+                  <div className="absolute inset-[-5.56%_-5.26%]">
+                    <img alt="" className="block max-w-none size-full" src={imgDangerTriangle} />
+                  </div>
+                </div>
+              </div>
+              <p className="[word-break:break-word] font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal leading-[45px] relative shrink-0 text-[15px] text-[color:var(--color\/text-accent,#e89b55)] whitespace-nowrap" data-node-id="70420:4620">
+                Suporte
+              </p>
+            </div>
+            <div className="h-0 relative shrink-0 w-full" data-node-id="70420:4621">
+              <div className="absolute inset-[-0.3px_0_0_0]">
+                <img alt="" className="block max-w-none size-full" src={imgLine2} />
+              </div>
+            </div>
+            <div className="content-stretch flex gap-[8px] h-[40px] items-center px-[16px] relative shrink-0 w-full" data-node-id="70420:4622">
+              <div className="relative shrink-0 size-[20px]" data-node-id="70420:4623" data-name="Iconly/Curved/Logout">
+                <div className="absolute inset-[11.46%_9.2%_11.46%_9.41%]" data-node-id="I70420:4623;29221:4777" data-name="Logout">
+                  <div className="absolute inset-[-4.86%_-4.61%_-4.87%_-4.61%]">
+                    <img alt="" className="block max-w-none size-full" src={imgLogout1} />
+                  </div>
+                </div>
+              </div>
+              <p className="[word-break:break-word] font-[family-name:var(--font\/family,'Roboto_Mono:Bold')] font-bold leading-[15px] relative shrink-0 text-[15px] text-[color:var(--color\/text-accent,#e89b55)] whitespace-nowrap" data-node-id="70420:4624">
+                Sair
+              </p>
+            </div>
+          </div>
+          <div className="content-stretch flex flex-[1_0_0] flex-col gap-[32px] items-start min-w-px overflow-clip relative" data-node-id="70390:239" data-name="Wallets Form">
+            <div className="[word-break:break-word] content-stretch flex flex-col gap-[8px] items-start overflow-clip relative shrink-0 w-full whitespace-nowrap" data-node-id="70390:240" data-name="Section Heading">
+              <div className="content-stretch flex items-start justify-between leading-[16px] overflow-clip relative shrink-0 w-full" data-node-id="70390:241" data-name="Title Row">
+                <p className="font-[family-name:var(--font\/family,'Roboto_Mono:Bold')] font-bold relative shrink-0 text-[17px] text-[color:var(--color\/foreground,#f5f1eb)]" data-node-id="9:1703">
+                  Carteira principal
+                </p>
+                <p className="font-[family-name:var(--font\/family,'Roboto_Mono:Medium')] font-medium relative shrink-0 text-[16px] text-[color:var(--color\/text-accent,#e89b55)]" data-node-id="9:1833">
+                  Adicionar
+                </p>
+              </div>
+              <p className="font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal leading-[15px] relative shrink-0 text-[14px] text-[color:var(--color\/text-secondary,#cfb28c)]" data-node-id="9:1834">
+                Estas carteiras ficam disponíveis no pagamento e para receber NFTs comprados.
+              </p>
+            </div>
+            <div className="content-stretch flex flex-col gap-[24px] items-start overflow-clip relative shrink-0 w-full" data-node-id="70390:242" data-name="Fields">
+              <div className="content-stretch flex items-start justify-between overflow-clip relative shrink-0 w-full" data-node-id="70390:243" data-name="Field Row 1">
+                <div className="content-stretch flex flex-col items-start overflow-clip relative shrink-0" data-node-id="70390:244" data-name="Main Wallet Name">
+                  <div className="[word-break:break-word] content-stretch flex font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal items-center mb-[-4px] relative shrink-0 whitespace-nowrap" data-node-id="70304:401">
+                    <p className="leading-[15px] relative shrink-0 text-[15px] text-[color:var(--color\/foreground,#f5f1eb)]" data-node-id="9:1857">
+                      Nome de exibição
+                    </p>
+                    <p className="leading-[29px] relative shrink-0 text-[22px] text-[color:var(--color\/text-coral,#f0805f)] text-right" data-node-id="9:1858">
+                      *
+                    </p>
+                  </div>
+                  <div className="border border-[var(--color\/border,#3f2319)] border-solid h-[40px] relative rounded-[3px] shrink-0 w-[417px]" data-node-id="9:1861" />
+                </div>
+                <div className="content-stretch flex flex-col items-start overflow-clip relative shrink-0" data-node-id="70390:245" data-name="Wallet Alias">
+                  <div className="[word-break:break-word] content-stretch flex font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal items-center mb-[-4px] relative shrink-0 whitespace-nowrap" data-node-id="70304:409">
+                    <p className="leading-[15px] relative shrink-0 text-[15px] text-[color:var(--color\/foreground,#f5f1eb)]" data-node-id="9:1860">
+                      Apelido da carteira
+                    </p>
+                    <p className="leading-[29px] relative shrink-0 text-[22px] text-[color:var(--color\/text-coral,#f0805f)] text-right" data-node-id="9:1859">
+                      *
+                    </p>
+                  </div>
+                  <div className="border border-[var(--color\/border,#3f2319)] border-solid h-[40px] relative rounded-[3px] shrink-0 w-[417px]" data-node-id="9:1862" />
+                </div>
+              </div>
+              <div className="content-stretch flex items-start justify-between overflow-clip relative shrink-0 w-full" data-node-id="70390:246" data-name="Field Row 2">
+                <div className="content-stretch flex flex-col items-start overflow-clip relative shrink-0" data-node-id="70390:247" data-name="Network Select">
+                  <div className="[word-break:break-word] content-stretch flex font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal gap-[4px] items-center mb-[-4px] relative shrink-0 whitespace-nowrap" data-node-id="70304:402">
+                    <p className="leading-[15px] relative shrink-0 text-[15px] text-[color:var(--color\/foreground,#f5f1eb)]" data-node-id="9:1712">
+                      Rede
+                    </p>
+                    <p className="leading-[29px] relative shrink-0 text-[22px] text-[color:var(--color\/text-coral,#f0805f)]" data-node-id="9:1716">
+                      *
+                    </p>
+                  </div>
+                  <div className="h-[40px] relative shrink-0 w-[417px]" data-node-id="70390:248" data-name="Input">
+                    <div className="absolute border border-[var(--color\/border,#3f2319)] border-solid h-[40px] left-0 rounded-[3px] top-0 w-[417px]" data-node-id="9:1731" />
+                    <p className="[word-break:break-word] absolute font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal leading-[15px] left-[13px] text-[14px] text-[color:var(--color\/secondary,#b39463)] top-[12px] whitespace-nowrap" data-node-id="9:1836">
+                      Selecione uma rede
+                    </p>
+                    <div className="absolute bottom-1/4 left-[93.29%] right-[1.92%] top-1/4" data-node-id="9:1837" data-name="Arrow-Down">
+                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgArrowDown1} />
+                    </div>
+                  </div>
+                </div>
+                <div className="content-stretch flex flex-col items-start overflow-clip relative shrink-0" data-node-id="70390:249" data-name="Wallet Label">
+                  <div className="[word-break:break-word] content-stretch flex font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal items-center mb-[-4px] relative shrink-0 whitespace-nowrap" data-node-id="70304:408">
+                    <p className="leading-[15px] relative shrink-0 text-[15px] text-[color:var(--color\/foreground,#f5f1eb)]" data-node-id="9:1721">
+                      Nome do perfil
+                    </p>
+                    <p className="leading-[29px] relative shrink-0 text-[22px] text-[color:var(--color\/text-coral,#f0805f)] text-right" data-node-id="9:1719">
+                      *
+                    </p>
+                  </div>
+                  <div className="border border-[var(--color\/border,#3f2319)] border-solid h-[40px] relative rounded-[3px] shrink-0 w-[417px]" data-node-id="9:1744" />
+                </div>
+              </div>
+              <div className="content-stretch flex items-end justify-between overflow-clip relative shrink-0 w-full" data-node-id="70390:250" data-name="Field Row 3">
+                <div className="content-stretch flex flex-col items-start overflow-clip relative shrink-0" data-node-id="70390:251" data-name="Wallet Address">
+                  <div className="[word-break:break-word] content-stretch flex font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal items-center mb-[-4px] relative shrink-0 w-[181px] whitespace-nowrap" data-node-id="70304:403">
+                    <p className="leading-[15px] relative shrink-0 text-[15px] text-[color:var(--color\/foreground,#f5f1eb)]" data-node-id="9:1839">
+                      Endereço da carteira
+                    </p>
+                    <p className="leading-[29px] relative shrink-0 text-[22px] text-[color:var(--color\/text-coral,#f0805f)] text-right" data-node-id="9:1841">
+                      *
+                    </p>
+                  </div>
+                  <div className="h-[40px] relative shrink-0 w-[417px]" data-node-id="70390:252" data-name="Input">
+                    <div className="absolute border border-[var(--color\/border,#3f2319)] border-solid h-[40px] left-0 rounded-[3px] top-0 w-[417px]" data-node-id="9:1842" />
+                    <p className="[word-break:break-word] absolute font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal leading-[15px] left-[13px] text-[14px] text-[color:var(--color\/secondary,#b39463)] top-[12px] whitespace-nowrap" data-node-id="9:1840">
+                      Endereço 0x da carteira
+                    </p>
+                  </div>
+                </div>
+                <div className="h-[40px] relative shrink-0 w-[417px]" data-node-id="70390:253" data-name="Secondary Address Input">
+                  <div className="absolute border border-[var(--color\/border,#3f2319)] border-solid h-[40px] left-0 rounded-[3px] top-0 w-[417px]" data-node-id="9:1846" />
+                  <p className="[word-break:break-word] absolute font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal leading-[15px] left-[13px] text-[14px] text-[color:var(--color\/secondary,#b39463)] top-[12px] whitespace-nowrap" data-node-id="9:1845">
+                    ENS ou carteira secundária (opcional)
+                  </p>
+                </div>
+              </div>
+              <div className="content-stretch flex items-start justify-between overflow-clip relative shrink-0 w-full" data-node-id="70390:254" data-name="Field Row 4">
+                <div className="content-stretch flex flex-col items-start overflow-clip relative shrink-0" data-node-id="70390:255" data-name="Wallet Select">
+                  <div className="[word-break:break-word] content-stretch flex font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal items-center mb-[-4px] relative shrink-0 w-[145px] whitespace-nowrap" data-node-id="70304:404">
+                    <p className="leading-[15px] relative shrink-0 text-[15px] text-[color:var(--color\/foreground,#f5f1eb)]" data-node-id="9:1847">
+                      Tipo de carteira
+                    </p>
+                    <p className="leading-[29px] relative shrink-0 text-[22px] text-[color:var(--color\/text-coral,#f0805f)] text-right" data-node-id="9:1849">
+                      *
+                    </p>
+                  </div>
+                  <div className="h-[40px] relative shrink-0 w-[417px]" data-node-id="70390:256" data-name="Input">
+                    <div className="absolute border border-[var(--color\/border,#3f2319)] border-solid h-[40px] left-0 rounded-[3px] top-0 w-[417px]" data-node-id="9:1852" />
+                    <p className="[word-break:break-word] absolute font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal leading-[15px] left-[13px] text-[14px] text-[color:var(--color\/secondary,#b39463)] top-[12px] whitespace-nowrap" data-node-id="9:1848">
+                      Selecione uma carteira
+                    </p>
+                    <div className="absolute bottom-1/4 left-[93.29%] right-[1.92%] top-1/4" data-node-id="9:1854" data-name="Arrow-Down">
+                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgArrowDown1} />
+                    </div>
+                  </div>
+                </div>
+                <div className="content-stretch flex flex-col items-start overflow-clip relative shrink-0" data-node-id="70390:257" data-name="Wallet Tag">
+                  <div className="[word-break:break-word] content-stretch flex font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal items-center mb-[-4px] relative shrink-0 w-[172px] whitespace-nowrap" data-node-id="70304:407">
+                    <p className="leading-[15px] relative shrink-0 text-[15px] text-[color:var(--color\/foreground,#f5f1eb)]" data-node-id="9:1851">
+                      Código de indicação
+                    </p>
+                    <p className="leading-[29px] relative shrink-0 text-[22px] text-[color:var(--color\/text-coral,#f0805f)] text-right" data-node-id="9:1850">
+                      *
+                    </p>
+                  </div>
+                  <div className="border border-[var(--color\/border,#3f2319)] border-solid h-[40px] relative rounded-[3px] shrink-0 w-[417px]" data-node-id="9:1853" />
+                </div>
+              </div>
+              <div className="content-stretch flex items-start justify-between overflow-clip relative shrink-0 w-full" data-node-id="70390:258" data-name="Field Row 5">
+                <div className="content-stretch flex flex-col items-start overflow-clip relative shrink-0" data-node-id="70390:259" data-name="Extra Field">
+                  <div className="[word-break:break-word] content-stretch flex font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal items-center mb-[-4px] relative shrink-0 whitespace-nowrap" data-node-id="70304:405">
+                    <p className="leading-[15px] relative shrink-0 text-[15px] text-[color:var(--color\/foreground,#f5f1eb)]" data-node-id="9:1715">
+                      E-mail
+                    </p>
+                    <p className="leading-[29px] relative shrink-0 text-[22px] text-[color:var(--color\/text-coral,#f0805f)]" data-node-id="9:1718">
+                      *
+                    </p>
+                  </div>
+                  <div className="border border-[var(--color\/border,#3f2319)] border-solid h-[40px] relative rounded-[3px] shrink-0 w-[417px]" data-node-id="9:1743" />
+                </div>
+                <div className="content-stretch flex flex-col items-start overflow-clip relative shrink-0" data-node-id="70390:260" data-name="ENS Field">
+                  <div className="[word-break:break-word] content-stretch flex font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal gap-[4px] items-center mb-[-4px] relative shrink-0 whitespace-nowrap" data-node-id="70304:406">
+                    <p className="leading-[15px] relative shrink-0 text-[15px] text-[color:var(--color\/foreground,#f5f1eb)]" data-node-id="9:1713">
+                      Nome ENS
+                    </p>
+                    <p className="leading-[29px] relative shrink-0 text-[22px] text-[color:var(--color\/text-coral,#f0805f)]" data-node-id="9:1717">
+                      *
+                    </p>
+                  </div>
+                  <div className="h-[40px] relative shrink-0 w-[417px]" data-node-id="70390:261" data-name="Input">
+                    <div className="absolute border border-[var(--color\/border,#3f2319)] border-solid h-[40px] left-0 rounded-[3px] top-0 w-[78px]" data-node-id="9:1742" />
+                    <p className="[word-break:break-word] absolute font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal leading-[15px] left-[10px] text-[15px] text-[color:var(--color\/foreground,#f5f1eb)] top-[13px] whitespace-nowrap" data-node-id="9:1714">
+                      .eth
+                    </p>
+                    <ArrowDown className="absolute bottom-1/4 left-[12.71%] right-[82.49%] top-1/4" />
+                    <div className="absolute border border-[var(--color\/border,#3f2319)] border-solid h-[40px] left-[88px] rounded-[3px] top-0 w-[329px]" data-node-id="9:1741" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="bg-[var(--color\/primary,#d28a4c)] content-stretch flex h-[40px] items-center justify-center overflow-clip relative rounded-[3px] shrink-0 w-[131px]" data-node-id="70390:262" data-name="Save Wallet Button">
+              <p className="[word-break:break-word] font-[family-name:var(--font\/family,'Roboto_Mono:Bold')] font-bold leading-[16px] relative shrink-0 text-[14px] text-[color:var(--color\/ink,#140d0a)] text-center whitespace-nowrap" data-node-id="9:1753">
+                Salvar carteira
+              </p>
+            </div>
+            <div className="content-stretch flex flex-col gap-[12px] items-start overflow-clip relative shrink-0 w-full" data-node-id="70390:263" data-name="Secondary Wallet">
+              <div className="content-stretch flex items-start justify-between overflow-clip relative shrink-0 w-full" data-node-id="70390:264" data-name="Title Row">
+                <p className="[word-break:break-word] font-[family-name:var(--font\/family,'Roboto_Mono:Bold')] font-bold leading-[16px] relative shrink-0 text-[17px] text-[color:var(--color\/foreground,#f5f1eb)] whitespace-nowrap" data-node-id="9:1863">
+                  Carteira secundária
+                </p>
+                <div className="h-[16px] relative shrink-0 w-[343px]" data-node-id="70390:265" data-name="Actions">
+                  <div className="absolute left-0 size-[16px] top-0" data-node-id="9:1867">
+                    <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEllipse22} />
+                  </div>
+                  <p className="[word-break:break-word] absolute font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal leading-[16px] left-[24px] text-[14px] text-[color:var(--color\/foreground,#f5f1eb)] top-0 whitespace-nowrap" data-node-id="9:1866">
+                    Igual à carteira principal
+                  </p>
+                  <p className="[word-break:break-word] absolute font-[family-name:var(--font\/family,'Roboto_Mono:Medium')] font-medium leading-[16px] left-[251px] text-[16px] text-[color:var(--color\/text-accent,#e89b55)] top-0 whitespace-nowrap" data-node-id="9:1864">
+                    Adicionar
+                  </p>
+                </div>
+              </div>
+              <p className="[word-break:break-word] font-[family-name:var(--font\/family,'Roboto_Mono:Regular')] font-normal leading-[15px] relative shrink-0 text-[14px] text-[color:var(--color\/text-secondary,#cfb28c)] whitespace-nowrap" data-node-id="9:1865">
+                Você ainda não adicionou uma carteira secundária.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+SUPER CRITICAL: The generated React+Tailwind code MUST be converted to match the target project's technology stack and styling system.
+1. Analyze the target codebase to identify: technology stack, styling approach, component patterns, and design tokens
+2. Convert React syntax to the target framework/library
+3. Transform all Tailwind classes to the target styling system while preserving exact visual design
+4. Follow the project's existing patterns and conventions
+DO NOT install any Tailwind as a dependency unless the user instructs you to do so.
+
+
+Node ids have been added to the code as data attributes, e.g. `data-node-id="1:2"`.
+
+These styles are contained in the design: Color/Foreground: #F5F1EB, Body/14 Bold · lh auto: Font(family: "font/family", style: Bold, size: 14, weight: 700, lineHeight: 100, letterSpacing: 10), Text/Accent: #E89B55, Body Large/16 Bold · lh auto: Font(family: "font/family", style: Bold, size: 16, weight: 700, lineHeight: 100, letterSpacing: 0), Color/Primary: #D28A4C, Body Large/16 Regular · lh auto: Font(family: "font/family", style: Regular, size: 16, weight: 400, lineHeight: 100, letterSpacing: 0), Color/Ink: #140D0A, Tiny/10 Medium: Font(family: "font/family", style: Medium, size: 10, weight: 500, lineHeight: 100, letterSpacing: 0), Body Large/16 Medium · lh auto: Font(family: "font/family", style: Medium, size: 16, weight: 500, lineHeight: 100, letterSpacing: 0), Body Large/18 Bold · lh 16: Font(family: "font/family", style: Bold, size: 18, weight: 700, lineHeight: 16, letterSpacing: 0), Text/Secondary: #CFB28C, Body/15 Regular · lh 45: Font(family: "font/family", style: Regular, size: 15, weight: 400, lineHeight: 45, letterSpacing: 0), Color/Black: #000000, Color/Secondary: #B39463, Body/15 Bold · lh 15: Font(family: "font/family", style: Bold, size: 15, weight: 700, lineHeight: 15, letterSpacing: 0), Color/Surface Card: #241612, Body Large/17 Bold: Font(family: "font/family", style: Bold, size: 17, weight: 700, lineHeight: 16, letterSpacing: 0), Body Large/16 Medium · lh 16: Font(family: "font/family", style: Medium, size: 16, weight: 500, lineHeight: 16, letterSpacing: 0), Body/14 Regular · lh 15: Font(family: "font/family", style: Regular, size: 14, weight: 400, lineHeight: 15, letterSpacing: 0), Body/15 Regular · lh 15: Font(family: "font/family", style: Regular, size: 15, weight: 400, lineHeight: 15, letterSpacing: 0), Text/Coral: #F0805F, Title/22 Regular: Font(family: "font/family", style: Regular, size: 22, weight: 400, lineHeight: 29, letterSpacing: 0), Color/Border: #3F2319, Body/14 Bold · lh 16: Font(family: "font/family", style: Bold, size: 14, weight: 700, lineHeight: 16, letterSpacing: 0), Body/14 Regular · lh 16: Font(family: "font/family", style: Regular, size: 14, weight: 400, lineHeight: 16, letterSpacing: 0).
+
+Component descriptions: The following components have usage descriptions or documentation links defined in Figma. These descriptions provide important context about the intended usage, best practices, and any constraints for each component. Follow these guidelines when implementing or using these components.
+
+## Header With Divider
+**Node ID:** 70504:3017
+
+Header Row plus the hairline divider beneath it. Used on the five sites that already show the divider: the home, collector profile and wallets screens, and inside Marketplace Page, which the two auth screens instance. Market screens intentionally use a bare Header Row with no divider.
+
+## Header Row
+**Node ID:** 70486:560
+
+Desktop header row, 1200 wide: KURIO wordmark, 4-item nav with one active item, search, cart with count badge, and the sign-in button. Set Active to match the screen (Home on Início/Entrar/Criar conta/Perfil do colecionador/Carteiras, Market on the four Mercado-flow screens). Badge Count is the cart item count. Drop at index 0 of the screen Top or Header frame with FILL width and HUG height. The hairline rule under the header belongs to the host Header frame, not to this component.
+
+The generated code contains image and SVG URL constants, e.g. const image = 'https://www.figma.com/api/mcp/asset/550e8400-e29b-41d4-a716-446655440000.png'. These URLs are temporary download sources and expire after 7 days. Download each asset into the project with curl -L, then replace its URL in the generated code with a reference to the downloaded asset. Never use the temporary URLs as runtime image sources.
+
+Saved this image to disk at file:///cursor/stores/user/grok-bot/agents/99d79ec0-3e10-44e1-a0d2-3fe0df10e73f/assets
+
+[Output truncated: the full MCP tool output was 40095 bytes, which exceeds the inline limit of 40000 bytes, and could not be written to a file. The remainder was discarded; do not retry the same call expecting the full output.]
+
+</cursor_untrusted_data_1337>

@@ -1,0 +1,127 @@
+{
+  "export": {
+    "nodeId": "11:2862",
+    "url": "https://www.figma.com/api/mcp/asset/02771f79-c471-45c8-b05c-47b0db516fb0.png",
+    "format": "png",
+    "sizeBytes": 244117
+  },
+  "rawImages": [
+    {
+      "url": "https://www.figma.com/api/mcp/asset/3175169c-efd0-46af-9ea1-215905d8eb2b",
+      "format": "png"
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/a6da46ed-0f13-4fc1-ab62-320d202289e9",
+      "format": "png"
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/2a5d2721-44d7-4429-893f-29bf234583fa",
+      "format": "png"
+    }
+  ],
+  "rawImagesTruncated": false,
+  "svgAssets": [
+    {
+      "url": "https://www.figma.com/api/mcp/asset/5056b351-c888-44a3-9c74-ffa91e77d019.svg",
+      "format": "svg",
+      "sizeBytes": 786
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/3c988931-04b6-4f3a-81d6-fe4e675ef32e.svg",
+      "format": "svg",
+      "sizeBytes": 1073
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/1b611c89-8580-4475-becb-45292aa1e298.svg",
+      "format": "svg",
+      "sizeBytes": 1715
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/5f5ad444-0251-4943-a397-2c3ce5e77c45.svg",
+      "format": "svg",
+      "sizeBytes": 1288
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/91c94cc3-0fd5-4015-a52f-f97c322ec59b.svg",
+      "format": "svg",
+      "sizeBytes": 633
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/c2fc9247-44fd-40d0-9129-d12bb65e4cfc.svg",
+      "format": "svg",
+      "sizeBytes": 786
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/1f63eaba-4eb4-4157-bc51-e68687b90457.svg",
+      "format": "svg",
+      "sizeBytes": 1188
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/74555489-9564-4d7a-b657-f8ae15f23d65.svg",
+      "format": "svg",
+      "sizeBytes": 633
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/b09b4c35-2d7f-4b86-8aa8-f6ab610d5f0c.svg",
+      "format": "svg",
+      "sizeBytes": 621
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/b4bd3c95-a739-4b31-99f8-a6be86cee157.svg",
+      "format": "svg",
+      "sizeBytes": 261
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/7c451b96-a5f6-4ae0-abbd-744d794de49f.svg",
+      "format": "svg",
+      "sizeBytes": 1449
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/ad7d0a29-df6e-49cd-aecc-d459484ba72f.svg",
+      "format": "svg",
+      "sizeBytes": 262
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/6d37195d-16b5-488e-a8df-c4de6bdb1dd3.svg",
+      "format": "svg",
+      "sizeBytes": 265
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/d4a0e546-171b-4696-af45-523ca4cd71ae.svg",
+      "format": "svg",
+      "sizeBytes": 262
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/1aee4b1f-1237-4e91-b819-ecbc0846b24e.svg",
+      "format": "svg",
+      "sizeBytes": 477
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/d69bbebd-6784-46de-a1af-f4005653bcce.svg",
+      "format": "svg",
+      "sizeBytes": 1723
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/e42d8054-9ca7-4295-a7c3-ab5a096d395a.svg",
+      "format": "svg",
+      "sizeBytes": 257
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/093f5401-996e-4ba5-ada2-64408166c149.svg",
+      "format": "svg",
+      "sizeBytes": 342
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/11bb091b-11ef-4906-adf8-66d898b88f50.svg",
+      "format": "svg",
+      "sizeBytes": 677
+    },
+    {
+      "url": "https://www.figma.com/api/mcp/asset/83809c45-dade-4b05-8608-e7f6e736edc3.svg",
+      "format": "svg",
+      "sizeBytes": 477
+    }
+  ],
+  "svgAssetsTruncated": true,
+  "message": "This node's subtree has more than 20 SVG assets (only the first 20 are returned). Ask the user to select a smaller or more specific node, then call download_assets again."
+}

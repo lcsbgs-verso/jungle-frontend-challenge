@@ -66,7 +66,9 @@ export async function confirm(page: Page) {
 }
 
 export async function socketReady(page: Page) {
-  await page.getByRole('button', { name: 'Cenários da demo' }).click()
+  const demoButton = page.getByRole('button', { name: 'Cenários da demo' })
+  await demoButton.scrollIntoViewIfNeeded()
+  await demoButton.click()
   await expect(page.getByText('Tempo real conectado', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'Fechar', exact: true }).click()
 }

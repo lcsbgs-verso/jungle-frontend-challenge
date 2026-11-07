@@ -18,6 +18,7 @@ import { Layout } from './components/layout'
 import { ErrorState, Skeleton } from './components/shared'
 import { Button } from './components/ui/button'
 import { CatalogPage } from './features/catalog'
+import { MobileHome, MobileBottomNav } from './features/catalog-mobile'
 import { NftPage } from './features/nft'
 
 const AuthPage = lazyRouteComponent(() => import('./features/account'), 'AuthPage')
@@ -81,7 +82,15 @@ const home = createRoute({
   component: HomeRoute,
 })
 function HomeRoute() {
-  return <CatalogPage search={home.useSearch()} />
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+  return isMobile ? (
+    <>
+      <MobileHome />
+      <MobileBottomNav />
+    </>
+  ) : (
+    <CatalogPage search={home.useSearch()} />
+  )
 }
 
 const nft = createRoute({

@@ -360,13 +360,23 @@ function Footer() {
 export function Layout() {
   const session = useSession()
   const scope = scopeFor(session.data)
+  const location = useLocation()
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+
+  // Mobile pages: no desktop header/footer (mobile components have their own layouts)
+  const isMobilePage =
+    isMobile &&
+    (location.pathname === '/' ||
+      location.pathname === '/entrar' ||
+      location.pathname === '/cadastro')
+
   return (
     <LiveProvider key={scope} scope={scope} userId={session.data?.id}>
-      <Navigation />
+      {!isMobilePage && <Navigation />}
       <main id="conteudo" tabIndex={-1}>
         <Outlet />
       </main>
-      <Footer />
+      {!isMobilePage && <Footer />}
     </LiveProvider>
   )
 }
