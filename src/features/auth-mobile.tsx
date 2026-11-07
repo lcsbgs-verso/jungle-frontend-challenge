@@ -142,18 +142,19 @@ export function MobileRegisterPage() {
   return (
     <div className="mobile-auth-exact">
       <div className="mobile-auth-logo-big">KURIO</div>
-      <h1 className="mobile-auth-title-big">Criar conta</h1>
+      <h1 className="mobile-auth-title-big" style={{ fontSize: '18px' }}>Criar perfil de colecionador</h1>
 
       <form onSubmit={handleSubmit} className="mobile-auth-form-exact">
         <div className="mobile-field-exact">
-          <label htmlFor="name" className="sr-only">Nome completo</label>
+          <label htmlFor="name" className="sr-only">Nome de usuário</label>
           <input
             id="name"
             type="text"
-            placeholder="Seu nome"
+            placeholder="Nome de usuário"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
+            style={{ textAlign: 'center' }}
           />
         </div>
 
@@ -162,7 +163,7 @@ export function MobileRegisterPage() {
           <input
             id="email"
             type="email"
-            placeholder="contato@email.com"
+            placeholder="Digite seu e-mail"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -214,7 +215,7 @@ export function MobileRegisterPage() {
         )}
 
         <button type="submit" disabled={register.isPending} className="mobile-auth-btn-exact">
-          {register.isPending ? 'Criando...' : 'Criar conta'}
+          {register.isPending ? 'Criando...' : 'Criar perfil'}
         </button>
       </form>
 

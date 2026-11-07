@@ -309,13 +309,14 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 .mobile-nav-center-btn:hover { transform: scale(1.05); }
 
 /* Desktop Auth Exact Modal per 9:115/9:1022 */
-.desktop-auth-exact-overlay { position: fixed; inset: 0; background: rgba(20, 13, 10, 0.85); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-.desktop-auth-exact { position: relative; width: 420px; max-height: 90vh; background: var(--surface-card); border-radius: 12px; padding: 32px 32px 0; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+.desktop-auth-exact-overlay { position: fixed; inset: 0; background: rgba(20, 13, 10, 0.65); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.desktop-auth-exact { position: relative; width: 500px; height: 600px; background: var(--surface-card); border-radius: 12px; padding: 32px 32px 0; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
 .auth-exact-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 4px; display: flex; align-items: center; transition: color 0.2s; }
 .auth-exact-close:hover { color: var(--foreground); }
-.auth-exact-tabs { display: flex; gap: 24px; justify-content: center; border-bottom: 1px solid var(--border); }
-.auth-tab { background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-secondary); font-family: var(--mono); font-size: 15px; font-weight: 700; line-height: 16px; padding: 12px 0; cursor: pointer; transition: all 0.2s; }
-.auth-tab.active { color: var(--foreground); border-bottom-color: var(--primary); }
+.auth-exact-tabs { display: flex; gap: 0; justify-content: center; border-bottom: 1px solid var(--border); position: relative; }
+.auth-tab { background: none; border: none; border-right: 1px solid var(--border); color: var(--text-secondary); font-family: var(--mono); font-size: 20px; font-weight: 500; line-height: 20px; padding: 16px 32px; cursor: pointer; transition: all 0.2s; }
+.auth-tab:last-child { border-right: none; }
+.auth-tab.active { color: var(--foreground); background: rgba(232, 155, 85, 0.05); border-bottom: 2px solid #e89b55; }
 .auth-exact-subtitle { font-family: var(--mono); font-size: 13px; line-height: 18px; color: var(--text-secondary); text-align: center; margin: 0; }
 .auth-exact-form { display: flex; flex-direction: column; gap: 16px; }
 .auth-exact-field { position: relative; width: 100%; height: 50px; border: 1px solid var(--border); border-radius: 8px; display: flex; align-items: center; padding: 0 16px; }
@@ -339,7 +340,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 .auth-exact-social { display: flex; flex-direction: column; gap: 12px; padding-bottom: 10px; }
 .auth-social-exact { width: 100%; height: 44px; display: flex; align-items: center; justify-content: center; gap: 10px; background: transparent; border: 1px solid var(--border); border-radius: 6px; color: var(--text-secondary); font-family: var(--mono); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
 .auth-social-exact:hover { border-color: var(--primary); background: var(--surface-raised); }
-.auth-exact-border { width: 100%; height: 10px; background: var(--primary); border-radius: 0 0 12px 12px; margin: 0 -32px; flex-shrink: 0; }
+.auth-exact-border { width: calc(100% + 64px); height: 10px; background: var(--primary); border-radius: 0 0 12px 12px; margin: 0 -32px; flex-shrink: 0; }
 
 /* Desktop Auth Modals OLD (deprecated) */
 .desktop-auth-modal-overlay { position: fixed; inset: 0; background: rgba(20, 13, 10, 0.85); display: flex; align-items: center; justify-content: center; z-index: 1000; }
@@ -376,15 +377,17 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 /* Mobile Auth EXACT Per 16:1022/16:1228 Map */
 .mobile-auth-exact { min-height: 100vh; background: var(--ink); display: flex; flex-direction: column; gap: 40px; padding: 80px 28px 24px; overflow: hidden; }
 .mobile-auth-logo-big { height: 136px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 32px; font-weight: 700; letter-spacing: 3.2px; color: var(--foreground); }
-.mobile-auth-title-big { font-family: var(--mono); font-size: 20px; font-weight: 700; line-height: 16px; color: var(--foreground); text-align: center; margin: 0; }
+.mobile-auth-title-big { font-family: var(--mono); font-size: 20px; font-weight: 700; line-height: 20px; color: var(--foreground); text-align: center; margin: 0; }
 .mobile-auth-form-exact { display: flex; flex-direction: column; gap: 12px; }
 .mobile-field-exact { position: relative; width: 358px; height: 50px; border: 1px solid var(--border); border-radius: 10px; display: flex; align-items: center; padding: 0 16px; }
-.mobile-field-exact input { width: 100%; background: transparent; border: none; color: var(--foreground); font-family: var(--mono); font-size: 14px; line-height: 16px; outline: none; }
+.mobile-field-exact input { width: 100%; background: transparent; border: none; color: #f5f1eb; font-family: var(--mono); font-size: 16px; line-height: 16px; outline: none; padding: 0; }
 .mobile-field-exact input::placeholder { color: var(--secondary); font-family: var(--mono); font-size: 14px; }
-.mobile-field-exact:has(input:focus) { border-color: var(--primary); }
+.mobile-field-exact:has(input:focus) { border-color: #d28a4c; }
+.mobile-field-exact:has(input[type="password"]) { border-color: var(--border); }
+.mobile-field-exact:has(input[type="password"]:focus) { border-color: #d28a4c; }
 .mobile-password-exact { padding-right: 48px; }
 .mobile-password-toggle-exact { position: absolute; right: 16px; background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 0; display: flex; align-items: center; }
-.mobile-forgot-exact { text-align: right; }
+.mobile-forgot-exact { text-align: right; margin-top: 40px; }
 .mobile-forgot-exact a { font-family: var(--mono); font-size: 14px; line-height: 16px; color: var(--text-accent); text-decoration: none; }
 .mobile-auth-error { font-size: 13px; color: #f87171; padding: 8px 12px; background: rgba(248, 113, 113, 0.1); border-radius: 6px; }
 .mobile-auth-btn-exact { width: 358px; height: 60px; background: var(--primary); border: none; border-radius: 10px; color: var(--ink); font-family: var(--mono); font-size: 16px; font-weight: 700; line-height: 16px; cursor: pointer; transition: all 0.2s; }
@@ -395,7 +398,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 .mobile-divider-exact::before { left: 0; }
 .mobile-divider-exact::after { right: 0; }
 .mobile-divider-exact span { font-family: var(--mono); font-size: 13px; line-height: 16px; color: var(--foreground); background: var(--ink); padding: 0 10px; position: relative; z-index: 1; }
-.mobile-social-exact { display: flex; flex-direction: column; gap: 16px; }
+.mobile-social-exact { display: flex; flex-direction: column; gap: 16px; margin-top: 592px; position: absolute; width: 358px; }
 .mobile-social-full-exact { width: 358px; height: 41px; display: flex; align-items: center; justify-content: center; gap: 12px; background: transparent; border: 1px solid var(--border); border-radius: 5px; color: var(--text-secondary); font-family: var(--mono); font-size: 13px; font-weight: 500; line-height: 16px; cursor: pointer; transition: all 0.2s; }
 .mobile-social-full-exact:hover { border-color: var(--primary); background: var(--surface-raised); }
 .mobile-signup-exact { font-family: var(--mono); font-size: 15px; color: var(--text-secondary); text-align: center; margin: 0; }
