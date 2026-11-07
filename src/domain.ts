@@ -95,6 +95,7 @@ export const scenarios = {
   offline: 'Falha de conexão',
   httpError: 'Falha HTTP 503',
   expired: 'Sessão expirada',
+  forbidden: 'Acesso sem permissão',
   favoriteFailure: 'Falha ao favoritar',
   timeout: 'Timeout após criar pedido',
   declined: 'Pagamento recusado',

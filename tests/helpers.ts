@@ -15,6 +15,10 @@ export async function act(page: Page, action: DemoAction) {
 
 export async function login(page: Page, next = '/', email = 'alice@kurio.test', password = 'Kurio2026!') {
   await page.goto('/entrar?next=' + encodeURIComponent(next))
+  await fillLogin(page, email, password)
+}
+
+export async function fillLogin(page: Page, email = 'alice@kurio.test', password = 'Kurio2026!') {
   const dialog = page.getByRole('dialog')
   await dialog.getByLabel('E-mail').fill(email)
   await dialog.getByLabel('Senha', { exact: true }).fill(password)

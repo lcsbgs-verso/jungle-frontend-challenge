@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test'
 
-const channel = process.env.PLAYWRIGHT_CHROME_CHANNEL
+const channel = process.env.PLAYWRIGHT_CHROME_CHANNEL || 'chromium'
 
 export default defineConfig({
   testDir: './tests',

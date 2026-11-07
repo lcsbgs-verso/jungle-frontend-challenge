@@ -1,11 +1,12 @@
 import { Link } from '@tanstack/react-router'
-import { CircleCheck, CircleX, Clock3, Copy } from 'lucide-react'
+import { CircleCheck, CircleX, Clock3, Copy, ExternalLink } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { cartKey, formatEth } from '../domain'
 import { useLive } from '../realtime'
 import { privateKey, queryClient, scopeFor, useOrder, useSession } from '../state'
 import { Breadcrumb, ErrorState, Notice, Skeleton } from '../components/shared'
 import { Button } from '../components/ui/button'
+import { Dialog, DialogContent, DialogTrigger } from '../components/ui/dialog'
 import { QuoteSummary } from './cart'
 import { clearAttempt } from './checkout'
 
@@ -43,6 +44,12 @@ export function OrderPage({ id }: { id: string }) {
           {order!.transaction && <div className="transaction"><dt>Transação simulada</dt><dd><code>{order!.transaction}</code><Button size="icon" variant="ghost" aria-label="Copiar transação" onClick={() => { void navigator.clipboard.writeText(order!.transaction!).then(() => setCopied(true)).catch(() => setCopied(false)) }}><Copy size={16} /></Button></dd></div>}
         </dl>
         {copied && <p role="status" className="muted">Transação copiada.</p>}
+        {order!.transaction && <Dialog>
+          <DialogTrigger asChild><Button variant="outline" size="sm"><ExternalLink size={14} /> Ver transação simulada</Button></DialogTrigger>
+          <DialogContent title="Explorador simulado" description="Detalhes da transação desta demonstração.">
+            <div className="form-stack"><p>Status confirmado · {order!.quote.network}</p><code className="transaction-code">{order!.transaction}</code><p className="muted">Identificador gerado pela API simulada.</p></div>
+          </DialogContent>
+        </Dialog>}
         <ul className="summary-items">{order!.quote.items.map((item) => <li key={cartKey(item)}><img src={item.image} alt="" width="44" height="44" /><span>{item.title}<small>{item.quantity} × {formatEth(item.unit)}</small></span><strong>{formatEth(item.amount)}</strong></li>)}</ul>
         <QuoteSummary quote={order!.quote} />
         {pending ? <Button type="button" variant="outline" disabled={query.isFetching} onClick={() => void query.refetch()}>Consultar status</Button>

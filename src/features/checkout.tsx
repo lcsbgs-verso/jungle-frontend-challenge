@@ -7,7 +7,7 @@ import { api, problem } from '../api'
 import { cartKey, formatEth, networks } from '../domain'
 import type { CheckoutDetails, Collector, Network, OrderInput, Quote } from '../domain'
 import { useLive } from '../realtime'
-import { privateKey, queryClient, scopeFor, useQuote, useSession, useWallets } from '../state'
+import { isCurrentScope, privateKey, queryClient, scopeFor, useQuote, useSession, useWallets } from '../state'
 import { Breadcrumb, Empty, ErrorState, Field, Notice, PageHeading, Skeleton } from '../components/shared'
 import { Button } from '../components/ui/button'
 import { Dialog, DialogContent } from '../components/ui/dialog'
@@ -83,6 +83,7 @@ function CheckoutForm({ user }: { user: Collector }) {
     onSuccess: (result, saved) => {
       const next = { ...saved, orderId: result.id }
       localStorage.setItem(attemptKey(user.id), JSON.stringify(next))
+      if (!isCurrentScope(scope)) return
       setAttempt(next)
       queryClient.setQueryData(privateKey(scope, 'order', result.id), result)
       void navigate({ to: '/pedido/$orderId', params: { orderId: result.id } })

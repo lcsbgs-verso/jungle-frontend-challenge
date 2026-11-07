@@ -109,7 +109,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 .hero-media img, .hero-placeholder { width: 100%; aspect-ratio: 1; border-radius: 22px; object-fit: cover; }
 .hero-empty { display: grid; place-items: center; background: var(--surface); color: var(--accent); font-size: 5rem; }
 .hero-dots { position: absolute; bottom: 17px; left: -46px; transform: translateX(-100%); display: flex; gap: 5px; }
-.hero-dots button { width: 19px; height: 28px; border: 0; background: none; display: grid; place-items: center; }
+.hero-dots button { width: 24px; height: 28px; border: 0; background: none; display: grid; place-items: center; }
 .hero-dots button::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #947252; }
 .hero-dots button.selected::after { background: var(--accent); box-shadow: 0 0 0 2px #483223; }
 
@@ -368,3 +368,5 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
   .skeleton::after { animation: none; }
 }
+
+.transaction-code { overflow-wrap: anywhere; font-size: .8rem; color: var(--accent); }

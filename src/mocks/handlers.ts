@@ -8,7 +8,8 @@ import type { Database, StoredOrder } from './store'
 const root = '/api'
 const socket = ws.link(location.origin.replace(/^http/, 'ws') + '/')
 type SocketClient = ReturnType<typeof toSocketIo>['client']
-const clients = new Map<SocketClient, string>()
+const clients = new Map<SocketClient, { token: string; close: () => void }>()
+let unavailableUntil = 0
 let latestNft: VersionedEvent | undefined
 let latestOrder: OrderEvent | undefined
 let timer: number | undefined
@@ -27,7 +28,7 @@ function publishOrder(entry: StoredOrder) {
   const { id: resourceId, version } = entry.order
   latestOrder = { id: `order:${resourceId}:${version}`, resourceId, version, userId: entry.userId }
   const db = loadDatabase()
-  for (const [client, token] of clients) {
+  for (const [client, { token }] of clients) {
     if (activeSession(db, token)?.userId === entry.userId) client.emit('order.updated', latestOrder)
   }
 }
@@ -73,6 +74,8 @@ function validProfile(data: CheckoutDetails) {
 
 function openSession(db: Database, userId: string, request: Request) {
   const token = crypto.randomUUID()
+  const previous = request.headers.get('authorization')?.replace(/^Bearer /, '')
+  if (previous) delete db.sessions[previous]
   db.sessions[token] = { userId, expires: Date.now() + 4 * 60 * 60 * 1000 }
   mergeGuestCart(db, userId, guestFor(request))
   saveDatabase(db)
@@ -94,6 +97,7 @@ function route(method: Method, path: string, handler: Handler, options: { privat
     if (!options.publicAuth && (options.private || request.headers.has('authorization')) && !sessionFor(db, request)) {
       return error(401, 'SESSION_EXPIRED', 'Sua sessão expirou. Entre novamente para continuar.')
     }
+    if (scenario === 'forbidden' && options.private) return error(403, 'FORBIDDEN', 'Esta conta não tem permissão para acessar este recurso.')
     return handler({ request, params, db, owner: ownerFor(db, request) })
   })
 }
@@ -102,8 +106,17 @@ const required = { private: true }
 
 export const handlers = [
   socket.addEventListener('connection', (connection) => {
+    if (!connection.client.url.pathname.startsWith('/socket.io/')) {
+      connection.server.connect()
+      return
+    }
     const { client, rawClient } = toSocketIo(connection)
-    clients.set(client, connection.client.url.searchParams.get('session') ?? '')
+    const close = () => rawClient.close(1012, 'Reconexão simulada')
+    if (Date.now() < unavailableUntil) {
+      queueMicrotask(close)
+      return
+    }
+    clients.set(client, { token: rawClient.url.searchParams.get('session') ?? '', close })
     rawClient.addEventListener('close', () => clients.delete(client))
     // The binding opens the namespace. Answer Engine.IO heartbeats in long demos.
     const heartbeat = window.setInterval(() => rawClient.send('2'), 20_000)
@@ -322,6 +335,7 @@ export const handlers = [
     if (!key) return error(422, 'MISSING_KEY', 'Identificador de tentativa obrigatório.')
     const input = await request.json() as OrderInput
     const db = loadDatabase()
+    if (!sessionFor(db, request)) return error(401, 'SESSION_EXPIRED', 'Sua sessão expirou. Entre novamente para continuar.')
     const fingerprint = JSON.stringify([input.quoteId, input.walletId, input.network, input.collector?.name, input.collector?.email, input.collector?.phone])
     const existing = Object.values(db.orders).find((entry) => entry.key === key && entry.userId === owner)
     if (existing) {
@@ -362,6 +376,7 @@ export const handlers = [
       clearTimeout(timer)
       latestNft = undefined
       latestOrder = undefined
+      unavailableUntil = 0
       await resetDatabase()
       for (const client of clients.keys()) client.emit('demo.reset')
       return HttpResponse.json({ ok: true })
@@ -383,16 +398,19 @@ export const handlers = [
       publishNft(nft.id, nft.version)
     }
     if (action.type === 'duplicate' || action.type === 'older') {
-      const increment = action.type === 'older' ? -1 : 0
-      for (const [client, token] of clients) {
-        if (latestNft) client.emit('nft.updated', { ...latestNft, version: latestNft.version + increment })
+      const previousVersion = <T extends VersionedEvent>(event: T): T => action.type === 'older'
+        ? { ...event, id: 'older:' + event.id, version: event.version - 1 }
+        : event
+      for (const [client, { token }] of clients) {
+        if (latestNft) client.emit('nft.updated', previousVersion(latestNft))
         if (latestOrder && activeSession(db, token)?.userId === latestOrder.userId) {
-          client.emit('order.updated', { ...latestOrder, version: latestOrder.version + increment })
+          client.emit('order.updated', previousVersion(latestOrder))
         }
       }
     }
     if (action.type === 'disconnect') {
-      for (const client of clients.keys()) client.emit('demo.disconnect')
+      unavailableUntil = Date.now() + 1000
+      for (const { close } of clients.values()) close()
     }
     if (action.type === 'finish') {
       for (const entry of Object.values(db.orders)) {

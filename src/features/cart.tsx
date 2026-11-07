@@ -62,7 +62,7 @@ export function CartPage() {
         <div className="form-stack">
           {change && quoteData.items.some((item) => item.nftId === change.resourceId) && <Notice>O preço ou a disponibilidade de uma obra mudou. Confira o resumo atualizado.</Notice>}
           {quoteData.issues.map((issue) => <Notice kind="error" key={issue}>{issue}</Notice>)}
-          <ul className="cart-list panel">{quoteData.items.map((item) => <CartRow key={cartKey(item)} item={item} disabled={action.isPending}
+          <ul className="cart-list panel">{quoteData.items.map((item) => <CartRow key={cartKey(item)} item={item} disabled={action.isPending || quote.isFetching}
             change={(quantity) => action.mutate({ kind: 'item', input: { nftId: item.nftId, editionId: item.editionId, quantity, mode: 'set' } })}
             remove={() => action.mutate({ kind: 'remove', input: item })} />)}</ul>
           {action.isError && action.variables?.kind !== 'coupon' && <Notice kind="error">{problem(action.error).message}</Notice>}

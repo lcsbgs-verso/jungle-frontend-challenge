@@ -36,6 +36,7 @@ export function sessionChanged(session: Session | null, expired = false) {
 onSessionExpired(() => sessionChanged(null, true))
 
 export const scopeFor = (user: Collector | null | undefined) => user ? `${user.id}:${getToken()}` : 'guest'
+export const isCurrentScope = (scope: string) => scopeFor(queryClient.getQueryData<Collector | null>(sessionKey)) === scope
 export const privateKey = (scope: string, kind: string, ...args: unknown[]) => ['private', scope, kind, ...args] as const
 export const catalogOptions = (search: CatalogSearch) => queryOptions({
   queryKey: ['catalog', search],
@@ -76,6 +77,7 @@ export function useCartActions(scope: string) {
       return api.coupon(action.input)
     },
     onSuccess: (cart: Cart) => {
+      if (!isCurrentScope(scope)) return
       queryClient.setQueryData(privateKey(scope, 'cart'), cart)
       void queryClient.invalidateQueries({ queryKey: privateKey(scope, 'quote') })
     },
@@ -89,12 +91,13 @@ export function useFavorite(scope: string, id: string, signedIn: boolean) {
     mutationFn: (saved: boolean) => api.favorite(id, saved),
     onMutate: async (saved) => {
       await queryClient.cancelQueries({ queryKey: key })
+      if (!isCurrentScope(scope)) return
       const previous = queryClient.getQueryData<string[]>(key)
       queryClient.setQueryData<string[]>(key, (items = []) => saved ? [...new Set([...items, id])] : items.filter((item) => item !== id))
       return { previous }
     },
     onError: (_, __, context) => {
-      if (queryClient.getQueryState(key)) queryClient.setQueryData(key, context?.previous ?? [])
+      if (isCurrentScope(scope) && queryClient.getQueryState(key)) queryClient.setQueryData(key, context?.previous ?? [])
     },
     onSettled: () => queryClient.invalidateQueries({ queryKey: key }),
   })

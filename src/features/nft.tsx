@@ -11,8 +11,10 @@ import { Button } from '../components/ui/button'
 import { NftCard } from './catalog'
 
 function Related({ id }: { id: string }) {
-  const { data } = useQuery(catalogOptions(defaultSearch))
-  const items = data?.items.filter((item) => item.id !== id).slice(0, 5)
+  const query = useQuery(catalogOptions(defaultSearch))
+  if (query.isPending) return <section className="related" aria-label="Carregando obras relacionadas" role="status"><div className="related-grid">{Array.from({ length: 5 }, (_, index) => <Skeleton key={index} className="card-skeleton" />)}</div></section>
+  if (query.isError) return <section className="related"><ErrorState failure={query.error} retry={() => void query.refetch()} /></section>
+  const items = query.data?.items.filter((item) => item.id !== id).slice(0, 5)
   if (!items?.length) return null
   return <section className="related"><div className="section-heading"><h2>Mais obras para explorar</h2><Link to="/" hash="catalogo">Ver mercado <ArrowRight size={15} /></Link></div><div className="related-grid">{items.map((item) => <NftCard key={item.id} nft={item} />)}</div></section>
 }

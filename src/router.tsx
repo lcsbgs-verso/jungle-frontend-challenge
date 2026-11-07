@@ -1,4 +1,5 @@
-import { createRootRoute, createRoute, createRouter, Link, Navigate, Outlet, redirect, useLocation } from '@tanstack/react-router'
+import { createRootRoute, createRoute, createRouter, Link, Outlet, redirect, useLocation, useNavigate } from '@tanstack/react-router'
+import { useEffect, useRef } from 'react'
 import { categories, defaultSearch, feeds, sorts } from './domain'
 import type { CatalogSearch, Collector, Feed, Sort } from './domain'
 import { queryClient, sessionOptions, useSession } from './state'
@@ -53,9 +54,16 @@ function RegisterRoute() { return <AuthPage key="register" mode="register" next=
 function PrivateLayout() {
   const session = useSession()
   const location = useLocation()
+  const navigate = useNavigate()
+  const redirected = useRef(false)
+  useEffect(() => {
+    if (session.isPending || session.data || getToken() || redirected.current) return
+    redirected.current = true
+    void navigate({ to: '/entrar', search: { next: location.href }, replace: true })
+  }, [location.href, navigate, session.data, session.isPending])
   if (session.isError && getToken()) return <div className="container-shell inner-page"><ErrorState failure={session.error} retry={() => void session.refetch()} /></div>
   if (session.isPending) return <div className="container-shell inner-page"><Skeleton className="cart-skeleton" label="Carregando sessão" /></div>
-  if (!session.data) return <Navigate to="/entrar" search={{ next: location.href }} replace />
+  if (!session.data) return null
   return <Outlet />
 }
 

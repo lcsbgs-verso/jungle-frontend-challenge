@@ -6,7 +6,7 @@ import type { FormEvent } from 'react'
 import { api, problem } from '../api'
 import { defaultSearch } from '../domain'
 import type { Collector, Wallet } from '../domain'
-import { privateKey, queryClient, scopeFor, sessionChanged, sessionKey, useSession, useWallets } from '../state'
+import { isCurrentScope, privateKey, queryClient, scopeFor, sessionChanged, sessionKey, useSession, useWallets } from '../state'
 import { Breadcrumb, ErrorState, Field, Notice, PageHeading, Skeleton } from '../components/shared'
 import { Button } from '../components/ui/button'
 import { Dialog, DialogContent } from '../components/ui/dialog'
@@ -84,6 +84,7 @@ function ProfileForm({ profile }: { profile: Collector }) {
   const profileMutation = useMutation({
     mutationFn: api.saveProfile,
     onSuccess: (saved) => {
+      if (!isCurrentScope(scope)) return
       queryClient.setQueryData(privateKey(scope, 'profile'), saved)
       queryClient.setQueryData(sessionKey, saved)
     },
@@ -163,7 +164,9 @@ export function ProfilePage() {
 
 function WalletForm({ kind, wallet, scope }: { kind: Wallet['kind']; wallet?: Wallet; scope: string }) {
   const label = kind === 'primary' ? 'Carteira principal' : 'Carteira secundária'
-  const save = useMutation({ mutationFn: api.saveWallet, onSuccess: (wallets) => queryClient.setQueryData(privateKey(scope, 'wallets'), wallets) })
+  const save = useMutation({ mutationFn: api.saveWallet, onSuccess: (wallets) => {
+    if (isCurrentScope(scope)) queryClient.setQueryData(privateKey(scope, 'wallets'), wallets)
+  } })
   const error = save.isError ? problem(save.error) : undefined
   return <section className="panel form-panel">
     <h2><WalletIcon size={18} /> {label}</h2>
