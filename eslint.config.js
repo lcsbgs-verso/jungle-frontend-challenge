@@ -4,7 +4,7 @@ import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 
 export default tseslint.config(
-  { ignores: ['dist/', 'public/mockServiceWorker.js', 'playwright-report/', 'test-results/', 'audits/'] },
+  { ignores: ['dist/', 'public/mockServiceWorker.js', 'playwright-report/', 'test-results/', 'audits/', '*capture*.mjs', '*verify*.mjs'] },
   js.configs.recommended,
   tseslint.configs.recommended,
   {
