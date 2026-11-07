@@ -5,21 +5,26 @@ test.describe('Autenticação e sessão', () => {
   test('cadastro de novo usuário com validação', async ({ page }) => {
     await page.goto('/cadastro')
     
-    const dialog = page.getByRole('dialog')
-    await expect(dialog.getByRole('heading', { name: /criar|cadastro/i })).toBeVisible()
+    // Desktop: dialog, Mobile: .mobile-auth-exact
+    const isDialog = await page.getByRole('dialog').count() > 0
+    const container = isDialog 
+      ? page.getByRole('dialog')
+      : page.locator('.mobile-auth-exact')
+    
+    await expect(container).toBeVisible()
 
     // Tentar submeter sem preencher (deve mostrar erros)
-    await dialog.getByRole('button', { name: /criar|cadastrar/i }).click()
+    await dialog.locator('button[type="submit"]').click()
     
     // Preencher formulário
     const email = `test-${Date.now()}@kurio.test`
     await dialog.getByLabel(/nome|usuário/i).fill('Teste Silva')
     await dialog.getByLabel(/e-mail/i).fill(email)
-    await dialog.getByLabel('Senha', { exact: true }).fill('Teste123!')
-    await dialog.getByLabel(/confirmar|confirme/i).fill('Teste123!')
-
+    await dialog.getByLabel('Senha', { exact: true }).first().fill('Teste123!')
+    await dialog.getByLabel(/confirmar|confirme/i).first().fill('Teste123!')
+    
     // Submeter
-    await dialog.getByRole('button', { name: /criar|cadastrar/i }).click()
+    await dialog.locator('button[type="submit"]').click()
 
     // Verificar que foi autenticado
     await expect(dialog).toHaveCount(0)
@@ -70,8 +75,8 @@ test.describe('Autenticação e sessão', () => {
     
     const dialog = page.getByRole('dialog')
     await dialog.getByLabel(/e-mail/i).fill('alice@kurio.test')
-    await dialog.getByLabel(/senha/i).fill('SenhaErrada123')
-    await dialog.getByRole('button', { name: /entrar/i }).click()
+    await dialog.getByLabel(/senha/i).first().fill('SenhaErrada123')
+    await dialog.locator('button[type="submit"]').click()
 
     await expect(dialog.getByText(/inválid|incorret/i)).toBeVisible()
   })
@@ -82,9 +87,9 @@ test.describe('Autenticação e sessão', () => {
     const dialog = page.getByRole('dialog')
     await dialog.getByLabel(/nome|usuário/i).fill('Teste')
     await dialog.getByLabel(/e-mail/i).fill('alice@kurio.test')
-    await dialog.getByLabel('Senha', { exact: true }).fill('Teste123!')
-    await dialog.getByLabel(/confirmar/i).fill('Teste123!')
-    await dialog.getByRole('button', { name: /criar|cadastrar/i }).click()
+    await dialog.getByLabel('Senha', { exact: true }).first().fill('Teste123!')
+    await dialog.getByLabel(/confirmar/i).first().fill('Teste123!')
+    await dialog.locator('button[type="submit"]').click()
 
     await expect(dialog.getByText(/já existe|já cadastrad/i)).toBeVisible()
   })

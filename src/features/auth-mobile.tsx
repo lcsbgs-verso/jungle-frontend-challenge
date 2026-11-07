@@ -5,7 +5,7 @@ import { Eye, EyeOff } from 'lucide-react'
 import { api, problem } from '../api'
 import { sessionChanged } from '../state'
 
-export function MobileLoginPage() {
+export function MobileLoginPage({ next = '/perfil' }: { next?: string }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -15,7 +15,7 @@ export function MobileLoginPage() {
     mutationFn: api.login,
     onSuccess: (session) => {
       sessionChanged(session)
-      void navigate({ to: '/perfil' })
+      void navigate({ href: next, replace: true })
     },
   })
 
@@ -52,7 +52,7 @@ export function MobileLoginPage() {
           <input
             id="password"
             type={showPassword ? 'text' : 'password'}
-            placeholder="***********"
+            placeholder="••••••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -67,7 +67,7 @@ export function MobileLoginPage() {
           </button>
         </div>
 
-        {/* Forgot password at y~445 */}
+        {/* Forgot password link with 12px gap from password input */}
         <div className="mobile-forgot-exact">
           <a href="#esqueci">Esqueceu a senha?</a>
         </div>
@@ -107,13 +107,13 @@ export function MobileLoginPage() {
 
       {/* Signup text at y~767 */}
       <p className="mobile-signup-exact">
-        Novo na Kurio? <Link to="/cadastro" search={{ next: '/' }}>Crie uma conta</Link>
+        Novo na Kurio? <Link to="/cadastro" search={{ next: '/' }} style={{ color: '#d28a4c', fontWeight: 400 }}>Crie uma conta</Link>
       </p>
     </div>
   )
 }
 
-export function MobileRegisterPage() {
+export function MobileRegisterPage({ next = '/perfil' }: { next?: string }) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -126,7 +126,7 @@ export function MobileRegisterPage() {
     mutationFn: api.register,
     onSuccess: (session) => {
       sessionChanged(session)
-      void navigate({ to: '/perfil' })
+      void navigate({ href: next, replace: true })
     },
   })
 
@@ -142,18 +142,19 @@ export function MobileRegisterPage() {
   return (
     <div className="mobile-auth-exact">
       <div className="mobile-auth-logo-big">KURIO</div>
-      <h1 className="mobile-auth-title-big">Criar conta</h1>
+      <h1 className="mobile-auth-title-big" style={{ fontSize: '18px' }}>Criar perfil de colecionador</h1>
 
       <form onSubmit={handleSubmit} className="mobile-auth-form-exact">
         <div className="mobile-field-exact">
-          <label htmlFor="name" className="sr-only">Nome completo</label>
+          <label htmlFor="name" className="sr-only">Nome de usuário</label>
           <input
             id="name"
             type="text"
-            placeholder="Seu nome"
+            placeholder="Nome de usuário"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
+            style={{ textAlign: 'center' }}
           />
         </div>
 
@@ -162,7 +163,7 @@ export function MobileRegisterPage() {
           <input
             id="email"
             type="email"
-            placeholder="contato@email.com"
+            placeholder="Digite seu e-mail"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -174,7 +175,7 @@ export function MobileRegisterPage() {
           <input
             id="password"
             type={showPassword ? 'text' : 'password'}
-            placeholder="***********"
+            placeholder="Senha"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -194,7 +195,7 @@ export function MobileRegisterPage() {
           <input
             id="confirm"
             type={showConfirm ? 'text' : 'password'}
-            placeholder="***********"
+            placeholder="Confirmar senha"
             value={confirm}
             onChange={(e) => setConfirm(e.target.value)}
             required
@@ -214,7 +215,7 @@ export function MobileRegisterPage() {
         )}
 
         <button type="submit" disabled={register.isPending} className="mobile-auth-btn-exact">
-          {register.isPending ? 'Criando...' : 'Criar conta'}
+          {register.isPending ? 'Criando...' : 'Criar perfil'}
         </button>
       </form>
 

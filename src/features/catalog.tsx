@@ -226,7 +226,7 @@ export function CatalogPage({ search }: { search: CatalogSearch }) {
         </div>
         <div className="promo-card-horizontal">
           <div className="promo-nft-image">
-            {query.data?.featured[3] && <img src={query.data.featured[3].image} alt="NFT selecionado" />}
+            {query.data?.featured[1] && <img src={query.data.featured[1].image} alt="NFT selecionado" />}
           </div>
           <div className="promo-text">
             <h3>Arte digital selecionada<br />e muito mais</h3>

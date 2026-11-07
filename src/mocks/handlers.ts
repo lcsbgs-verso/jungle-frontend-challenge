@@ -28,7 +28,18 @@ import {
 import type { Database, StoredOrder } from './store'
 
 const root = '/api'
-const socket = ws.link(location.origin.replace(/^http/, 'ws') + '/socket.io/')
+// Per MSW maintainer: ws.link should use origin WITHOUT path
+// Handler matches on connection.client.url.pathname
+// LAZY INIT: ws.link must be called AFTER MSW patches WebSocket
+let socket: ReturnType<typeof ws.link> | null = null
+function getSocket() {
+  if (!socket) {
+    const socketUrl = location.origin.replace(/^http/, 'ws')
+    console.log('[MSW Handlers] Creating ws.link for:', socketUrl)
+    socket = ws.link(socketUrl)
+  }
+  return socket
+}
 type SocketClient = ReturnType<typeof toSocketIo>['client']
 const clients = new Map<SocketClient, { token: string; close: () => void }>()
 let unavailableUntil = 0
@@ -149,23 +160,40 @@ function route(
 const required = { private: true }
 
 export const handlers = [
-  socket.addEventListener('connection', (connection) => {
+  // Lazy socket handler - calls getSocket() to ensure ws.link after MSW patches WebSocket
+  ...(() => {
+    const sock = getSocket()
+    return [sock.addEventListener('connection', (connection) => {
+    console.log('[MSW WS Handler] Connection to:', connection.client.url.href)
+    console.log('[MSW WS Handler] Pathname:', connection.client.url.pathname)
     if (!connection.client.url.pathname.startsWith('/socket.io/')) {
+      console.log('[MSW WS Handler] Not Socket.IO, passing to real server')
       connection.server.connect()
       return
     }
+    console.log('[MSW Socket.IO] Connection received, binding Socket.IO protocol')
+    // toSocketIo() automatically sends handshake packets (Engine.IO "0" open + Socket.IO "40" connect)
+    // DO NOT call connection.server.connect() - it creates socket before binding can send handshake!
     const { client, rawClient } = toSocketIo(connection)
     const close = () => rawClient.close(1012, 'Reconexão simulada')
     if (Date.now() < unavailableUntil) {
+      console.log('[MSW Socket.IO] Connection unavailable, closing')
       queueMicrotask(close)
       return
     }
-    clients.set(client, { token: rawClient.url.searchParams.get('session') ?? '', close })
-    rawClient.addEventListener('close', () => clients.delete(client))
-    // The binding opens the namespace. Answer Engine.IO heartbeats in long demos.
+    const token = rawClient.url.searchParams.get('session') ?? ''
+    console.log('[MSW Socket.IO] Client bound, token:', token ? 'present' : 'none')
+    clients.set(client, { token, close })
+    rawClient.addEventListener('close', () => {
+      console.log('[MSW Socket.IO] Client disconnected')
+      clients.delete(client)
+    })
+    console.log('[MSW Socket.IO] Handshake sent by toSocketIo(), connection ready')
+    // Answer Engine.IO heartbeats in long demos
     const heartbeat = window.setInterval(() => rawClient.send('2'), 20_000)
     rawClient.addEventListener('close', () => clearInterval(heartbeat))
-  }),
+  })]
+  })(),
   route('get', '/session', ({ db, request }) => {
     const session = sessionFor(db, request)
     return HttpResponse.json(session ? db.accounts[session.userId].profile : null)

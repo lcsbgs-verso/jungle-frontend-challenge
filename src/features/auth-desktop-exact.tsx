@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { Eye, EyeOff, X } from 'lucide-react'
@@ -8,20 +8,61 @@ import { problem } from '../api'
 
 type Mode = 'login' | 'register'
 
-export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; onClose: () => void }) {
+export function DesktopAuthModal({ initialMode, onClose, next = '/perfil' }: { initialMode: Mode; onClose: () => void; next?: string }) {
   const [mode, setMode] = useState<Mode>(initialMode)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirm, setConfirm] = useState('')
   const [name, setName] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const modalRef = useRef<HTMLDivElement>(null)
+  const previousFocusRef = useRef<HTMLElement | null>(null)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    previousFocusRef.current = document.activeElement as HTMLElement
+    const firstInput = modalRef.current?.querySelector<HTMLInputElement>('input')
+    firstInput?.focus()
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose()
+      }
+    }
+
+    const handleFocusTrap = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab' || !modalRef.current) return
+      const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
+        'button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+      const firstElement = focusableElements[0]
+      const lastElement = focusableElements[focusableElements.length - 1]
+
+      if (e.shiftKey && document.activeElement === firstElement) {
+        e.preventDefault()
+        lastElement?.focus()
+      } else if (!e.shiftKey && document.activeElement === lastElement) {
+        e.preventDefault()
+        firstElement?.focus()
+      }
+    }
+
+    document.addEventListener('keydown', handleEscape)
+    document.addEventListener('keydown', handleFocusTrap)
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+      document.removeEventListener('keydown', handleFocusTrap)
+      previousFocusRef.current?.focus()
+    }
+  }, [onClose])
 
   const login = useMutation({
     mutationFn: api.login,
     onSuccess: (session) => {
       sessionChanged(session)
       onClose()
-      void navigate({ to: '/perfil' })
+      void navigate({ href: next, replace: true })
     },
   })
 
@@ -30,7 +71,7 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
     onSuccess: (session) => {
       sessionChanged(session)
       onClose()
-      void navigate({ to: '/perfil' })
+      void navigate({ href: next, replace: true })
     },
   })
 
@@ -39,6 +80,10 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
     if (mode === 'login') {
       login.mutate({ email, password })
     } else {
+      if (password !== confirm) {
+        alert('As senhas não coincidem')
+        return
+      }
       register.mutate({ name, email, phone: '', password })
     }
   }
@@ -47,8 +92,8 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
   const isPending = login.isPending || register.isPending
 
   return (
-    <div className="desktop-auth-exact-overlay" onClick={onClose}>
-      <div className="desktop-auth-exact" onClick={(e) => e.stopPropagation()}>
+    <div className="desktop-auth-exact-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label={mode === 'login' ? 'Entre na sua conta' : 'Crie sua conta'}>
+      <div ref={modalRef} className="desktop-auth-exact" data-mode={mode} onClick={(e) => e.stopPropagation()}>
         <button type="button" className="auth-exact-close" onClick={onClose} aria-label="Fechar">
           <X size={18} />
         </button>
@@ -71,7 +116,9 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
         </div>
 
         <p className="auth-exact-subtitle">
-          {mode === 'login' ? 'Acesse sua coleção de NFTs' : 'Comece sua jornada no mundo dos NFTs'}
+          {mode === 'login' 
+            ? 'Entre para gerenciar sua carteira, coleção e perfil de criador.' 
+            : 'Crie seu perfil de colecionador e conecte uma carteira quando quiser.'}
         </p>
 
         <form onSubmit={handleSubmit} className="auth-exact-form">
@@ -79,39 +126,62 @@ export function DesktopAuthModal({ initialMode, onClose }: { initialMode: Mode; 
             <div className="auth-exact-field">
               <input
                 type="text"
-                placeholder="Nome completo"
+                placeholder="Nome de usuário"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
+                aria-label="Nome"
               />
             </div>
           )}
           <div className="auth-exact-field">
             <input
               type="email"
-              placeholder="E-mail"
+              placeholder={mode === 'login' ? 'contato@email.com' : 'Digite seu e-mail'}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              aria-label="E-mail"
             />
           </div>
-          <div className="auth-exact-field auth-exact-password">
+          <div className="auth-exact-field auth-exact-password" style={mode === 'login' ? { borderColor: 'var(--primary)' } : undefined}>
             <input
               type={showPassword ? 'text' : 'password'}
-              placeholder="Senha"
+              placeholder={mode === 'login' ? '••••••••••••' : 'Senha'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              aria-label="Senha"
             />
             <button
               type="button"
               className="auth-exact-toggle"
               onClick={() => setShowPassword(!showPassword)}
-              aria-label={showPassword ? 'Ocultar' : 'Mostrar'}
+              aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           </div>
+          {mode === 'register' && (
+            <div className="auth-exact-field auth-exact-password">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Confirmar senha"
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+                required
+                aria-label="Confirmar senha"
+              />
+              <button
+                type="button"
+                className="auth-exact-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? 'Ocultar confirmação' : 'Mostrar confirmação'}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+          )}
           {mode === 'login' && (
             <div className="auth-exact-forgot">
               <a href="/recuperar-senha">Esqueceu a senha?</a>
