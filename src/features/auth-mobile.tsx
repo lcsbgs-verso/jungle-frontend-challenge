@@ -5,7 +5,7 @@ import { Eye, EyeOff } from 'lucide-react'
 import { api, problem } from '../api'
 import { sessionChanged } from '../state'
 
-export function MobileLoginPage() {
+export function MobileLoginPage({ next = '/perfil' }: { next?: string }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -15,7 +15,7 @@ export function MobileLoginPage() {
     mutationFn: api.login,
     onSuccess: (session) => {
       sessionChanged(session)
-      void navigate({ to: '/perfil' })
+      void navigate({ href: next, replace: true })
     },
   })
 
@@ -113,7 +113,7 @@ export function MobileLoginPage() {
   )
 }
 
-export function MobileRegisterPage() {
+export function MobileRegisterPage({ next = '/perfil' }: { next?: string }) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -126,7 +126,7 @@ export function MobileRegisterPage() {
     mutationFn: api.register,
     onSuccess: (session) => {
       sessionChanged(session)
-      void navigate({ to: '/perfil' })
+      void navigate({ href: next, replace: true })
     },
   })
 

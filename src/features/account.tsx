@@ -61,7 +61,7 @@ export function AuthPage({ mode, next }: { mode: 'login' | 'register'; next: str
   // Use new mobile/desktop components for better UX
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
   if (isMobile) {
-    return mode === 'login' ? <MobileLoginPage /> : <MobileRegisterPage />
+    return mode === 'login' ? <MobileLoginPage next={next} /> : <MobileRegisterPage next={next} />
   }
   
   const handleClose = () => void navigate({ to: closeTo, replace: true })
