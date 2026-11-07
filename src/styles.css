@@ -8,17 +8,31 @@
 
 :root {
   color-scheme: dark;
-  --bg: #15110e;
-  --panel: #211814;
-  --surface: #281d17;
-  --border: #48362b;
-  --foreground: #f4eae0;
-  --muted: #c3ab98;
-  --accent: #d5a16c;
-  --accent-hover: #e8b785;
-  --danger: #ffb2a3;
+  /* Figma tokens - exact colors from design system */
+  --ink: #140d0a;
+  --surface-dark: #38220f;
+  --surface-raised: #2f1d15;
+  --surface-card: #241612;
+  --border: #3f2319;
+  --border-soft: #55321f;
+  --primary: #d28a4c;
+  --secondary: #b39463;
+  --text-primary: #f7f3ec;
+  --text-secondary: #cfb28c;
+  --text-accent: #e89b55;
+  --text-coral: #f0805f;
+  --foreground: #f5f1eb;
+  
+  /* Mapped for compatibility */
+  --bg: var(--ink);
+  --panel: var(--surface-card);
+  --surface: var(--surface-raised);
+  --muted: var(--text-secondary);
+  --accent: var(--primary);
+  --accent-hover: var(--text-accent);
+  --danger: var(--text-coral);
   --success: #b0d0a8;
-  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --mono: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-family: var(--mono);
   background: var(--bg);
   color: var(--foreground);
