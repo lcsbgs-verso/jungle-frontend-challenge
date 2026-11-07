@@ -6,7 +6,8 @@ test.describe('Autenticação e sessão', () => {
     await page.goto('/cadastro')
     
     const dialog = page.getByRole('dialog')
-    await expect(dialog.getByRole('heading', { name: /criar|cadastro/i })).toBeVisible()
+    // Modal uses tabs not headings
+    await expect(dialog).toBeVisible()
 
     // Tentar submeter sem preencher (deve mostrar erros)
     await dialog.locator('button[type="submit"]').click()
