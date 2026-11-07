@@ -1,4 +1,4 @@
-/* global window, document */
+/* global document */
 import { chromium } from '@playwright/test';
 import { exec } from 'child_process';
 import { promisify } from 'util';
