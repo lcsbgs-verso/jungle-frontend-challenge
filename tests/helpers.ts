@@ -7,13 +7,22 @@ export async function act(page: Page, action: DemoAction) {
     const headers: Record<string, string> = { 'Content-Type': 'application/json' }
     const token = localStorage.getItem('kurio.session')
     if (token) headers.Authorization = 'Bearer ' + token
-    const response = await fetch('/api/__demo', { method: 'POST', headers, body: JSON.stringify(payload) })
+    const response = await fetch('/api/__demo', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(payload),
+    })
     return response.status
   }, action)
   expect(status).toBe(200)
 }
 
-export async function login(page: Page, next = '/', email = 'alice@kurio.test', password = 'Kurio2026!') {
+export async function login(
+  page: Page,
+  next = '/',
+  email = 'alice@kurio.test',
+  password = 'Kurio2026!',
+) {
   await page.goto('/entrar?next=' + encodeURIComponent(next))
   await fillLogin(page, email, password)
 }

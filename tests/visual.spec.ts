@@ -29,7 +29,14 @@ test('regressão visual do pagamento', async ({ page }) => {
 test('não há transbordamento horizontal em tablet', async ({ page }) => {
   await page.setViewportSize({ width: 768, height: 1024 })
   await checkout(page)
-  for (const path of ['/', '/nft/emerald-ape', '/carrinho', '/pagamento', '/perfil', '/carteiras']) {
+  for (const path of [
+    '/',
+    '/nft/emerald-ape',
+    '/carrinho',
+    '/pagamento',
+    '/perfil',
+    '/carteiras',
+  ]) {
     await page.goto(path)
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(768)

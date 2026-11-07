@@ -1,6 +1,13 @@
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { ArrowDown, ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, SlidersHorizontal } from 'lucide-react'
+import {
+  ArrowDown,
+  ArrowLeft,
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  SlidersHorizontal,
+} from 'lucide-react'
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { categories, defaultSearch, formatEth, parseEth } from '../domain'
@@ -11,43 +18,110 @@ import { Button } from '../components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '../components/ui/dialog'
 
 const tabs: { value: Feed; label: string }[] = [
-  { value: 'all', label: 'Todos os NFTs' }, { value: 'new', label: 'Novos lançamentos' }, { value: 'trending', label: 'Em alta' },
+  { value: 'all', label: 'Todos os NFTs' },
+  { value: 'new', label: 'Novos lançamentos' },
+  { value: 'trending', label: 'Em alta' },
 ]
 
 export function NftCard({ nft }: { nft: Nft }) {
-  return <article className="nft-card">
-    <Link to="/nft/$nftId" params={{ nftId: nft.id }} className="nft-art-link" aria-label={`Ver ${nft.title}`}>
-      <img src={nft.image} alt={`Retrato digital de ${nft.title}`} width="416" height="416" loading="lazy" />
-    </Link>
-    <div className="nft-card-body">
-      <h3><Link to="/nft/$nftId" params={{ nftId: nft.id }}>{nft.title}</Link></h3>
-      <div className="nft-meta"><span>{nft.creator}</span><strong>{formatEth(nft.editions[0].price)}</strong></div>
-    </div>
-  </article>
+  return (
+    <article className="nft-card">
+      <Link
+        to="/nft/$nftId"
+        params={{ nftId: nft.id }}
+        className="nft-art-link"
+        aria-label={`Ver ${nft.title}`}
+      >
+        <img
+          src={nft.image}
+          alt={`Retrato digital de ${nft.title}`}
+          width="416"
+          height="416"
+          loading="lazy"
+        />
+      </Link>
+      <div className="nft-card-body">
+        <h3>
+          <Link to="/nft/$nftId" params={{ nftId: nft.id }}>
+            {nft.title}
+          </Link>
+        </h3>
+        <div className="nft-meta">
+          <span>{nft.creator}</span>
+          <strong>{formatEth(nft.editions[0].price)}</strong>
+        </div>
+      </div>
+    </article>
+  )
 }
 
 function Hero({ featured, pending }: { featured: Nft[]; pending: boolean }) {
   const [slide, setSlide] = useState(0)
   const item = featured[slide] ?? featured[0]
-  return <section className="hero" aria-labelledby="hero-title">
-    <div className="hero-copy">
-      <p className="eyebrow">Bem-vindo à Kurio</p>
-      <h1 id="hero-title">Seja dono do futuro<br className="hero-break" /> da arte digital</h1>
-      <p>Descubra NFTs selecionados de criadores emergentes e consagrados. Colecione arte digital rara, apoie artistas e tenha uma parte da cultura da internet.</p>
-      <Button asChild><a href="#catalogo">Explorar NFTs <ArrowDown size={15} /></a></Button>
-    </div>
-    <div className="hero-media">
-      {item ? <Link to="/nft/$nftId" params={{ nftId: item.id }} aria-label={`Conhecer ${item.title}`}>
-        <img src={item.image} alt={`Retrato digital de ${item.title}`} width="416" height="416" fetchPriority="high" />
-      </Link> : pending ? <Skeleton className="hero-placeholder" label="Carregando destaque" /> : <div className="hero-placeholder hero-empty" aria-hidden="true">K.</div>}
-      {featured.length > 1 && <div className="hero-dots" aria-label="Destaques">
-        {featured.map((nft, index) => <button key={nft.id} type="button" className={index === slide ? 'selected' : ''} aria-label={`Destaque ${index + 1}`} aria-pressed={index === slide} onClick={() => setSlide(index)} />)}
-      </div>}
-    </div>
-  </section>
+  return (
+    <section className="hero" aria-labelledby="hero-title">
+      <div className="hero-copy">
+        <p className="eyebrow">Bem-vindo à Kurio</p>
+        <h1 id="hero-title">
+          Seja dono do futuro
+          <br className="hero-break" /> da arte digital
+        </h1>
+        <p>
+          Descubra NFTs selecionados de criadores emergentes e consagrados. Colecione arte digital
+          rara, apoie artistas e tenha uma parte da cultura da internet.
+        </p>
+        <Button asChild>
+          <a href="#catalogo">
+            Explorar NFTs <ArrowDown size={15} />
+          </a>
+        </Button>
+      </div>
+      <div className="hero-media">
+        {item ? (
+          <Link to="/nft/$nftId" params={{ nftId: item.id }} aria-label={`Conhecer ${item.title}`}>
+            <img
+              src={item.image}
+              alt={`Retrato digital de ${item.title}`}
+              width="416"
+              height="416"
+              fetchPriority="high"
+            />
+          </Link>
+        ) : pending ? (
+          <Skeleton className="hero-placeholder" label="Carregando destaque" />
+        ) : (
+          <div className="hero-placeholder hero-empty" aria-hidden="true">
+            K.
+          </div>
+        )}
+        {featured.length > 1 && (
+          <div className="hero-dots" aria-label="Destaques">
+            {featured.map((nft, index) => (
+              <button
+                key={nft.id}
+                type="button"
+                className={index === slide ? 'selected' : ''}
+                aria-label={`Destaque ${index + 1}`}
+                aria-pressed={index === slide}
+                onClick={() => setSlide(index)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  )
 }
 
-function Filters({ search, facets, change }: { search: CatalogSearch; facets?: Catalog['facets']; change: (patch: Partial<CatalogSearch>) => void }) {
+function Filters({
+  search,
+  facets,
+  change,
+}: {
+  search: CatalogSearch
+  facets?: Catalog['facets']
+  change: (patch: Partial<CatalogSearch>) => void
+}) {
   const [min, setMin] = useState(search.min)
   const [max, setMax] = useState(search.max)
   const [error, setError] = useState('')
@@ -64,28 +138,73 @@ function Filters({ search, facets, change }: { search: CatalogSearch; facets?: C
       setError('Informe uma faixa válida de preços em ETH.')
     }
   }
-  return <div className="filters-inner">
-    <fieldset>
-      <legend>Coleções</legend>
-      {categories.map((category) => <label className="category-filter" key={category}>
-        <input type="checkbox" checked={search.categories.includes(category)} onChange={(event) => {
-          const selected = event.target.checked ? [...search.categories, category] : search.categories.filter((item) => item !== category)
-          change({ categories: selected.sort() })
-        }} />
-        <span>{category}</span><small>({facets?.[category] ?? 0})</small>
-      </label>)}
-    </fieldset>
-    <form className="price-filter" onSubmit={apply}>
-      <h3>Faixa de preço</h3>
-      <div className="price-fields">
-        <Field label="Mín. ETH" inputMode="decimal" placeholder="0,00" value={min} onChange={(event) => setMin(event.target.value)} />
-        <Field label="Máx. ETH" inputMode="decimal" placeholder="10,00" value={max} onChange={(event) => setMax(event.target.value)} />
-      </div>
-      {error && <span role="alert" className="field-error">{error}</span>}
-      <Button size="sm" type="submit">Aplicar</Button>
-    </form>
-    {(search.categories.length > 0 || search.min || search.max || search.q || search.feed !== 'all') && <Button variant="ghost" size="sm" onClick={() => { setMin(''); setMax(''); change(defaultSearch) }}>Limpar filtros</Button>}
-  </div>
+  return (
+    <div className="filters-inner">
+      <fieldset>
+        <legend>Coleções</legend>
+        {categories.map((category) => (
+          <label className="category-filter" key={category}>
+            <input
+              type="checkbox"
+              checked={search.categories.includes(category)}
+              onChange={(event) => {
+                const selected = event.target.checked
+                  ? [...search.categories, category]
+                  : search.categories.filter((item) => item !== category)
+                change({ categories: selected.sort() })
+              }}
+            />
+            <span>{category}</span>
+            <small>({facets?.[category] ?? 0})</small>
+          </label>
+        ))}
+      </fieldset>
+      <form className="price-filter" onSubmit={apply}>
+        <h3>Faixa de preço</h3>
+        <div className="price-fields">
+          <Field
+            label="Mín. ETH"
+            inputMode="decimal"
+            placeholder="0,00"
+            value={min}
+            onChange={(event) => setMin(event.target.value)}
+          />
+          <Field
+            label="Máx. ETH"
+            inputMode="decimal"
+            placeholder="10,00"
+            value={max}
+            onChange={(event) => setMax(event.target.value)}
+          />
+        </div>
+        {error && (
+          <span role="alert" className="field-error">
+            {error}
+          </span>
+        )}
+        <Button size="sm" type="submit">
+          Aplicar
+        </Button>
+      </form>
+      {(search.categories.length > 0 ||
+        search.min ||
+        search.max ||
+        search.q ||
+        search.feed !== 'all') && (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => {
+            setMin('')
+            setMax('')
+            change(defaultSearch)
+          }}
+        >
+          Limpar filtros
+        </Button>
+      )}
+    </div>
+  )
 }
 
 export function CatalogPage({ search }: { search: CatalogSearch }) {
@@ -100,55 +219,174 @@ export function CatalogPage({ search }: { search: CatalogSearch }) {
   }
 
   function change(patch: Partial<CatalogSearch>, scroll = false) {
-    void navigate({ to: '/', search: { ...search, page: 1, ...patch }, hash: scroll ? 'catalogo' : undefined, resetScroll: false })
+    void navigate({
+      to: '/',
+      search: { ...search, page: 1, ...patch },
+      hash: scroll ? 'catalogo' : undefined,
+      resetScroll: false,
+    })
   }
 
-  return <div className="container-shell">
-    <Hero featured={query.data?.featured ?? []} pending={query.isPending} />
-    <section id="catalogo" className="catalog-section" aria-labelledby="catalog-heading">
-      <h2 id="catalog-heading" className="sr-only">Catálogo de NFTs</h2>
-      <aside className="filters-panel" aria-label="Filtros do catálogo"><Filters key={search.min + ':' + search.max} search={search} facets={query.data?.facets} change={change} /></aside>
-      <div className="catalog-results" aria-busy={query.isFetching}>
-        <div className="catalog-toolbar">
-          <div className="catalog-tabs" aria-label="Vitrines">
-            {tabs.map(({ value, label }) => <button key={value} type="button" aria-pressed={search.feed === value} onClick={() => change({ feed: value })}>{label}</button>)}
+  return (
+    <div className="container-shell">
+      <Hero featured={query.data?.featured ?? []} pending={query.isPending} />
+      <section id="catalogo" className="catalog-section" aria-labelledby="catalog-heading">
+        <h2 id="catalog-heading" className="sr-only">
+          Catálogo de NFTs
+        </h2>
+        <aside className="filters-panel" aria-label="Filtros do catálogo">
+          <Filters
+            key={search.min + ':' + search.max}
+            search={search}
+            facets={query.data?.facets}
+            change={change}
+          />
+        </aside>
+        <div className="catalog-results" aria-busy={query.isFetching}>
+          <div className="catalog-toolbar">
+            <div className="catalog-tabs" aria-label="Vitrines">
+              {tabs.map(({ value, label }) => (
+                <button
+                  key={value}
+                  type="button"
+                  aria-pressed={search.feed === value}
+                  onClick={() => change({ feed: value })}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <label className="sort-label">
+              Ordenar por:
+              <select
+                aria-label="Ordenar por"
+                value={search.sort}
+                onChange={(event) => change({ sort: event.target.value as Sort })}
+              >
+                <option value="recent">Listados recentemente</option>
+                <option value="price-asc">Menor preço</option>
+                <option value="price-desc">Maior preço</option>
+                <option value="popular">Mais populares</option>
+              </select>
+            </label>
           </div>
-          <label className="sort-label">Ordenar por:
-            <select aria-label="Ordenar por" value={search.sort} onChange={(event) => change({ sort: event.target.value as Sort })}>
-              <option value="recent">Listados recentemente</option><option value="price-asc">Menor preço</option><option value="price-desc">Maior preço</option><option value="popular">Mais populares</option>
-            </select>
-          </label>
+          <div className="catalog-search-row">
+            <form
+              role="search"
+              onSubmit={(event) => {
+                event.preventDefault()
+                change({ q: keyword.trim() })
+              }}
+            >
+              <label className="sr-only" htmlFor="catalog-search">
+                Buscar no catálogo
+              </label>
+              <input
+                id="catalog-search"
+                value={keyword}
+                onChange={(event) => setKeyword(event.target.value)}
+                placeholder="Busque por obra ou criador"
+              />
+              <Button type="submit" variant="outline" size="sm">
+                Buscar
+              </Button>
+            </form>
+            <Dialog open={filters} onOpenChange={setFilters}>
+              <DialogTrigger asChild>
+                <Button variant="outline" size="sm" className="mobile-filters">
+                  <SlidersHorizontal size={16} /> Filtros
+                </Button>
+              </DialogTrigger>
+              <DialogContent title="Filtros" drawer>
+                <Filters
+                  key={search.min + ':' + search.max}
+                  search={search}
+                  facets={query.data?.facets}
+                  change={change}
+                />
+                <Button onClick={() => setFilters(false)}>Ver resultados</Button>
+              </DialogContent>
+            </Dialog>
+          </div>
+          {query.isPending ? (
+            <div className="nft-grid" role="status" aria-label="Carregando catálogo">
+              {Array.from({ length: 6 }, (_, index) => (
+                <Skeleton key={index} className="card-skeleton" />
+              ))}
+            </div>
+          ) : query.isError ? (
+            <ErrorState failure={query.error} retry={() => void query.refetch()} />
+          ) : query.data.items.length ? (
+            <>
+              <p className="catalog-count" role="status">
+                {query.data.total}{' '}
+                {query.data.total === 1 ? 'obra encontrada' : 'obras encontradas'}
+              </p>
+              <div className="nft-grid">
+                {query.data.items.map((nft) => (
+                  <NftCard key={nft.id} nft={nft} />
+                ))}
+              </div>
+            </>
+          ) : (
+            <Empty title="Nenhum NFT encontrado">
+              Experimente ajustar sua busca ou remover algum filtro.
+            </Empty>
+          )}
+          {query.data && query.data.pages > 1 && (
+            <nav className="pagination" aria-label="Paginação">
+              <Button
+                variant="outline"
+                size="icon"
+                aria-label="Página anterior"
+                disabled={search.page <= 1}
+                onClick={() => change({ page: search.page - 1 }, true)}
+              >
+                <ChevronLeft size={18} />
+              </Button>
+              {Array.from({ length: query.data.pages }, (_, index) => index + 1).map((page) => (
+                <Button
+                  key={page}
+                  variant={page === search.page ? 'default' : 'outline'}
+                  size="icon"
+                  aria-label={`Página ${page}`}
+                  aria-current={page === search.page ? 'page' : undefined}
+                  onClick={() => change({ page }, true)}
+                >
+                  {page}
+                </Button>
+              ))}
+              <Button
+                variant="outline"
+                size="icon"
+                aria-label="Próxima página"
+                disabled={search.page >= query.data.pages}
+                onClick={() => change({ page: search.page + 1 }, true)}
+              >
+                <ChevronRight size={18} />
+              </Button>
+            </nav>
+          )}
         </div>
-        <div className="catalog-search-row">
-          <form role="search" onSubmit={(event) => { event.preventDefault(); change({ q: keyword.trim() }) }}>
-            <label className="sr-only" htmlFor="catalog-search">Buscar no catálogo</label>
-            <input id="catalog-search" value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="Busque por obra ou criador" />
-            <Button type="submit" variant="outline" size="sm">Buscar</Button>
-          </form>
-          <Dialog open={filters} onOpenChange={setFilters}>
-            <DialogTrigger asChild><Button variant="outline" size="sm" className="mobile-filters"><SlidersHorizontal size={16} /> Filtros</Button></DialogTrigger>
-            <DialogContent title="Filtros" drawer>
-              <Filters key={search.min + ':' + search.max} search={search} facets={query.data?.facets} change={change} />
-              <Button onClick={() => setFilters(false)}>Ver resultados</Button>
-            </DialogContent>
-          </Dialog>
-        </div>
-        {query.isPending ? <div className="nft-grid" role="status" aria-label="Carregando catálogo">{Array.from({ length: 6 }, (_, index) => <Skeleton key={index} className="card-skeleton" />)}</div>
-          : query.isError ? <ErrorState failure={query.error} retry={() => void query.refetch()} />
-          : query.data.items.length ? <>
-            <p className="catalog-count" role="status">{query.data.total} {query.data.total === 1 ? 'obra encontrada' : 'obras encontradas'}</p>
-            <div className="nft-grid">{query.data.items.map((nft) => <NftCard key={nft.id} nft={nft} />)}</div>
-          </> : <Empty title="Nenhum NFT encontrado">Experimente ajustar sua busca ou remover algum filtro.</Empty>}
-        {query.data && query.data.pages > 1 && <nav className="pagination" aria-label="Paginação">
-          <Button variant="outline" size="icon" aria-label="Página anterior" disabled={search.page <= 1} onClick={() => change({ page: search.page - 1 }, true)}><ChevronLeft size={18} /></Button>
-          {Array.from({ length: query.data.pages }, (_, index) => index + 1).map((page) => <Button key={page} variant={page === search.page ? 'default' : 'outline'} size="icon" aria-label={`Página ${page}`} aria-current={page === search.page ? 'page' : undefined} onClick={() => change({ page }, true)}>{page}</Button>)}
-          <Button variant="outline" size="icon" aria-label="Próxima página" disabled={search.page >= query.data.pages} onClick={() => change({ page: search.page + 1 }, true)}><ChevronRight size={18} /></Button>
-        </nav>}
-      </div>
-    </section>
-    {query.data?.featured.length ? <section className="discover">
-      <div><p className="eyebrow">Kurio Originals</p><h2>Explore outras obras</h2></div>
-      <div className="discover-links"><a href="#catalogo" aria-label="Voltar ao catálogo"><ArrowLeft size={18} /></a><Button asChild variant="outline"><a href="#catalogo">Ver marketplace <ArrowRight size={16} /></a></Button></div>
-    </section> : null}
-  </div>
+      </section>
+      {query.data?.featured.length ? (
+        <section className="discover">
+          <div>
+            <p className="eyebrow">Kurio Originals</p>
+            <h2>Explore outras obras</h2>
+          </div>
+          <div className="discover-links">
+            <a href="#catalogo" aria-label="Voltar ao catálogo">
+              <ArrowLeft size={18} />
+            </a>
+            <Button asChild variant="outline">
+              <a href="#catalogo">
+                Ver marketplace <ArrowRight size={16} />
+              </a>
+            </Button>
+          </div>
+        </section>
+      ) : null}
+    </div>
+  )
 }

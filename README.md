@@ -59,8 +59,8 @@ npm run audit:lighthouse
 
 O Playwright inicia um build otimizado e testa desktop de 1440 px e mobile de 390 px. Há também uma verificação de tablet a 768 px. As baselines de início, detalhe, carrinho e pagamento ficam em `tests/baselines`. Para usar o Chrome instalado, execute `PLAYWRIGHT_CHROME_CHANNEL=chrome npm test`. O relatório HTML e os traces de falhas são gerados em `playwright-report` e `test-results`.
 
-A auditoria Lighthouse usa o build de produção gerado por `npm run build`. Ela inicia um preview local e registra três execuções por página e perfil. Os relatórios ficam em `audits`. `CHROME_PATH` pode apontar para um Chromium instalado e `LIGHTHOUSE_URL` pode apontar para uma demo publicada.
+A auditoria Lighthouse gera e usa o build de produção atual. Ela inicia um preview local e registra três execuções por página e perfil. Os relatórios ficam em `audits`. `CHROME_PATH` pode apontar para um Chromium instalado e `LIGHTHOUSE_URL` pode apontar para uma demo publicada.
 
 Os contratos e as decisões de projeto estão em [ARCHITECTURE.md](ARCHITECTURE.md). Os resultados da validação e os relatórios estão em [reports/README.md](reports/README.md).
 
-A validação local concluiu 48 testes com sucesso, incluindo comparação visual, nos três tamanhos de tela previstos. As artes do catálogo são recriações geradas e estão documentadas nas decisões de projeto.
+A validação local concluiu 50 testes com sucesso, incluindo comparação visual, nos três tamanhos de tela previstos. As artes do catálogo são recriações geradas e estão documentadas nas decisões de projeto.

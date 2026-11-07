@@ -17,11 +17,27 @@ async function start() {
   }
   // Engine.IO captures the WebSocket constructor at module evaluation.
   const { router } = await import('./router')
-  root.render(<QueryClientProvider client={queryClient}><RouterProvider router={router} /></QueryClientProvider>)
+  root.render(
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>,
+  )
 }
 
-root.render(<main className="startup"><div className="skeleton" aria-hidden="true" /><p role="status">Carregando Kurio…</p></main>)
+root.render(
+  <main className="startup">
+    <div className="skeleton" aria-hidden="true" />
+    <p role="status">Carregando Kurio…</p>
+  </main>,
+)
 void start().catch((error: unknown) => {
   console.error(error)
-  root.render(<main className="startup"><h1>Não foi possível iniciar a demonstração.</h1><button type="button" onClick={() => location.reload()}>Tentar novamente</button></main>)
+  root.render(
+    <main className="startup">
+      <h1>Não foi possível iniciar a demonstração.</h1>
+      <button type="button" onClick={() => location.reload()}>
+        Tentar novamente
+      </button>
+    </main>,
+  )
 })

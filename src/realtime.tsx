@@ -8,7 +8,15 @@ type LiveStatus = { connected: boolean; change: VersionedEvent | null }
 const LiveContext = createContext<LiveStatus>({ connected: false, change: null })
 export const useLive = () => useContext(LiveContext)
 
-export function LiveProvider({ userId, scope, children }: { userId?: string; scope: string; children: React.ReactNode }) {
+export function LiveProvider({
+  userId,
+  scope,
+  children,
+}: {
+  userId?: string
+  scope: string
+  children: React.ReactNode
+}) {
   const [live, setLive] = useState<LiveStatus>({ connected: false, change: null })
   useEffect(() => {
     const versions = new Map<string, number>()
@@ -25,15 +33,24 @@ export function LiveProvider({ userId, scope, children }: { userId?: string; sco
     })
     const accept = (topic: string, event: VersionedEvent) => {
       const resource = topic + ':' + event.resourceId
-      if (!current() || seen.has(event.id) || (versions.get(resource) ?? 0) >= event.version) return false
-      const cachedVersion = topic === 'order'
-        ? queryClient.getQueryData<Order>(privateKey(scope, 'order', event.resourceId))?.version ?? 0
-        : Math.max(
-          queryClient.getQueryData<Nft>(['nft', event.resourceId])?.version ?? 0,
-          ...queryClient.getQueriesData<Catalog>({ queryKey: ['catalog'] }).flatMap(([, catalog]) => (
-            catalog ? [...catalog.items, ...catalog.featured].filter((nft) => nft.id === event.resourceId).map((nft) => nft.version) : []
-          )),
-        )
+      if (!current() || seen.has(event.id) || (versions.get(resource) ?? 0) >= event.version)
+        return false
+      const cachedVersion =
+        topic === 'order'
+          ? (queryClient.getQueryData<Order>(privateKey(scope, 'order', event.resourceId))
+              ?.version ?? 0)
+          : Math.max(
+              queryClient.getQueryData<Nft>(['nft', event.resourceId])?.version ?? 0,
+              ...queryClient
+                .getQueriesData<Catalog>({ queryKey: ['catalog'] })
+                .flatMap(([, catalog]) =>
+                  catalog
+                    ? [...catalog.items, ...catalog.featured]
+                        .filter((nft) => nft.id === event.resourceId)
+                        .map((nft) => nft.version)
+                    : [],
+                ),
+            )
       if (event.version < cachedVersion) return false
       versions.set(resource, event.version)
       seen.add(event.id)

@@ -12,6 +12,8 @@ test('cadastro, conflito, logout e troca de usuário isolada', async ({ page }) 
   await expect(dialog.getByText('Este e-mail já está cadastrado.').first()).toBeVisible()
   await dialog.getByLabel('E-mail').fill('colecionador@kurio.test')
   await dialog.getByRole('button', { name: 'Criar conta' }).click()
+  await expect(dialog).toHaveCount(0)
+  await expect(page).toHaveURL('/perfil')
   await expect(page.getByLabel('Nome completo')).toHaveValue('Colecionador de Teste')
   await addEmerald(page)
   const mobileMenu = page.getByRole('button', { name: 'Abrir menu' })
@@ -32,7 +34,9 @@ test('sessão expirada preserva contexto e rascunho do checkout', async ({ page 
   await expect(page).toHaveURL(/\/entrar\?next=%2Fpagamento/)
   await fillLogin(page)
   await expect(page.getByLabel('Telefone')).toHaveValue('(11) 98888-9999')
-  await expect(page.getByRole('region', { name: 'Resumo do pedido' })).toContainText('Emerald Ape #042')
+  await expect(page.getByRole('region', { name: 'Resumo do pedido' })).toContainText(
+    'Emerald Ape #042',
+  )
 })
 
 test('favoritos persistem com reversão após falha e isolamento entre contas', async ({ page }) => {
@@ -44,14 +48,22 @@ test('favoritos persistem com reversão após falha e isolamento entre contas', 
   await expect(favorite).toHaveAttribute('aria-pressed', 'false')
   await act(page, { type: 'scenario', scenario: 'default' })
   await favorite.click()
-  await expect(page.getByRole('button', { name: 'Remover dos favoritos' })).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.getByRole('button', { name: 'Remover dos favoritos' })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  )
   await page.reload()
-  await expect(page.getByRole('button', { name: 'Remover dos favoritos' })).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.getByRole('button', { name: 'Remover dos favoritos' })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  )
   await login(page, '/nft/emerald-ape', 'bruno@kurio.test')
   await expect(favorite).toHaveAttribute('aria-pressed', 'false')
 })
 
-test('edição de perfil, avatar, senha e carteiras com validação e persistência', async ({ page }) => {
+test('edição de perfil, avatar, senha e carteiras com validação e persistência', async ({
+  page,
+}) => {
   await login(page, '/perfil')
   await page.getByLabel('Nome completo').fill('Alice Editada')
   await page.getByLabel('E-mail').fill('bruno@kurio.test')
@@ -75,7 +87,9 @@ test('edição de perfil, avatar, senha e carteiras com validação e persistên
   await expect(page.getByRole('img', { name: 'Prévia do avatar' })).toBeVisible()
 
   await page.goto('/carteiras')
-  const primary = page.locator('section').filter({ has: page.getByRole('heading', { name: 'Carteira principal' }) })
+  const primary = page
+    .locator('section')
+    .filter({ has: page.getByRole('heading', { name: 'Carteira principal' }) })
   await primary.getByLabel('Endereço da carteira').fill('invalido')
   await primary.getByRole('button', { name: 'Salvar alterações' }).click()
   await expect(primary.getByLabel('Endereço da carteira')).toHaveAttribute('aria-invalid', 'true')
@@ -84,4 +98,14 @@ test('edição de perfil, avatar, senha e carteiras com validação e persistên
   await expect(primary.getByText('Carteira salva.')).toBeVisible()
   await page.reload()
   await expect(primary.getByLabel('Endereço da carteira')).toHaveValue('0x' + 'c'.repeat(40))
+})
+
+test('falta de permissão nos favoritos apresenta erro e permite recuperação', async ({ page }) => {
+  await login(page, '/nft/emerald-ape')
+  await act(page, { type: 'scenario', scenario: 'forbidden' })
+  await page.reload()
+  await expect(page.getByRole('alert')).toContainText('Esta conta não tem permissão')
+  await act(page, { type: 'scenario', scenario: 'default' })
+  await page.getByRole('button', { name: 'Tentar carregar favoritos' }).click()
+  await expect(page.getByRole('button', { name: 'Adicionar aos favoritos' })).toBeEnabled()
 })

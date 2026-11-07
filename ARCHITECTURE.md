@@ -2,10 +2,10 @@
 
 ## Camadas
 
-- **TanStack Router** representa busca, coleções, ordenação, vitrine, faixa de preço e página na URL. A guarda das rotas privadas consulta a sessão e preserva o destino para depois do login.
+- **TanStack Router** carrega as telas de conta, carrinho e pagamento sob demanda e representa busca, coleções, ordenação, vitrine, faixa de preço e página na URL. A guarda das rotas privadas consulta a sessão e preserva o destino para depois do login.
 - **TanStack Query** gerencia os dados remotos e estados das operações. **Axios** centraliza as chamadas REST, os identificadores de sessão e visitante e o tratamento de erros.
 - **MSW** intercepta REST e WebSocket. A API simulada mantém um único modelo de catálogo, carrinho, conta e pedido para o uso local, a demo e o Playwright.
-- **Tailwind CSS** fornece a base de estilo e utilitários. Componentes Button e Dialog seguem a estrutura shadcn/ui, com variantes CVA, Slot e Dialog do Radix.
+- **Tailwind CSS** fornece o tema, o reset, utilitários e a composição de estilos de botões, cards, formulários e grids por `@apply`. Componentes Button e Dialog seguem a estrutura shadcn/ui, com variantes CVA, Slot e Dialog do Radix.
 
 ## REST
 
@@ -34,7 +34,7 @@ Validações retornam 422. Sessões expiradas retornam 401. A falta de permissã
 
 ## Sessão e cache
 
-A sessão simulada dura quatro horas. Identificadores opacos persistem localmente para sobreviver a recarregamentos. As senhas de demonstração são verificadas por PBKDF2 com salt e persistidas como hash. Os dados privados no cache são separados por usuário e sessão, cancelados e descartados ao trocar de conta. O socket de uma sessão antiga é desmontado quando o escopo muda. Rascunhos de checkout são separados por usuário na sessão do navegador.
+A sessão simulada dura quatro horas. Identificadores opacos persistem localmente para sobreviver a recarregamentos. As senhas de demonstração são verificadas por PBKDF2 com salt e persistidas como hash. As duas contas iniciais usam hashes de fixture versionados para reduzir o trabalho na inicialização. Contas novas e alterações de senha recebem salts aleatórios. Os dados privados no cache são separados por usuário e sessão, cancelados e descartados ao trocar de conta. O socket de uma sessão antiga é desmontado quando o escopo muda. Rascunhos de checkout são separados por usuário na sessão do navegador.
 
 O cache remoto fica fresco por 25 segundos por padrão. A consulta cancela chamadas abandonadas pelo sinal de Axios e permite uma nova tentativa para falhas transitórias. Mutações exigem ação do usuário para tentar novamente. Favoritos usam atualização otimista com snapshot para reversão. Catálogo e detalhe usam chaves independentes dos dados privados.
 

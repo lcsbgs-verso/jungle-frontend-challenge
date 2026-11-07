@@ -6,9 +6,15 @@ test('busca, filtros combinados, ordenação, paginação e histórico', async (
   await expect(page.getByText('27 obras encontradas')).toBeVisible()
   await page.getByRole('button', { name: 'Página 2', exact: true }).click()
   await expect(page).toHaveURL(/page=2/)
-  await expect(page.getByRole('button', { name: 'Página 2', exact: true })).toHaveAttribute('aria-current', 'page')
+  await expect(page.getByRole('button', { name: 'Página 2', exact: true })).toHaveAttribute(
+    'aria-current',
+    'page',
+  )
   await page.goBack()
-  await expect(page.getByRole('button', { name: 'Página 1', exact: true })).toHaveAttribute('aria-current', 'page')
+  await expect(page.getByRole('button', { name: 'Página 1', exact: true })).toHaveAttribute(
+    'aria-current',
+    'page',
+  )
 
   const filters = page.getByRole('button', { name: 'Filtros', exact: true })
   if (await filters.isVisible()) await filters.click()

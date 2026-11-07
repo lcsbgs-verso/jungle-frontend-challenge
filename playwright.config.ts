@@ -19,8 +19,18 @@ export default defineConfig({
     ...(channel ? { channel } : {}),
   },
   projects: [
-    { name: 'desktop', use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } } },
-    { name: 'mobile', use: { ...devices['Pixel 7'], defaultBrowserType: 'chromium', viewport: { width: 390, height: 844 } } },
+    {
+      name: 'desktop',
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
+    },
+    {
+      name: 'mobile',
+      use: {
+        ...devices['Pixel 7'],
+        defaultBrowserType: 'chromium',
+        viewport: { width: 390, height: 844 },
+      },
+    },
   ],
   webServer: {
     command: 'npm run build && npm run preview -- --host 127.0.0.1 --port 4173 --strictPort',

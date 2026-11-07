@@ -1,14 +1,28 @@
 import { expect, test } from '@playwright/test'
-import { act, addEmerald, checkout, confirm, fillLogin, login, review, socketReady } from './helpers'
+import {
+  act,
+  addEmerald,
+  checkout,
+  confirm,
+  fillLogin,
+  login,
+  review,
+  socketReady,
+} from './helpers'
 
-test('carrinho, quantidade, remoção, cupom e persistência após refresh e login', async ({ page }) => {
+test('carrinho, quantidade, remoção, cupom e persistência após refresh e login', async ({
+  page,
+}) => {
   await addEmerald(page)
   await page.getByRole('link', { name: 'Ver carrinho', exact: true }).click()
   const summary = page.getByRole('region', { name: 'Resumo do pedido' })
   await expect(summary).toContainText('2,468 ETH')
   await page.getByRole('button', { name: /Aumentar quantidade de Emerald/ }).click()
   await expect(summary).toContainText('4,918 ETH')
-  for (const [code, message] of [['QUALQUER', 'Cupom inválido.'], ['EXPIRADO', 'Este cupom expirou.']]) {
+  for (const [code, message] of [
+    ['QUALQUER', 'Cupom inválido.'],
+    ['EXPIRADO', 'Este cupom expirou.'],
+  ]) {
     await page.getByLabel('Código do cupom').fill(code)
     await page.getByRole('button', { name: 'Aplicar cupom' }).click()
     await expect(page.getByLabel('Código do cupom')).toHaveAccessibleDescription(message)
@@ -43,13 +57,16 @@ test('clique repetido e timeout recuperam a mesma tentativa após refresh', asyn
   await act(page, { type: 'scenario', scenario: 'timeout' })
   const keys: (string | undefined)[] = []
   page.on('request', (request) => {
-    if (request.method() === 'POST' && request.url().endsWith('/api/orders')) keys.push(request.headers()['idempotency-key'])
+    if (request.method() === 'POST' && request.url().endsWith('/api/orders'))
+      keys.push(request.headers()['idempotency-key'])
   })
   await review(page)
-  await page.getByRole('button', { name: 'Confirmar compra' }).evaluate((button: HTMLButtonElement) => {
-    button.click()
-    button.click()
-  })
+  await page
+    .getByRole('button', { name: 'Confirmar compra' })
+    .evaluate((button: HTMLButtonElement) => {
+      button.click()
+      button.click()
+    })
   await expect(page.getByRole('alert')).toContainText('O servidor demorou para responder')
   expect(keys).toHaveLength(1)
   await page.reload()
@@ -60,7 +77,9 @@ test('clique repetido e timeout recuperam a mesma tentativa após refresh', asyn
   expect(keys[1]).toBe(keys[0])
 })
 
-test('eventos repetidos e antigos não revertem o estoque e o pedido retoma após reconexão', async ({ page }) => {
+test('eventos repetidos e antigos não revertem o estoque e o pedido retoma após reconexão', async ({
+  page,
+}) => {
   await checkout(page)
   await socketReady(page)
   await act(page, { type: 'price' })
@@ -101,7 +120,10 @@ test('edição esgotada via Socket.IO bloqueia compra e preserva os itens', asyn
   await expect(page.getByRole('button', { name: 'Revisar pedido' })).toBeDisabled()
   await page.goto('/carrinho')
   await expect(page.getByText('Edição esgotada', { exact: true })).toBeVisible()
-  await expect(page.getByRole('link', { name: 'Ir para pagamento' })).toHaveAttribute('aria-disabled', 'true')
+  await expect(page.getByRole('link', { name: 'Ir para pagamento' })).toHaveAttribute(
+    'aria-disabled',
+    'true',
+  )
 })
 
 test('pedido de outra conta fica protegido e a rede recalcula a taxa', async ({ page }) => {
@@ -119,7 +141,9 @@ test('pedido de outra conta fica protegido e a rede recalcula a taxa', async ({ 
   await expect(page.getByText('Alice Costa')).toHaveCount(0)
 })
 
-test('a proteção do pagamento encaminha o visitante ao login e retoma a compra', async ({ page }) => {
+test('a proteção do pagamento encaminha o visitante ao login e retoma a compra', async ({
+  page,
+}) => {
   await addEmerald(page)
   await page.getByRole('link', { name: /Carrinho, 1/ }).click()
   await expect(page.getByRole('region', { name: 'Resumo do pedido' })).toContainText('2,468 ETH')
@@ -127,5 +151,7 @@ test('a proteção do pagamento encaminha o visitante ao login e retoma a compra
   await expect(page.getByRole('dialog', { name: 'Entre na sua conta' })).toBeVisible()
   await fillLogin(page)
   await expect(page.getByRole('heading', { name: 'Pagamento', exact: true })).toBeVisible()
-  await expect(page.getByRole('region', { name: 'Resumo do pedido' })).toContainText('Emerald Ape #042')
+  await expect(page.getByRole('region', { name: 'Resumo do pedido' })).toContainText(
+    'Emerald Ape #042',
+  )
 })
