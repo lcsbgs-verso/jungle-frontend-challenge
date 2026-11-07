@@ -29,6 +29,7 @@ test.describe('User isolation explicit', () => {
     await pageB.goto('/entrar')
     await fillLogin(pageB, 'bruno@kurio.test', 'Kurio2026!')
     await pageB.goto('/perfil')
-    await expect(pageB.getByText(/nenhum favorit/i).or(pageB.getByText('Emerald Ape #042').and(pageB.locator(':visible')))).toPass()
+    // User B should not see User A's favorites
+    await expect(pageB.getByText('Emerald Ape #042')).toHaveCount(0)
   })
 })
