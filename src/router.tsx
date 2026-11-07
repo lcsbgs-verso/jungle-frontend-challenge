@@ -9,6 +9,7 @@ import { Button } from './components/ui/button'
 import { AuthPage, ProfilePage, safeNext, WalletsPage } from './features/account'
 import { CartPage } from './features/cart'
 import { CatalogPage } from './features/catalog'
+import { MobileHome } from './features/catalog-mobile'
 import { CheckoutPage } from './features/checkout'
 import { NftPage } from './features/nft'
 import { OrderPage } from './features/order'
@@ -37,7 +38,11 @@ const home = createRoute({
   validateSearch: validateCatalog,
   component: HomeRoute,
 })
-function HomeRoute() { return <CatalogPage search={home.useSearch()} /> }
+function HomeRoute() {
+  const search = home.useSearch()
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+  return isMobile ? <MobileHome search={search} /> : <CatalogPage search={search} />
+}
 
 const nft = createRoute({ getParentRoute: () => rootRoute, path: '/nft/$nftId', component: NftRoute })
 function NftRoute() { return <NftPage id={nft.useParams().nftId} /> }
