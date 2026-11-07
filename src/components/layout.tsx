@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation, useNavigate } from '@tanstack/react-router'
-import { useMutation, useQuery } from '@tantml:parameter>
+import { useMutation, useQuery } from '@tanstack/react-query'
 import {
   FlaskConical,
   LogIn,
